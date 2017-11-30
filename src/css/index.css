@@ -1,0 +1,65 @@
+* {
+    /* Make padding and border are included in the total width and height of elements */
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #f5f5f5;
+    font: 14px 'Open Sans', sans-serif;
+    /*font: 18px 'Gentium Basic', serif;*/
+}
+
+a {
+    color: #03A9F4; /* Light Blue 500 */
+    text-decoration: none;
+}
+
+.wrapper {
+    /* Center content horizontally when the screen is large */
+    max-width: 768px; /* Breakpoint is 768px */
+    margin: 0 auto; /* This center the class horizontally */
+}
+
+#root {
+    /* Everything won't go below 280px */
+    min-width: 280px;
+}
+
+.hidden {display: none;}
+.block {display: block;}
+.inline-block {display: inline-block;}
+.text-left {text-align: left;}
+.text-center {text-align: center;}
+.text-right {text-align: right;}
+.text-justify {text-align: justify;}
+.text-bold {font-weight: bold;}
+.color-teal {color: #009688; /* Teal 500 */}
+
+/* ===== RESPONSIVE WEB DESIGN ===== */
+
+/* Change the size of certain elements to fit different screens */
+
+@media only screen and (max-width: 768px) {
+    body {
+
+    }
+}
+
+/* ===== Snippets ===== */
+
+/* Google's material design icon guidelines */
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }

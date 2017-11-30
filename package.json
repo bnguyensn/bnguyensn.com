@@ -1,0 +1,41 @@
+{
+  "name": "1d100",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "",
+    "build dev": "webpack-dev-server --hot --env.development --env.platform=default --progress",
+    "build prod": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
+  },
+  "dependencies": {
+    "body-parser": "~1.x.x",
+    "classnames": "^2.x.x",
+    "cookie-parser": "~1.x.x",
+    "debug": "~3.x.x",
+    "express": "~4.x.x",
+    "morgan": "~1.x.x",
+    "pug": "2.0.0-rc.4",
+    "react": "^16.x.x",
+    "react-dom": "^16.x.x",
+    "serve-favicon": "~2.x.x",
+    "socket.io": "^2.x.x"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.x.x",
+    "babel-core": "^6.x.x",
+    "babel-loader": "^7.x.x",
+    "babel-preset-env": "^1.x.x",
+    "babel-preset-react": "^6.x.x",
+    "css-loader": "^0.x.x",
+    "html-webpack-plugin": "^2.x.x",
+    "json-loader": "^0.x.x",
+    "postcss-loader": "^2.x.x",
+    "raw-loader": "^0.x.x",
+    "react-hot-loader": "^3.x.x",
+    "style-loader": "^0.x.x",
+    "uglifyjs-webpack-plugin": "^1.x.x",
+    "url-loader": "^0.x.x",
+    "webpack": "^3.x.x",
+    "webpack-dev-server": "^2.x.x"
+  }
+}
