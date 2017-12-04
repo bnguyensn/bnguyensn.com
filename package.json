@@ -1,11 +1,11 @@
 {
   "name": "1d100",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "",
-    "build dev": "webpack-dev-server --hot --env.development --env.platform=default --progress",
-    "build prod": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
+    "build:dev": "webpack-dev-server --hot --env.development --env.platform=default --progress",
+    "build:prod": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
   },
   "dependencies": {
     "body-parser": "~1.x.x",

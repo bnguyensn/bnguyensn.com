@@ -23,7 +23,7 @@ module.exports = (env) => {
     return {
         entry: {
             app: [
-                'react-hot-loader/patch', // This is needed for Hot Module Reloading
+                'react-hot-loader/patch', // This is needed for Hot Module Replacement
                 './src/index.js'
             ],
             vendor: vendorPackages
@@ -106,7 +106,7 @@ module.exports = (env) => {
                 template: path.resolve(__dirname, 'src/template.html'),
                 filename: '../home.html'
             }),
-            // Hot Module Reloading (for development)
+            // Hot Module Replacement
             !isProduction && new webpack.NamedModulesPlugin(),
             !isProduction && new webpack.HotModuleReplacementPlugin()
         ],
