@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "",
-    "build:dev": "webpack-dev-server --hot --env.development --env.platform=default --progress",
+    "build:dev": "webpack-dev-server --env.development --env.platform=default --progress",
     "build:prod": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "socket.io": "^2.x.x"
   },
   "devDependencies": {
+    "autoprefixer": "^7.x.x",
     "babel-cli": "^6.x.x",
     "babel-core": "^6.x.x",
     "babel-loader": "^7.x.x",
