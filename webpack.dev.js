@@ -4,7 +4,6 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = () => {
-
     // Loader constants
     const urlLoaderSizeLimit = 32000;  // 32kb
 

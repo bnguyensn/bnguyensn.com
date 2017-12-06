@@ -5,7 +5,6 @@ const common = require('./webpack.common.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = () => {
-
     // Loader constants
     const urlLoaderSizeLimit = 32000;  // 32kb
 

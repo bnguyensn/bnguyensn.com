@@ -1,3 +1,6 @@
+// This file can be used if config split is not adopted
+// Last updated 06/12/2017
+
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');

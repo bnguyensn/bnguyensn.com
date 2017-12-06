@@ -17,7 +17,6 @@ const vendorCDNPackages = {
 };
 
 module.exports = {
-
     // Main config
     entry: {
         app: './src/index.js',
@@ -72,13 +71,13 @@ module.exports = {
     plugins: [
         // CommonsChunk
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
+            name: 'vendor',  // The common bundle's name
             minChunks: Infinity
         }),
         // HTML creation
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/template.html'),
-            filename: '../home.html'
+            filename: '../index.html'
         }),
     ]
 };
