@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "",
-    "build:dev": "webpack-dev-server --env.development --env.platform=default --progress",
+    "build:dev": "webpack-dev-server --config webpack.dev.js --progress",
     "build:prod": "rimraf ./dist && webpack --config webpack.prod.js --progress",
-    "build:prod:old": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
+    "build:dev:noconfigsplit": "webpack-dev-server --env.development --env.platform=default --progress",
+    "build:prod:noconfigsplit": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
   },
   "dependencies": {
     "body-parser": "~1.x.x",

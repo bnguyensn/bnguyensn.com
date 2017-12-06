@@ -12,8 +12,8 @@ module.exports = () => {
     // Main config
     return merge(common, {
         output: {
-            publicPath: 'static/',
-            filename: '[name].[chunkhash].js',
+            publicPath: 'static/',  // Different from dev config
+            filename: '[name].[chunkhash].js',  // Different from dev config
         },
         module: {
             rules: [
@@ -24,7 +24,7 @@ module.exports = () => {
                         loader: 'url-loader',
                         options: {
                             limit: urlLoaderSizeLimit,
-                            name: 'assets/[chunkhash].[ext]'
+                            name: 'assets/[chunkhash].[ext]'  // Different from dev config
                         }
                     }, //`url-loader?limit=${urlLoaderSizeLimit}&name=assets/[chunkhash].[ext]`,
                     exclude: /node_modules/
@@ -34,7 +34,7 @@ module.exports = () => {
         plugins: [
             // Define environment
             new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify('production')
+                'process.env.NODE_ENV': JSON.stringify('production')  // Different from dev config
             }),
             // UglifyJS - aliasing of this is scheduled for webpack v4.0.0
             // We therefore use the "manual" installation method for now
