@@ -6,7 +6,9 @@ class Home extends Component {
     render() {
         return(
             <div id='home'>
-                Hello, world! How are you?
+                Hello, world!
+                <br/>
+                We are in {process.env.NODE_ENV} mode!
             </div>
         )
     }

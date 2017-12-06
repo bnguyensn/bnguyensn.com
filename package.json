@@ -5,7 +5,8 @@
   "scripts": {
     "start": "",
     "build:dev": "webpack-dev-server --env.development --env.platform=default --progress",
-    "build:prod": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
+    "build:prod": "rimraf ./dist && webpack --config webpack.prod.js --progress",
+    "build:prod:old": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
   },
   "dependencies": {
     "body-parser": "~1.x.x",
@@ -34,10 +35,12 @@
     "postcss-loader": "^2.x.x",
     "raw-loader": "^0.x.x",
     "react-hot-loader": "^3.x.x",
+    "rimraf": "^2.x.x",
     "style-loader": "^0.x.x",
-    "uglifyjs-webpack-plugin": "^1.1.2",
+    "uglifyjs-webpack-plugin": "^1.x.x",
     "url-loader": "^0.x.x",
     "webpack": "^3.9.1",
-    "webpack-dev-server": "^2.x.x"
+    "webpack-dev-server": "^2.x.x",
+    "webpack-merge": "^4.1.1"
   }
 }

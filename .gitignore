@@ -37,3 +37,6 @@ npm-debug.log
 
 # dotenv
 .env
+
+# dist folder
+dist
