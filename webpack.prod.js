@@ -35,6 +35,7 @@ module.exports = () => {
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production')  // Different from dev config
             }),
+
             // UglifyJS - aliasing of this is scheduled for webpack v4.0.0
             // We therefore use the "manual" installation method for now
             /*new webpack.optimize.UglifyJsPlugin({
@@ -44,6 +45,10 @@ module.exports = () => {
                 test: /\.js($|\?)/i,
                 sourceMap: true
             }),
+
+            // Webpack caching. This is needed to cache the manifest file correctly
+            // For development builds, we use NamedModulesPlugin instead
+            new webpack.HashedModuleIdsPlugin(),
         ],
         devtool: 'source-map'
     });

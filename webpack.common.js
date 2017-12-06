@@ -74,6 +74,16 @@ module.exports = {
             name: 'vendor',  // The common bundle's name
             minChunks: Infinity
         }),
+
+        // Extracting webpack's boilerplate and manifest which can change with every build.
+        // By specifying a name not mentioned in the entry configuration, the plugin will
+        // automatically extract these into a separate bundle
+        // Also note that there's an extra step to this - adding either NamedModulesPlugin
+        // or HashedModuleIdsPlugin. See webpack.dev.js and webpack.prod.js
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest'  // The name for webpack's boilerplate and manifest
+        }),
+
         // HTML creation
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/template.html'),

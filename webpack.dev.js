@@ -34,6 +34,10 @@ module.exports = () => {
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('development')
             }),
+
+            // Webpack caching. This is needed to cache the manifest file correctly
+            // For production builds, we use HashedModuleIdsPlugin instead
+            new webpack.NamedModulesPlugin(),
         ],
         devtool: 'inline-source-map',
         devServer: {
