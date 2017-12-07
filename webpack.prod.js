@@ -59,7 +59,7 @@ module.exports = () => {
             // For development builds, we use NamedModulesPlugin instead
             new webpack.HashedModuleIdsPlugin(),
         ],
-        
+
         devtool: 'source-map'
     });
 };
