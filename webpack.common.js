@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 
 // Special Note:
 // For some reason, webpack.common.js cannot be a function that export a config
@@ -22,10 +23,13 @@ module.exports = {
         app: './src/index.js',
         vendor: vendorPackages
     },
+
     externals: vendorCDNPackages,
+
     output: {
         path: path.join(__dirname, 'dist/static'),
     },
+
     module: {
         // Loaders config for various file types
         rules: [
@@ -68,6 +72,7 @@ module.exports = {
             },
         ]
     },
+
     plugins: [
         // CommonsChunk
         new webpack.optimize.CommonsChunkPlugin({
@@ -89,5 +94,10 @@ module.exports = {
             template: path.resolve(__dirname, 'src/template.html'),
             filename: '../index.html'
         }),
+
+        // Due to an issue in Webpack, chunkhash isn’t deterministic.
+        // To ensure hashes are generated based on the file contents,
+        // use webpack-md5-hash plugin.
+        new WebpackMd5Hash(),
     ]
 };

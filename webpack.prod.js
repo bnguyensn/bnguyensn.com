@@ -14,6 +14,7 @@ module.exports = () => {
             publicPath: 'static/',  // Different from dev config
             filename: '[name].[chunkhash].js',  // Different from dev config
         },
+
         module: {
             rules: [
                 // Images
@@ -30,6 +31,7 @@ module.exports = () => {
                 }
             ]
         },
+
         plugins: [
             // Define environment
             new webpack.DefinePlugin({
@@ -43,13 +45,21 @@ module.exports = () => {
             }),*/
             new UglifyJSPlugin({
                 test: /\.js($|\?)/i,
-                sourceMap: true
+                sourceMap: true,
+                compress: {
+                    warnings: false
+                },
+                mangle: {
+                    screw_ie8: true,  // Don't care about IE8
+                    keep_fnames: true  // Don't mangle function names
+                }
             }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
             // For development builds, we use NamedModulesPlugin instead
             new webpack.HashedModuleIdsPlugin(),
         ],
+        
         devtool: 'source-map'
     });
 };

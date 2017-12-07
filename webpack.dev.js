@@ -13,6 +13,7 @@ module.exports = () => {
             publicPath: '/',  // Different from prod config
             filename: '[name].js',  // Different from prod config
         },
+
         module: {
             rules: [
                 // Images
@@ -29,6 +30,7 @@ module.exports = () => {
                 }
             ]
         },
+
         plugins: [
             // Define environment
             new webpack.DefinePlugin({
@@ -39,7 +41,9 @@ module.exports = () => {
             // For production builds, we use HashedModuleIdsPlugin instead
             new webpack.NamedModulesPlugin(),
         ],
-        devtool: 'inline-source-map',
+
+        devtool: 'eval',
+
         devServer: {
             // The location of the "index.html" for webpack-dev-server:
             contentBase: path.join(__dirname, 'src'),
