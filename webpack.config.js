@@ -1,3 +1,6 @@
+// This file can be used if config split is not adopted
+// Last updated 06/12/2017
+
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,20 +13,21 @@ module.exports = (env) => {
     // Vendor packages
     const vendorPackages = [
         'react',
-        'react-dom'
+        'react-dom',
+        'react-hot-loader'
     ];
     const vendorCDNPackages = {
 
     };
 
     // Loader constants
-    const urlLoaderSizeLimit = 32000; // 32kb
+    const urlLoaderSizeLimit = 32000;  // 32kb
 
     // Main config
     return {
         entry: {
             app: [
-                'react-hot-loader/patch', // This is needed for Hot Module Replacement
+                'react-hot-loader/patch',  // This is needed for Hot Module Replacement
                 './src/index.js'
             ],
             vendor: vendorPackages
@@ -51,7 +55,7 @@ module.exports = (env) => {
                         {
                             loader: 'css-loader',
                             options: {
-                                /*modules: true, // TODO: implement CSS modules
+                                /*modules: true,  // TODO: implement CSS modules
                                  localIdentName: '[chunkhash]'*/
                                 importLoaders: 1
                             }
@@ -115,14 +119,16 @@ module.exports = (env) => {
         },
         devtool: 'inline-source-map',
         devServer: {
+            // The location of the "index.html" for webpack-dev-server:
             contentBase: path.join(__dirname, 'src'),
+
             compress: true,
             port: 8080,
             overlay: {
                 errors: true,
                 warnings: true
             },
-            hot: true
+            hot: true  // Hot Module Replacement
         }
     }
 };
