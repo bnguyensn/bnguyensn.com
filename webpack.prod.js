@@ -46,13 +46,6 @@ module.exports = () => {
             new UglifyJSPlugin({
                 test: /\.js($|\?)/i,
                 sourceMap: true,
-                compress: {
-                    warnings: false
-                },
-                mangle: {
-                    screw_ie8: true,  // Don't care about IE8
-                    keep_fnames: true  // Don't mangle function names
-                }
             }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
@@ -60,6 +53,6 @@ module.exports = () => {
             new webpack.HashedModuleIdsPlugin(),
         ],
 
-        devtool: 'source-map'
+        devtool: 'source-map',
     });
 };
