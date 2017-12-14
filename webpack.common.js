@@ -3,10 +3,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
-// Special Note:
-// For some reason, webpack.common.js cannot be a function that export a config
-// The console will return  "Configuration file found but no entry configured"
-// Hence we have to leave global variables out here
+/* Special Note:
+   For some reason, webpack.common.js cannot be a function that export a config
+   The console will return  "Configuration file found but no entry configured"
+   Hence we have to leave global variables out here
+*/
 
 // Vendor packages
 const vendorPackages = [
