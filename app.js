@@ -7,8 +7,9 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-// Load the index router module
-const index = require('./routes/routes');
+// Load router modules (always have /index)
+const index = require('./routes/index');
+const chat = require('./routes/chat');
 
 const app = express();
 
@@ -22,9 +23,7 @@ app.set('view engine', 'pug');
 // Set up the port
 app.set('port', process.env.PORT || 63343);
 
-
 /** ********** LOAD MIDDLEWARES ********** **/
-
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -34,10 +33,10 @@ app.use(cookieParser());
 // The folder where production files are
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// After loading the index router module above, we attach '/' to it
+// After loading the router modules above, we attach website paths to them
 // This is just like loading a middleware
 app.use('/', index);
-
+app.use('/chat', chat);
 
 /** ********** ERROR HANDLING ********** **/
 
@@ -60,8 +59,6 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-
 
 /** ********** START THE APP ********** **/
 

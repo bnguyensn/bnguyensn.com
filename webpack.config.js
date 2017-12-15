@@ -107,7 +107,7 @@ module.exports = (env) => {
             }),
             // HTML creation
             new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'src/template.html'),
+                template: path.resolve(__dirname, 'src/html/t_index.html'),
                 filename: '../home.html'
             }),
             // Hot Module Replacement

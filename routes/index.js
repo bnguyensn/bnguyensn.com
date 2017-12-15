@@ -1,14 +1,16 @@
+/** ********* INDEX ROUTE ********* **/
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// Test middleware
+// This middleware is loaded for ALL connections
 router.use((req, res, next) => {
     console.log(`Received ${req.method} request`);
     next();
 });
 
-// Set up index route
+// Set up route
 router.get('/', (req, res, next) => {
     // It seems that we do not need any of these for now...Because our homepage is called 'index.html'
     const options = {
@@ -24,17 +26,16 @@ router.get('/', (req, res, next) => {
     });*/
 });
 
-// Set up test route
+// TEST
 router.get('/test', (req, res, next) => {
     console.log('Test route achieved');
     res.redirect('https://google.com');
 });
 
-// CHAT
-router.get('/chat', (req, res, next) => {
-    const msg = 'Opening chat page';
-    console.log(msg);
-    res.send(msg);
+// LOGIN
+router.get('/login', (req, res, next) => {
+
 });
+
 
 module.exports = router;

@@ -21,7 +21,8 @@ const vendorCDNPackages = {
 module.exports = {
     // Main config
     entry: {
-        app: './src/index.js',
+        index: './src/index.js',
+        chat: './src/chat.js',
         vendor: vendorPackages
     },
 
@@ -92,8 +93,14 @@ module.exports = {
 
         // HTML creation
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/template.html'),
+            template: path.resolve(__dirname, 'src/html/t_index.html'),
+            chunks: ['index'],
             filename: '../index.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'src/html/t_chat.html'),
+            chunks: ['chat'],
+            filename: '../chat.html'
         }),
 
         // Due to an issue in Webpack, chunkhash isn’t deterministic.
