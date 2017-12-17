@@ -32,10 +32,4 @@ router.get('/test', (req, res, next) => {
     res.redirect('https://google.com');
 });
 
-// LOGIN
-router.get('/login', (req, res, next) => {
-
-});
-
-
 module.exports = router;

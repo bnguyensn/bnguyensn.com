@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 
 // Load router modules (always have /index)
 const index = require('./routes/index');
+const login = require('./routes/login');
 const chat = require('./routes/chat');
 
 const app = express();
@@ -30,12 +31,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// The folder where production files are
+// The folder where generated production client files are
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // After loading the router modules above, we attach website paths to them
 // This is just like loading a middleware
 app.use('/', index);
+app.use('/login', login);
 app.use('/chat', chat);
 
 /** ********** ERROR HANDLING ********** **/

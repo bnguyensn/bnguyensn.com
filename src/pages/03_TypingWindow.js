@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './css/index.css';
 
 const textBoxPlaceholder = 'Type /roll 1d100!';
 const smileyIconURL = '';
@@ -71,7 +70,7 @@ function AttachmentButton() {
 
 // ========== The typing box - All together
 
-class TypingBox extends Component {
+class TypingWindow extends Component {
     render() {
         return(
             <div id='typing-box-container'>
@@ -83,4 +82,4 @@ class TypingBox extends Component {
     }
 }
 
-export default TypingBox
+export default TypingWindow

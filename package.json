@@ -11,6 +11,7 @@
     "build:p:noconfigsplit": "rimraf ./dist && webpack --env.production --env.platform=default --progress"
   },
   "dependencies": {
+    "bcrypt": "^1.x.x",
     "body-parser": "~1.x.x",
     "classnames": "^2.x.x",
     "cookie-parser": "~1.x.x",

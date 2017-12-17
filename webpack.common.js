@@ -22,6 +22,7 @@ module.exports = {
     // Main config
     entry: {
         index: './src/index.js',
+        login: './src/login.js',
         chat: './src/chat.js',
         vendor: vendorPackages
     },
@@ -78,6 +79,7 @@ module.exports = {
     plugins: [
         // CommonsChunk
         new webpack.optimize.CommonsChunkPlugin({
+            names: vendorPackages,
             name: 'vendor',  // The common bundle's name
             minChunks: Infinity
         }),
@@ -94,12 +96,20 @@ module.exports = {
         // HTML creation
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/html/t_index.html'),
-            chunks: ['index'],
+            //inject: true,
+            chunks: ['index', 'vendor', 'manifest'],
             filename: '../index.html'
         }),
         new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'src/html/t_login.html'),
+            //inject: true,
+            chunks: ['login', 'vendor', 'manifest'],
+            filename: '../login.html'
+        }),
+        new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/html/t_chat.html'),
-            chunks: ['chat'],
+            //inject: true,
+            chunks: ['chat', 'vendor', 'manifest'],
             filename: '../chat.html'
         }),
 
