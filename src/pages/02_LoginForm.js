@@ -3,17 +3,12 @@ import React, {Component} from 'react';
 class FieldText extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            value: this.props.value
-        };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
-        this.setState({
-            value: e.target.value
-        });
+        this.props.handleChange(e);
     }
 
     render() {
@@ -24,7 +19,7 @@ class FieldText extends Component {
                     <input  type="text"
                             name={this.props.name}
                             placeholder={this.props.placeholder}
-                            value={this.state.value}
+                            value={this.props.value}
                             onChange={this.handleChange} />
                     <span><i className="material-icons green">check_box</i></span>
                 </label>
@@ -47,12 +42,11 @@ class Form extends Component {
     }
 
     handleChange(e) {
-        const t = e.target;
-        const v = t.value;
-        const n = t.name;
+        const value = e.target.value;
+        const name = e.target.name;
 
         this.setState({
-            [n]: v
+            [name]: value
         });
     }
 
@@ -65,14 +59,10 @@ class Form extends Component {
     render() {
         return (
             <form id="login-form" onSubmit={this.handleSubmit}>
-                <FieldText name="email" placeholder="Enter your email" value="" />
-                <div>
-                    <label>
-                        password:
-                        <input name="password" type="text" placeholder="Enter your password" value={this.state.password} onChange={this.handleChange} />
-                    </label>
-                </div>
+                <FieldText name="email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
+                <FieldText name="password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
                 <input type="submit" value="Log In" />
+
             </form>
         );
     }
