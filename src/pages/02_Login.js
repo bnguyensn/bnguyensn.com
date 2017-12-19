@@ -21,7 +21,7 @@ class InputText extends Component {
 
     render() {
         return (
-            <div>
+            <div className="input-text">
                 <label>
                     <span>{this.props.name}</span>
                     <input  type="text"
@@ -75,7 +75,7 @@ class FormLogin extends Component {
 
     render() {
         return (
-            <Form elementID="form-login" elementOnSubmit={this.handleSubmit}>
+            <Form elementID="login-form" elementOnSubmit={this.handleSubmit}>
                 <InputText name="email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
                 <ErrorBox elementID="error-box-email" content={this.state.errorEmail} />
                 <InputText name="password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
@@ -90,7 +90,7 @@ class Login extends Component {
     render() {
         return(
             <div id='login-container'>
-                <span>Please log in or sign up</span>
+                <span id="login-title">Please log in or sign up</span>
                 <FormLogin />
             </div>
         )

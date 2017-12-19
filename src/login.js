@@ -9,10 +9,19 @@ import './css/index.css';
 import './css/login.css';
 
 ReactDOM.render(
-    <div>
+    <div id="login-canvas">
 
         <Login />
 
     </div>,
     document.getElementById('root')
 );
+
+// Hot Module Replacement
+if (module.hot) {
+    module.hot.accept('./pages/02_Login', () => {
+        console.log('Accepting the updated Login module.');
+        const Next = require('./pages/02_Login');
+        ReactDOM.render(<Next />, document.getElementById('root'));
+    })
+}
