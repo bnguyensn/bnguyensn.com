@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
 
-class FieldText extends Component {
+function ErrorBox(props) {
+    return (
+        <div id={props.elementID} className="error-box">
+            {props.content}
+        </div>
+    )
+}
+
+class InputText extends Component {
     constructor(props) {
         super(props);
 
@@ -21,20 +29,29 @@ class FieldText extends Component {
                             placeholder={this.props.placeholder}
                             value={this.props.value}
                             onChange={this.handleChange} />
-                    <span><i className="material-icons green">check_box</i></span>
                 </label>
+                <span><i className="material-icons green">check_box</i></span>
             </div>
         )
     }
 }
 
+function Form(props) {
+    return (
+        <form id={props.elementID} onSubmit={props.elementOnSubmit}>
+            {props.children}
+        </form>
+    )
+}
 
-class Form extends Component {
+class FormLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            errorEmail: 'test error email',
+            errorPassword: 'test error password'
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -58,25 +75,26 @@ class Form extends Component {
 
     render() {
         return (
-            <form id="login-form" onSubmit={this.handleSubmit}>
-                <FieldText name="email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
-                <FieldText name="password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
+            <Form elementID="form-login" elementOnSubmit={this.handleSubmit}>
+                <InputText name="email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
+                <ErrorBox elementID="error-box-email" content={this.state.errorEmail} />
+                <InputText name="password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
+                <ErrorBox elementID="error-box-password" content={this.state.errorPassword} />
                 <input type="submit" value="Log In" />
-
-            </form>
-        );
+            </Form>
+        )
     }
 }
 
-class LoginForm extends Component {
+class Login extends Component {
     render() {
         return(
             <div id='login-container'>
                 <span>Please log in or sign up</span>
-                <Form />
+                <FormLogin />
             </div>
         )
     }
 }
 
-export default LoginForm
+export default Login
