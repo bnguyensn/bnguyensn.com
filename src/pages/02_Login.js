@@ -21,16 +21,17 @@ class InputText extends Component {
 
     render() {
         return (
-            <div className="input-text">
-                <label>
-                    <span>{this.props.name}</span>
-                    <input  type="text"
+            <div className="input-text-container">
+                <label className="input-label">
+                    <span className="input-label-title">{this.props.name}</span>
+                    <input  className="input-label-input"
+                            type="text"
                             name={this.props.name}
                             placeholder={this.props.placeholder}
                             value={this.props.value}
                             onChange={this.handleChange} />
                 </label>
-                <span><i className="material-icons green">check_box</i></span>
+                <i className="input-check material-icons green">check_box</i>
             </div>
         )
     }

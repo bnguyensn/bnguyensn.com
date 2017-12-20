@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
 /* Special Note:
@@ -91,26 +90,6 @@ module.exports = {
         // or HashedModuleIdsPlugin. See webpack.dev.js and webpack.prod.js
         new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest'  // The name for webpack's boilerplate and manifest
-        }),
-
-        // HTML creation
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/html/t_index.html'),
-            //inject: true,
-            chunks: ['index', 'vendor', 'manifest'],
-            filename: '../index.html'
-        }),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/html/t_login.html'),
-            //inject: true,
-            chunks: ['login', 'vendor', 'manifest'],
-            filename: '../login.html'
-        }),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/html/t_chat.html'),
-            //inject: true,
-            chunks: ['chat', 'vendor', 'manifest'],
-            filename: '../chat.html'
         }),
 
         // Due to an issue in Webpack, chunkhash isn’t deterministic.

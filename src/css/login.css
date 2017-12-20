@@ -8,6 +8,7 @@
 
 #login-container {
     width: 500px;
+    padding: 10px;
 
     background-color: #81D4FA; /* Light Blue 200 */
 }
@@ -22,9 +23,34 @@
     justify-content: center;
 }
 
-.input-text {
+.input-text-container {
     display: flex;
+    justify-content: center;
     align-items: center;
+}
+
+.input-text-container * {
+
+}
+
+.input-label > * {
+    display: inline-block;
+
+    margin: 5px;
+}
+
+.input-label-title {
+
+}
+
+.input-label-input {
+
+}
+
+.input-check {
+    display: inline-block;
+
+    margin: 5px;
 }
 
 .error-box {
