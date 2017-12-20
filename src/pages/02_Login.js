@@ -81,7 +81,7 @@ class FormLogin extends Component {
                 <ErrorBox elementID="error-box-email" content={this.state.errorEmail} />
                 <InputText name="password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
                 <ErrorBox elementID="error-box-password" content={this.state.errorPassword} />
-                <input type="submit" value="Log In" />
+                <input className="input-submit-btn" type="submit" value="Log In" />
             </Form>
         )
     }

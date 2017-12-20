@@ -3,17 +3,20 @@
     justify-content: center;
     align-items: center;
 
-    width: 100%; height: 100%;
+    width: 100%; height: 100vh;
 }
 
 #login-container {
-    width: 500px;
     padding: 10px;
 
-    background-color: #81D4FA; /* Light Blue 200 */
+    background-color: #B3E5FC; /* Light Blue 100 */
 }
 
 #login-title {
+    display: block;
+    margin: 5px;
+
+    text-align: center;
     font-size: 120%;
 }
 
@@ -22,6 +25,8 @@
     flex-flow: column wrap;
     justify-content: center;
 }
+
+/** ********* TEXT INPUT FIELDS ********* **/
 
 .input-text-container {
     display: flex;
@@ -40,19 +45,32 @@
 }
 
 .input-label-title {
+    width: 100px;
 
+    text-align: right;
 }
 
 .input-label-input {
-
+    width: 200px;
 }
 
 .input-check {
-    display: inline-block;
-
     margin: 5px;
 }
 
+/** ********* ERROR BOXES ********* **/
+
 .error-box {
-    background-color: #F48FB1; /* Pink 200 */
+    margin: 5px;
+
+    text-align: right;
+    color: #ef5350; /* Red 400 */
+}
+
+/** ********* SUBMIT BUTTON ********* **/
+
+.input-submit-btn {
+    margin: 5px;
+
+    background-color: #A5D6A7; /* Green 200 */
 }
