@@ -15,7 +15,7 @@ export default function pwValidation(pw) {
     let errors = [];
 
     // Check length
-    if (pw.length < minLength) {
+    if (pw.length < minLength && pw.length > 0) {
         errors.push(errorsDict[0]);
     }
 
