@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Home from './pages/010_home';
+import Home from './pages/01_Home';
 
 import './css/index.css';
 

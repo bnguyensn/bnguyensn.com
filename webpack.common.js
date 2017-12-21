@@ -1,12 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
-// Special Note:
-// For some reason, webpack.common.js cannot be a function that export a config
-// The console will return  "Configuration file found but no entry configured"
-// Hence we have to leave global variables out here
+/* Special Note:
+   For some reason, webpack.common.js cannot be a function that export a config
+   The console will return  "Configuration file found but no entry configured"
+   Hence we have to leave global variables out here
+*/
 
 // Vendor packages
 const vendorPackages = [
@@ -20,7 +20,9 @@ const vendorCDNPackages = {
 module.exports = {
     // Main config
     entry: {
-        app: './src/index.js',
+        index: './src/index.js',
+        login: './src/login.js',
+        chat: './src/chat.js',
         vendor: vendorPackages
     },
 
@@ -76,6 +78,7 @@ module.exports = {
     plugins: [
         // CommonsChunk
         new webpack.optimize.CommonsChunkPlugin({
+            names: vendorPackages,
             name: 'vendor',  // The common bundle's name
             minChunks: Infinity
         }),
@@ -87,12 +90,6 @@ module.exports = {
         // or HashedModuleIdsPlugin. See webpack.dev.js and webpack.prod.js
         new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest'  // The name for webpack's boilerplate and manifest
-        }),
-
-        // HTML creation
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/template.html'),
-            filename: '../index.html'
         }),
 
         // Due to an issue in Webpack, chunkhash isn’t deterministic.

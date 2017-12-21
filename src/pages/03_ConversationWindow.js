@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './css/index.css';
 
 const classNames = require('classnames');
 
@@ -87,7 +86,7 @@ class MessageList extends Component {
     }
 }
 
-class ConversationBox extends Component {
+class ConversationWindow extends Component {
     render() {
         return(
             <div id='conversation-box-container'>
@@ -99,4 +98,4 @@ class ConversationBox extends Component {
     }
 }
 
-export default ConversationBox
+export default ConversationWindow

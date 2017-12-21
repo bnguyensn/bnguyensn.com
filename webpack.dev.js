@@ -34,12 +34,15 @@ module.exports = () => {
         plugins: [
             // Define environment
             new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify('development')
+                'process.env.NODE_ENV': JSON.stringify('development')  // Different from prod config
             }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
             // For production builds, we use HashedModuleIdsPlugin instead
             new webpack.NamedModulesPlugin(),
+
+            // Hot Module Replacement
+            new webpack.HotModuleReplacementPlugin(),
         ],
 
         devtool: 'eval',
@@ -54,7 +57,12 @@ module.exports = () => {
                 errors: true,
                 warnings: true
             },
-            hot: true  // Hot Module Replacement
+            staticOptions: {  // Options for serving static files. Follow express rules. See official docs.
+                extensions: ['html']  // This is needed to serve html files other than 'index.html'.
+            },
+
+            // Hot Module Replacement
+            hot: true
         }
     });
 };

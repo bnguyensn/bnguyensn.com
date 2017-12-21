@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--This HTML file is a DEVELOPMENT template for webpack-dev-server-->
+    <!--This HTML file is a PRODUCTION template for the HtmlWebpackPlugin plugin-->
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>1d100</title>
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!--External scripts-->
     <!--Local scripts-->
-    <script src="js/clientChat.js"></script>
+    <script src="../js/clientChat.js"></script>
 </head>
 
 <body>
@@ -27,11 +27,6 @@
     <!--socket.io-->
     <script src="/socket.io/socket.io.js"></script>
     <script>let socket = io();</script>
-    <!--webpack-dev-server ONLY-->
-    <!--"vendor" or "common" bundles MUST be loaded first-->
-    <script src="manifest.js"></script>
-    <script src="vendor.js"></script>
-    <script src="index.js"></script>
 </body>
 
 </html>

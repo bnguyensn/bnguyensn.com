@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--This HTML file is a PRODUCTION template for the HtmlWebpackPlugin plugin-->
+    <!--This HTML file is a DEVELOPMENT template for webpack-dev-server-->
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>1d100</title>
@@ -27,6 +27,11 @@
     <!--socket.io-->
     <script src="/socket.io/socket.io.js"></script>
     <script>let socket = io();</script>
+    <!--webpack-dev-server ONLY-->
+    <!--"vendor" or "common" bundles MUST be loaded first-->
+    <script src="manifest.js"></script>
+    <script src="vendor.js"></script>
+    <script src="chat.js"></script>
 </body>
 
 </html>

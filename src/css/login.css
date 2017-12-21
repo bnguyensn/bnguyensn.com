@@ -1,0 +1,76 @@
+#login-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%; height: 100vh;
+}
+
+#login-container {
+    padding: 10px;
+
+    background-color: #B3E5FC; /* Light Blue 100 */
+}
+
+#login-title {
+    display: block;
+    margin: 5px;
+
+    text-align: center;
+    font-size: 120%;
+}
+
+#login-form {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+/** ********* TEXT INPUT FIELDS ********* **/
+
+.input-text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-input-container * {
+
+}
+
+.text-input-label > * {
+    display: inline-block;
+
+    margin: 5px;
+}
+
+.input-label-title {
+    width: 100px;
+
+    text-align: right;
+}
+
+.input-label-input {
+    width: 200px;
+}
+
+.text-input-check {
+    margin: 5px;
+}
+
+/** ********* ERROR BOXES ********* **/
+
+.error-box {
+    margin: 5px;
+
+    text-align: right;
+    color: #ef5350; /* Red 400 */
+}
+
+/** ********* SUBMIT BUTTON ********* **/
+
+.input-submit-btn {
+    margin: 5px;
+
+    background-color: #A5D6A7; /* Green 200 */
+}

@@ -1,8 +1,16 @@
+/** ********* INDEX ROUTE ********* **/
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// Set up index route
+// This middleware is loaded for ALL connections
+router.use((req, res, next) => {
+    console.log(`Received ${req.method} request`);
+    next();
+});
+
+// Set up route
 router.get('/', (req, res, next) => {
     // It seems that we do not need any of these for now...Because our homepage is called 'index.html'
     const options = {
@@ -18,7 +26,7 @@ router.get('/', (req, res, next) => {
     });*/
 });
 
-// Set up test route
+// TEST
 router.get('/test', (req, res, next) => {
     console.log('Test route achieved');
     res.redirect('https://google.com');

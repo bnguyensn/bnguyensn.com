@@ -3,6 +3,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = () => {
     // Loader constants
@@ -46,6 +47,26 @@ module.exports = () => {
             new UglifyJSPlugin({
                 test: /\.js($|\?)/i,
                 sourceMap: true,
+            }),
+
+            // HTML creation
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/html/t_index.html'),
+                //inject: true,
+                chunks: ['index', 'vendor', 'manifest'],
+                filename: '../index.html'
+            }),
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/html/t_login.html'),
+                //inject: true,
+                chunks: ['login', 'vendor', 'manifest'],
+                filename: '../login.html'
+            }),
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/html/t_chat.html'),
+                //inject: true,
+                chunks: ['chat', 'vendor', 'manifest'],
+                filename: '../chat.html'
             }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
