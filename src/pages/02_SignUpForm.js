@@ -4,7 +4,13 @@ import Form from './02_Form';
 import TextInput from './02_TextInput';
 import ErrorBox from './02_ErrorBox';
 
+import emValidation from "./02_emValidation";
 import pwValidation from "./02_pwValidation";
+
+const validation_mapping = {
+    email: emValidation,
+    password: pwValidation
+};
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -13,7 +19,7 @@ class SignUpForm extends Component {
             email: '',
             password: '',
             password_re: '',
-            errorEmail: 'test error email',
+            error_email: 'test error email',
             error_password: 'test error password',
             error_password_re: 'test error re-typed password'
         };
@@ -30,6 +36,42 @@ class SignUpForm extends Component {
         this.setState({
             [name]: value
         });
+
+        const inputChangeWaited = new Promise((resolve, reject) => {
+            window.setTimeout((value, name) => {
+                if (value === this.state[name]) {
+                    resolve([value, name]);
+                } else {
+                    reject([value, name]);
+                }
+            }, 1000, value, name /* Fuck IE9 */);
+        });
+
+        inputChangeWaited.then(
+            // Promise fulfilled (it has been Xs since user changed the input)
+            (param_array) => {
+                const value = param_array[0];
+                const name = param_array[1];
+
+                const errors = validation_mapping[name](value);  // errors should be an array of error message strings
+
+                if (errors.length === 0) {
+                    //this.setState({[`error_${name}`]: 'no errors!'})
+                    console.log('no errors!');
+                } else {
+                    let error_msg = '';
+                    for (let i = 0; i < errors.length; i++) {
+                        error_msg += errors[i];
+                    }
+                    console.log(error_msg);
+                }
+
+            },
+            // Promise rejected
+            (param_array) => {
+
+            }
+        );
     }
 
     handleChangePassword(e) {

@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const readPath = path.join(__dirname, './tld.txt');
-const writePath = path.join(__dirname, './tld.json');
+const writePath = path.join(__dirname, '../src/json/tld.json');
 
 function readTLD() {
     fs.readFile(readPath, 'utf8', (err, data) => {
@@ -15,12 +15,12 @@ function readTLD() {
         */
         const i = data.indexOf('\n');
         const tld_array = data.slice(i + 1).split('\n');
-
         const tld_array_json = JSON.stringify(tld_array);
 
+        // Write the JSON
         fs.writeFile(writePath, tld_array_json, (err) => {
             if (err) throw err;
-            console.log(`Successfully wrote file at ${writePath}`);
+            console.log(`Successfully wrote JSON at ${writePath}`);
         });
     })
 }
