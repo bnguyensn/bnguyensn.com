@@ -12,10 +12,10 @@ class SignUpForm extends Component {
         this.state = {
             email: '',
             password: '',
-            passwordRe: '',
+            password_re: '',
             errorEmail: 'test error email',
-            errorPassword: 'test error password',
-            errorPasswordRe: 'test error re-typed password'
+            error_password: 'test error password',
+            error_password_re: 'test error re-typed password'
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -52,13 +52,13 @@ class SignUpForm extends Component {
             (pw) => {
                 const errors = pwValidation(pw);
                 if (errors.length === 0) {
-                    this.setState({errorPassword: 'no errors!'})
+                    this.setState({error_password: 'no errors!'})
                 } else {
-                    let errorMsg = '';
+                    let error_msg = '';
                     for (let i = 0; i < errors.length; i++) {
-                        errorMsg += errors[i];
+                        error_msg += errors[i];
                     }
-                    this.setState({errorPassword: errorMsg});
+                    this.setState({error_password: error_msg});
                 }
 
             },
@@ -79,13 +79,13 @@ class SignUpForm extends Component {
         return (
             <Form elementID="signup-form" elementOnSubmit={this.handleSubmit}>
                 <TextInput name="email" title="Email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
-                <ErrorBox elementID="error-box-signup-email" content={this.state.errorEmail} />
+                <ErrorBox elementID="error-box-signup-email" content={this.state.error_email} />
 
                 <TextInput name="password" title="Password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChangePassword} />
-                <ErrorBox elementID="error-box-signup-password" content={this.state.errorPassword} />
+                <ErrorBox elementID="error-box-signup-password" content={this.state.error_password} />
 
-                <TextInput name="passwordRe" title="Password (re-enter)" placeholder="Re-enter your password" value={this.state.passwordRe} handleChange={this.handleChange} />
-                <ErrorBox elementID="error-box-signup-passwordRe" content={this.state.errorPasswordRe} />
+                <TextInput name="password-re" title="Password (re-enter)" placeholder="Re-enter your password" value={this.state.password_re} handleChange={this.handleChange} />
+                <ErrorBox elementID="error-box-signup-password-re" content={this.state.error_password_re} />
 
                 <input className="input-submit-btn" type="submit" value="Sign Up" />
             </Form>
