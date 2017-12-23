@@ -19,9 +19,9 @@ class SignUpForm extends Component {
             email: '',
             password: '',
             password_re: '',
-            error_email: 'test error email',
-            error_password: 'test error password',
-            error_password_re: 'test error re-typed password'
+            error_email: '',
+            error_password: '',
+            error_password_re: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -39,6 +39,7 @@ class SignUpForm extends Component {
 
         const inputChangeWaited = new Promise((resolve, reject) => {
             window.setTimeout((value, name) => {
+                // The current value should match the previous value
                 if (value === this.state[name]) {
                     resolve([value, name]);
                 } else {
@@ -53,19 +54,23 @@ class SignUpForm extends Component {
                 const value = param_array[0];
                 const name = param_array[1];
 
-                const errors = validation_mapping[name](value);  // errors should be an array of error message strings
-
-                if (errors.length === 0) {
-                    //this.setState({[`error_${name}`]: 'no errors!'})
-                    console.log('no errors!');
+                if (value === '') {
+                    // No need to check for errors if field is blank
+                    this.setState({[`error_${name}`]: ''});
                 } else {
-                    let error_msg = '';
-                    for (let i = 0; i < errors.length; i++) {
-                        error_msg += errors[i];
-                    }
-                    console.log(error_msg);
-                }
+                    // Check for errors in all other cases
+                    const errors = validation_mapping[name](value);  // errors should be an array of error message strings
 
+                    if (errors.length === 0) {
+                        this.setState({[`error_${name}`]: 'no errors!'});
+                    } else {
+                        let error_msg = '';
+                        for (let i = 0; i < errors.length; i++) {
+                            error_msg += errors[i];
+                        }
+                        this.setState({[`error_${name}`]: error_msg});
+                    }
+                }
             },
             // Promise rejected
             (param_array) => {
@@ -123,7 +128,7 @@ class SignUpForm extends Component {
                 <TextInput name="email" title="Email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
                 <ErrorBox elementID="error-box-signup-email" content={this.state.error_email} />
 
-                <TextInput name="password" title="Password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChangePassword} />
+                <TextInput name="password" title="Password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
                 <ErrorBox elementID="error-box-signup-password" content={this.state.error_password} />
 
                 <TextInput name="password-re" title="Password (re-enter)" placeholder="Re-enter your password" value={this.state.password_re} handleChange={this.handleChange} />
