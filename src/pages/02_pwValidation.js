@@ -31,4 +31,3 @@ export default function pwValidation(pw) {
 
     return errors
 }
-
