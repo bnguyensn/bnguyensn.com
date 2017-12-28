@@ -9,7 +9,7 @@ import './css/index.css';
 import './css/login.css';
 
 ReactDOM.render(
-    <div id="login-canvas">
+    <div id="p-canvas">
 
         <Login />
 

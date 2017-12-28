@@ -10,7 +10,7 @@ class LoginForm extends Component {
         this.state = {
             email: '',
             password: '',
-            errorEmail: 'test error email',
+            error_email: 'test error email',
             errorPassword: 'test error password'
         };
 
@@ -35,13 +35,16 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <Form elementID="login-form" elementOnSubmit={this.handleSubmit}>
-                <TextInput name="email" title="Email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
-                <ErrorBox elementID="error-box-login-email" content={this.state.errorEmail} />
-                <TextInput name="password" title="Password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
-                <ErrorBox elementID="error-box-login-password" content={this.state.errorPassword} />
-                <input className="input-submit-btn" type="submit" value="Log In" />
-            </Form>
+            <div className='form-container'>
+                <span className="form-title">LOG IN</span>
+                <Form elementID="login-form" elementOnSubmit={this.handleSubmit}>
+                    <TextInput name="email" title="Email" placeholder="Enter your email" value={this.state.email} handleChange={this.handleChange} />
+                    <ErrorBox elementID="error-box-login-email" content={this.state.error_email} />
+                    <TextInput name="password" title="Password" placeholder="Enter your password" value={this.state.password} handleChange={this.handleChange} />
+                    <ErrorBox elementID="error-box-login-password" content={this.state.error_password} />
+                    <input className="input-submit-btn" type="submit" value="Log In" />
+                </Form>
+            </div>
         )
     }
 }
