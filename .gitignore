@@ -25,7 +25,7 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
+# Compiled binary addons (http://nodejs.org/api/gitaddons.html)
 build/Release
 
 # Dependency directory
@@ -43,3 +43,6 @@ dist
 
 # webpack stuff
 stats.json
+
+# macOS
+.DS_store
