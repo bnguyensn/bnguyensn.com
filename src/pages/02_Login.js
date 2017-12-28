@@ -7,8 +7,7 @@ import SignUpForm from './02_SignUpForm';
 class Login extends Component {
     render() {
         return(
-            <div id='login-container'>
-                <span id="login-title">Please log in or sign up</span>
+            <div>
                 <SignUpForm />
             </div>
         )

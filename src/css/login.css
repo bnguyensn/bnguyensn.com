@@ -1,36 +1,40 @@
-#login-canvas {
+/** ********* OVERALL CANVAS ********* **/
+
+#p-canvas {
     display: flex;
     justify-content: center;
     align-items: center;
 
     width: 100%; height: 100vh;
+
+    background-color: #263238;  /* Blue Grey 900 */
 }
 
-#login-container {
+.form-container {
     padding: 10px;
 
-    background-color: #B3E5FC; /* Light Blue 100 */
+    background-color: #FAFAFA;  /* Grey 50 */
 }
 
-#login-title {
+.form-title {
     display: block;
     margin: 5px;
 
+    font-family: 'Risque', cursive;
+    font-size: 200%;
     text-align: center;
-    font-size: 120%;
 }
 
-#login-form {
+#login-form, #signup-form {
     display: flex;
     flex-flow: column wrap;
-    justify-content: center;
 }
 
 /** ********* TEXT INPUT FIELDS ********* **/
 
-.input-text-container {
+.text-input-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -45,13 +49,14 @@
 }
 
 .input-label-title {
-    width: 100px;
 
     text-align: right;
 }
 
 .input-label-input {
-    width: 200px;
+    width: 250px;
+
+    font-size: 100%;
 }
 
 .text-input-check {
@@ -64,13 +69,28 @@
     margin: 5px;
 
     text-align: right;
-    color: #ef5350; /* Red 400 */
+    color: #ef5350;  /* Red 400 */
 }
 
 /** ********* SUBMIT BUTTON ********* **/
 
-.input-submit-btn {
-    margin: 5px;
+.input-submit-btn-container {
+    display: flex;
+    justify-content: center;
+}
 
-    background-color: #A5D6A7; /* Green 200 */
+.input-submit-btn {
+    width: 150px;
+
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
+
+    background-color: #7CB342;  /* Light Green 600 */
+
+    font-size: 100%;
+    color: #FAFAFA;  /* Grey 50 */
+
+    cursor: pointer;
 }

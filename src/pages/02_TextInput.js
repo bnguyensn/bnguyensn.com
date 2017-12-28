@@ -17,7 +17,7 @@ class TextInput extends Component {
                 <label className="text-input-label">
                     <span className="input-label-title">{this.props.title}</span>
                     <input  className="input-label-input"
-                            type="text"
+                            type={this.props.type}
                             name={this.props.name}
                             placeholder={this.props.placeholder}
                             value={this.props.value}
