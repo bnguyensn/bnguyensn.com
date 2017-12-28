@@ -2,9 +2,9 @@
 
 // Error codes
 const errors_dict = {
-    0: 'Please enter a minimum of 7 characters.',
-    1: 'Please enter at least 1 numeral.',
-    2: 'Please enter at least 1 non-numeral.'
+    0: 'Need a minimum of 7 characters.',
+    1: 'Need at least 1 numeral.',
+    2: 'Need at least 1 non-numeral.'
 };
 
 export default function pwValidation(pw) {

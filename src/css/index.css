@@ -27,6 +27,7 @@ a {
 }
 
 .hidden {display: none;}
+.hidden-vis {visibility: hidden;}
 .block {display: block;}
 .inline-block {display: inline-block;}
 .text-left {text-align: left;}
@@ -65,5 +66,7 @@ a {
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
 /* My custom colouring rules. */
-.material-icons.green { color: rgba(76, 175, 80, 1); }
-.material-icons.green.inactive { color: rgba(76, 175, 80, 0.3) }
+.material-icons.green { color: rgba(102, 187, 106, 1); }  /* Green 400 */
+.material-icons.green.inactive { color: rgba(102, 187, 106, 0.3); }
+.material-icons.red { color: rgba(239, 83, 80, 1); }  /* Red 400 */
+.material-icons.red.inactive { color: rgba(239, 83, 80, 0.3); }
