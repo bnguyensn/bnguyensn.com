@@ -5,7 +5,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');  // Needed to access POST requests' data
 
 // Load router modules (always have /index)
 const index = require('./routes/index');

@@ -16,8 +16,8 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/createuser/:em/:pw', (req, res, next) => {
-    createUser(req.params.em, req.params.pw);
+router.post('/createuser', (req, res, next) => {
+    createUser(req.body.em, req.body.pw);
 });
 
 module.exports = router;

@@ -40,7 +40,6 @@ class SignUpForm extends Component {
 
     /* ********** HELPERS ********** */
 
-
     updateIndicator(status, colour) {
 
     }
@@ -169,7 +168,7 @@ class SignUpForm extends Component {
             (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
             // Everything is filled in correctly, submission logic below
 
-            // Hash the password
+            // Make a POST request with email & password data
 
         } else {
             alert('Please ensure the form is filled in correctly.')
