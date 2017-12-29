@@ -6,6 +6,8 @@ import TextInput from './02_TextInput';
 import emValidation from "./02_emValidation";
 import pwValidation from "./02_pwValidation";
 
+
+
 // 'error-tooltip-hidden' is a CSS class in 'login.css' with where visibility and opacity are set to none"
 const hidden_clsname = 'error-tooltip-hidden';
 
@@ -26,8 +28,9 @@ class SignUpForm extends Component {
         };
 
         this.updateIndicator = this.updateIndicator.bind(this);
-        this.showError = this.showError.bind(this);
-        this.hideError = this.hideError.bind(this);
+        this.processErrors = this.processErrors.bind(this);
+        this.showErrors = this.showErrors.bind(this);
+        this.hideErrors = this.hideErrors.bind(this);
 
         this.inputChangeWaited = this.inputChangeWaited.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -42,36 +45,37 @@ class SignUpForm extends Component {
 
     }
 
-    showError(name, errors) {
-        // Set up contents for the error tooltip
-        let error_msg = '';
-        for (let i = 0; i < errors.length; i++) {
-            error_msg += `${errors[i]} `;
+    processErrors(name, errors) {
+        if (errors.length === 0) {
+            this.hideErrors(name);
+        } else {
+            let error_msg = '';
+            for (let i = 0; i < errors.length; i++) {
+                error_msg += `${errors[i]} `;
+            }
+            this.showErrors(name, errors);
         }
+    }
 
-        // Display the error tooltip
+    showErrors(name, error_msg) {
         this.setState({
             [`error_${name}`]: error_msg,
-            /* By setting the below to '', we essentially remove the 'hidden-vis' class
-               which in turn show the error tooltip
-             */
-            [`error_${name}_vis`]: ''
+            [`error_${name}_vis`]: ''  // Essentially removing the hidden CSS class for the error tooltip
         });
     }
 
-    hideError(name) {
-        // Hide the error tooltip
+    hideErrors(name) {
         this.setState({
             [`error_${name}`]: '',
-            [`error_${name}_vis`]: hidden_clsname
+            [`error_${name}_vis`]: hidden_clsname  // Essentially adding the hidden CSS class for the error tooltip
         })
     }
 
     /* ********** HANDLE ALL INPUT CHANGES ********** */
 
     inputChangeWaited(value, name, data = undefined) {
-        // This Promise is used for the purpose of waiting Xs before validating user input
-        const waitTime = 750;  // ms
+        // Wait Xs before validating user input
+        const waitTime = 500;  // ms
 
         return new Promise((resolve, reject) => {
             window.setTimeout((value, name, data) => {
@@ -102,20 +106,12 @@ class SignUpForm extends Component {
 
                             if (value === '') {
                                 // No errors if input field is blank
-                                this.hideError(name);
+                                this.hideErrors(name);
                             } else {
                                 /* Check for errors in all other cases
                                    The returned errors should be an array of error message strings
                                  */
-                                const errors = emValidation(value);
-
-                                if (errors.length === 0) {
-                                    // No errors case
-                                    this.hideError(name);
-                                } else {
-                                    // Some errors case
-                                    this.showError(name, errors);
-                                }
+                                this.processErrors(name, emValidation(value));
                             }
                         },
                         // Promise rejected
@@ -131,24 +127,18 @@ class SignUpForm extends Component {
                             const data = param_array[2];
 
                             if (value === '') {
-                                this.hideError(name);
+                                this.hideErrors(name);
                                 // Because password is linked to password_re, should remove password_re errors as well
-                                this.hideError('password_re');
+                                this.hideErrors('password_re');
                             } else {
-                                const errors = pwValidation(value);
-
-                                if (errors.length === 0) {
-                                    this.hideError(name);
-                                } else {
-                                    this.showError(name, errors);
-                                }
+                                this.processErrors(name, pwValidation(value));
 
                                 // Additionally, match password and password re-enter
                                 if (this.state.password_re !== '') {
                                     if (value !== this.state.password_re) {
-                                        this.showError('password_re', ['Password does not match password re-enter']);
+                                        this.showErrors('password_re', ['Password does not match password re-enter']);
                                     } else {
-                                        this.hideError('password_re');
+                                        this.hideErrors('password_re');
                                     }
                                 }
                             }
@@ -158,12 +148,12 @@ class SignUpForm extends Component {
                 case 'password_re':
                     if (this.state.password !== '') {
                         if (this.state.password_re === '') {
-                            this.hideError('password_re');
+                            this.hideErrors('password_re');
                         } else {
                             if (this.state.password_re !== this.state.password) {
-                                this.showError('password_re', ['Password does not match password re-enter']);
+                                this.showErrors('password_re', ['Password does not match password re-enter']);
                             } else {
-                                this.hideError('password_re');
+                                this.hideErrors('password_re');
                             }
                         }
                     }
@@ -175,8 +165,16 @@ class SignUpForm extends Component {
     /* ********** HANDLE SUBMISSION ********** */
 
     handleSubmit(e) {
-        alert(`email: ${this.state.email}\n
-               password: ${this.state.password}`);
+        if ((this.state.email !== '' && this.state.password !== '' && this.state.password_re !== '') &&
+            (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
+            // Everything is filled in correctly, submission logic below
+
+            // Hash the password
+
+        } else {
+            alert('Please ensure the form is filled in correctly.')
+        }
+
         e.preventDefault();
     }
 

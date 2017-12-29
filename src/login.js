@@ -10,9 +10,7 @@ import './css/login.css';
 
 ReactDOM.render(
     <div id="p-canvas">
-
         <Login />
-
     </div>,
     document.getElementById('root')
 );

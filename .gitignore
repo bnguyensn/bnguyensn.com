@@ -46,3 +46,6 @@ stats.json
 
 # macOS
 .DS_store
+
+# mysql
+routes/mysql.js
