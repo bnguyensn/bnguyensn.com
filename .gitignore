@@ -48,4 +48,4 @@ stats.json
 .DS_store
 
 # mysql
-routes/mysql.js
+/server/db/mysql-config.json

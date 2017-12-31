@@ -6,7 +6,7 @@ import TextInput from './02_TextInput';
 import emValidation from "./02_emValidation";
 import pwValidation from "./02_pwValidation";
 
-
+import {postNewUser} from "./02_login-network";
 
 // 'error-tooltip-hidden' is a CSS class in 'login.css' with where visibility and opacity are set to none"
 const hidden_clsname = 'error-tooltip-hidden';
@@ -168,8 +168,17 @@ class SignUpForm extends Component {
             (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
             // Everything is filled in correctly, submission logic below
 
-            // Make a POST request with email & password data
-
+            // Make a POST request with email & password data. It'll be Promises all the way down from here.
+            postNewUser(this.state.email, this.state.password).then(
+                // Promise fulfilled (new user successfully created)
+                (res) => {
+                    alert(res);
+                },
+                // Promise rejected (something went wrong)
+                (res) => {
+                    alert(res);
+                }
+            );
         } else {
             alert('Please ensure the form is filled in correctly.')
         }

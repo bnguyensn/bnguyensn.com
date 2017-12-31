@@ -1,10 +1,10 @@
 const createUserURL = '/createuser';
 
-function postNewUser(em, pw) {
+export function postNewUser(em, pw) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.open("POST", createUserURL);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
