@@ -7,7 +7,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');  // Needed to access POST requests' data
 
-import setupMySQL from './server/db/setup';  // MySQL setup
+const mysql_setup = require('./server/db/setup');  // MySQL setup
 
 // Load router modules (always have /index)
 const index = require('./routes/index');
@@ -27,7 +27,7 @@ app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 63343);
 
 // Set up MySQL
-app.locals.db_connection_pool = setupMySQL();  //  This creates the MySQL connection pool and saves it in an app.local
+app.locals.db_connection_pool = mysql_setup.createConnectionPool();  //  This creates the MySQL connection pool and saves it in an app.local
 
 /** ********** LOAD MIDDLEWARES ********** **/
 

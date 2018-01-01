@@ -8,7 +8,7 @@ const saltRounds = 10;
    Guidance: https://github.com/kelektiv/node.bcrypt.js
 */
 
-export default function hashPw(pw) {
+function hashPw(pw) {
     bcrypt.hash(pw, saltRounds, (err, hash) => {
         if (err) {
             return false
@@ -16,3 +16,7 @@ export default function hashPw(pw) {
         return hash
     });
 }
+
+module.exports = {
+    hashPw: hashPw
+};

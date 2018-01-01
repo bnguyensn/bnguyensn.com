@@ -5,31 +5,30 @@
 const mysql = require('mysql');
 const mysql_config = require('../server/db/mysql-config');
 
-import hashPw from '../server/pw/hashPw';
+const pw_functions = require('../server/pw/hashPw');
 
 function validateNewUserEntry(em, pw) {
     return true
 }
 
-const createNewUserQuery = `INSERT INTO `;
+const new_user_query = `INSERT INTO users (email)
+                            VALUES (?);`;
 
 function createNewUserEntry(em, pw, connection_pool) {
     return new Promise((resolve, reject) => {
+        console.log(`Attempting to getConnection (mysql): ${connection_pool}`);
         connection_pool.getConnection((err, connection) => {
             if (err) {
                 reject(err);
             } else {
-                connection.connect((err) => {
+                console.log(`Attempting to query (mysql)`);
+                connection.query(mysql.format(new_user_query, em), (err, results, fields) => {
+                    console.log(`Releasing connection.`);
+                    connection.release();
                     if (err) {
                         reject(err);
                     } else {
-                        connection.query('', (err, results, fields) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                resolve(results);
-                            }
-                        })
+                        resolve([results, fields]);
                     }
                 });
             }
@@ -37,16 +36,24 @@ function createNewUserEntry(em, pw, connection_pool) {
     })
 }
 
-export function createUser(em, pw, connection_pool) {
+function createUser(em, pw, connection_pool) {
     return new Promise((resolve, reject) => {
-        // TODO: resolve + reject
         createNewUserEntry(em, pw, connection_pool).then(
             // Promise fulfilled
-            () => {
-
+            ([results, fields]) => {
+                console.log(`results: ${results}`);
+                console.log(`fields: ${fields}`);
+                resolve();
             },
             // Promise rejected
-            () => {}
+            (err) => {
+                console.log(`createNewUserEntry() failed. Error: ${err.code}: ${err}`);
+                reject();
+            }
         );
     })
 }
+
+module.exports = {
+    createUser: createUser
+};

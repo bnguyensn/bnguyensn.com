@@ -15,9 +15,9 @@ class SignUpForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            password_re: '',
+            email: 'test@example.com',
+            password: '1234567!',
+            password_re: '1234567!',
             error_email: '',
             error_password: '',
             error_password_re: '',
@@ -171,12 +171,12 @@ class SignUpForm extends Component {
             // Make a POST request with email & password data. It'll be Promises all the way down from here.
             postNewUser(this.state.email, this.state.password).then(
                 // Promise fulfilled (new user successfully created)
-                (res) => {
-                    alert(res);
+                (status) => {
+                    console.log(`Submission successful. Status: ${status}`);
                 },
                 // Promise rejected (something went wrong)
-                (res) => {
-                    alert(res);
+                (status) => {
+                    console.log(`Submission failed. Status: ${status}`);
                 }
             );
         } else {

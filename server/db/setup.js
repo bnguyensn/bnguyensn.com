@@ -16,6 +16,6 @@ function createConnectionPool() {
     });
 }
 
-export default function setupMySQL() {
-    return createConnectionPool();
-}
+module.exports = {
+    createConnectionPool: createConnectionPool
+};
