@@ -44,6 +44,7 @@
     "uglifyjs-webpack-plugin": "^1.x.x",
     "url-loader": "^0.x.x",
     "webpack": "^3.9.1",
+    "webpack-dev-middleware": "^2.x.x",
     "webpack-dev-server": "^2.x.x",
     "webpack-md5-hash": "^0.x.x",
     "webpack-merge": "^4.1.1"
