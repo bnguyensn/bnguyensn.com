@@ -1,4 +1,4 @@
-/** ********** MYSQL MIDDLEWARE ********** **/
+/** ********** ********** **/
 
 const mysql = require('mysql');
 

@@ -3,8 +3,10 @@ import React, {Component} from 'react';
 import Form from './02_Form';
 import TextInput from './02_TextInput';
 
-import emValidation from "./02_emValidation";
+import emValidation from "./02_em-validation";
 import pwValidation from "./02_pwValidation";
+
+import {postNewUser} from "./02_login-network";
 
 // 'error-tooltip-hidden' is a CSS class in 'login.css' with where visibility and opacity are set to none"
 const hidden_clsname = 'error-tooltip-hidden';
@@ -13,9 +15,9 @@ class SignUpForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            password_re: '',
+            email: 'test@example.com',
+            password: '1234567!',
+            password_re: '1234567!',
             error_email: '',
             error_password: '',
             error_password_re: '',
@@ -26,8 +28,10 @@ class SignUpForm extends Component {
         };
 
         this.updateIndicator = this.updateIndicator.bind(this);
-        this.showError = this.showError.bind(this);
-        this.hideError = this.hideError.bind(this);
+        this.processErrors = this.processErrors.bind(this);
+        this.showErrors = this.showErrors.bind(this);
+        this.hideErrors = this.hideErrors.bind(this);
+        this.checkPasswordRe = this.checkPasswordRe.bind(this);
 
         this.inputChangeWaited = this.inputChangeWaited.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -37,51 +41,53 @@ class SignUpForm extends Component {
 
     /* ********** HELPERS ********** */
 
-
     updateIndicator(status, colour) {
 
     }
 
-    showError(name, errors) {
-        // Set up contents for the error tooltip
-        let error_msg = '';
-        for (let i = 0; i < errors.length; i++) {
-            error_msg += `${errors[i]} `;
-        }
+    processErrors(name, error_msg) {
+        error_msg === '' ? this.hideErrors(name) : this.showErrors(name, error_msg);
+    }
 
-        // Display the error tooltip
+    showErrors(name, error_msg) {
         this.setState({
             [`error_${name}`]: error_msg,
-            /* By setting the below to '', we essentially remove the 'hidden-vis' class
-               which in turn show the error tooltip
-             */
-            [`error_${name}_vis`]: ''
+            [`error_${name}_vis`]: ''  // Essentially removing the hidden CSS class for the error tooltip
         });
     }
 
-    hideError(name) {
-        // Hide the error tooltip
+    hideErrors(name) {
         this.setState({
             [`error_${name}`]: '',
-            [`error_${name}_vis`]: hidden_clsname
+            [`error_${name}_vis`]: hidden_clsname  // Essentially adding the hidden CSS class for the error tooltip
         })
+    }
+
+    // This is a helper function to match password and password_re
+    checkPasswordRe() {
+        this.state.password_re === '' ? this.hideErrors('password_re') :
+            this.state.password_re !== this.state.password ?
+                this.showErrors('password_re', 'Password does not match password re-enter.') :
+                this.hideErrors('password_re');
     }
 
     /* ********** HANDLE ALL INPUT CHANGES ********** */
 
-    inputChangeWaited(value, name, data = undefined) {
-        // This Promise is used for the purpose of waiting Xs before validating user input
-        const waitTime = 750;  // ms
+    inputChangeWaited(value, name) {
+        // Wait Xs before validating user input
+        const waitTime = 500;  // ms
 
         return new Promise((resolve, reject) => {
-            window.setTimeout((value, name, data) => {
-                // Check if the current value matches the previous value
+            window.setTimeout((value, name) => {
+                // After Xs, check if field value has changed
                 if (value === this.state[name]) {
-                    resolve([value, name, data]);
+                    // Field value has not changed, let's validate input
+                    resolve();
                 } else {
-                    reject([value, name, data]);
+                    // Field value has changed, let's not do anything for now
+                    reject();
                 }
-            }, waitTime, value, name, data /* Fuck IE9 */)
+            }, waitTime, value, name  /* Fuck IE9 */)
         })
     }
 
@@ -92,81 +98,58 @@ class SignUpForm extends Component {
         this.setState({
             [name]: value
         }, () => {
+            // Since the input validation for each field is slightly different, we will use switch / case
             switch (name) {
                 case 'email':
                     this.inputChangeWaited(value, name).then(
-                        // Promise fulfilled (it has been Xs since user changed the input)
-                        (param_array) => {
-                            const value = param_array[0];
-                            const name = param_array[1];
-
-                            if (value === '') {
-                                // No errors if input field is blank
-                                this.hideError(name);
+                        () => {
+                            if (this.state.email === '') {
+                                // Don't display any errors if field is blank
+                                this.hideErrors('email');
                             } else {
-                                /* Check for errors in all other cases
-                                   The returned errors should be an array of error message strings
-                                 */
-                                const errors = emValidation(value);
-
-                                if (errors.length === 0) {
-                                    // No errors case
-                                    this.hideError(name);
-                                } else {
-                                    // Some errors case
-                                    this.showError(name, errors);
-                                }
+                                // Check for errors in all other cases.
+                                // Note that emValidation() is a Promise because we need to make a database request
+                                // to check for email duplication.
+                                emValidation(this.state.email).then(
+                                    (error_msg) => {
+                                        this.processErrors('email', error_msg);
+                                    },
+                                    (error_msg) => {
+                                        this.processErrors('email', error_msg);
+                                    }
+                                );
                             }
                         },
-                        // Promise rejected
-                        (param_array) => {}
+                        () => { /* Promise rejected. Don't really need to do anything */ }
                     );
                     break;
                 case 'password':
-                    this.inputChangeWaited(value, name, this.state.password_re).then(
-                        // Promise fulfilled (it has been Xs since user changed the input)
-                        (param_array) => {
-                            const value = param_array[0];
-                            const name = param_array[1];
-                            const data = param_array[2];
+                    this.inputChangeWaited(value, name).then(
+                        () => {
+                            if (this.state.password === '') {
+                                this.hideErrors('password');
 
-                            if (value === '') {
-                                this.hideError(name);
-                                // Because password is linked to password_re, should remove password_re errors as well
-                                this.hideError('password_re');
+                                // Because password is linked to password_re, we should remove password_re errors as well
+                                this.hideErrors('password_re');
                             } else {
-                                const errors = pwValidation(value);
+                                this.processErrors('password', pwValidation(this.state.password));
 
-                                if (errors.length === 0) {
-                                    this.hideError(name);
-                                } else {
-                                    this.showError(name, errors);
-                                }
-
-                                // Additionally, match password and password re-enter
-                                if (this.state.password_re !== '') {
-                                    if (value !== this.state.password_re) {
-                                        this.showError('password_re', ['Password does not match password re-enter']);
-                                    } else {
-                                        this.hideError('password_re');
-                                    }
-                                }
+                                // Because password is linked to password_re, we should match password and password_re as well
+                                this.checkPasswordRe();
                             }
-                        }
+                        },
+                        () => { /* Promise rejected. Don't really need to do anything */ }
                     );
                     break;
                 case 'password_re':
-                    if (this.state.password !== '') {
-                        if (this.state.password_re === '') {
-                            this.hideError('password_re');
-                        } else {
-                            if (this.state.password_re !== this.state.password) {
-                                this.showError('password_re', ['Password does not match password re-enter']);
-                            } else {
-                                this.hideError('password_re');
+                    this.inputChangeWaited(value, name).then(
+                        () => {
+                            if (this.state.password !== '') {
+                                this.checkPasswordRe();
                             }
-                        }
-                    }
+                        },
+                        () => { /* Promise rejected. Don't really need to do anything */ }
+                    );
                     break;
             }
         });
@@ -175,8 +158,25 @@ class SignUpForm extends Component {
     /* ********** HANDLE SUBMISSION ********** */
 
     handleSubmit(e) {
-        alert(`email: ${this.state.email}\n
-               password: ${this.state.password}`);
+        if ((this.state.email !== '' && this.state.password !== '' && this.state.password_re !== '') &&
+            (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
+            // Everything is filled in correctly, submission logic below
+
+            // Make a POST request with email & password data. It'll be Promises all the way down from here.
+            postNewUser(this.state.email, this.state.password).then(
+                // Promise fulfilled (new user successfully created)
+                (status) => {
+                    console.log(`Submission successful. Status: ${status}`);
+                },
+                // Promise rejected (something went wrong)
+                (status) => {
+                    console.log(`Submission failed. Status: ${status}`);
+                }
+            );
+        } else {
+            alert('Please ensure the form is filled in correctly.')
+        }
+
         e.preventDefault();
     }
 

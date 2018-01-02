@@ -46,3 +46,6 @@ stats.json
 
 # macOS
 .DS_store
+
+# mysql
+/server/db/mysql-config.json

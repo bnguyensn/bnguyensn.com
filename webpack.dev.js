@@ -60,6 +60,9 @@ module.exports = () => {
             staticOptions: {  // Options for serving static files. Follow express rules. See official docs.
                 extensions: ['html']  // This is needed to serve html files other than 'index.html'.
             },
+            proxy: {  // Because we are involving an Express dev server
+                "/login/api": "http://localhost:63343"
+            },
 
             // Hot Module Replacement
             hot: true

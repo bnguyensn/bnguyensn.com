@@ -5,14 +5,16 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');  // Needed to access POST requests' data
+
+const mysql_setup = require('./server/db/setup');  // MySQL setup
 
 // Load router modules (always have /index)
 const index = require('./routes/index');
 const login = require('./routes/login');
 const chat = require('./routes/chat');
 
-const app = express();
+const app = express();  // Create the express app
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +25,9 @@ app.set('view engine', 'pug');
 
 // Set up the port
 app.set('port', process.env.PORT || 63343);
+
+// Set up MySQL
+app.locals.db_connection_pool = mysql_setup.createConnectionPool();  //  This creates the MySQL connection pool and saves it in an app.local
 
 /** ********** LOAD MIDDLEWARES ********** **/
 
@@ -63,7 +68,6 @@ app.use(function (err, req, res, next) {
 });
 
 /** ********** START THE APP ********** **/
-
 
 app.listen(app.get('port'), () => {
     console.log(`app live on port ${app.get('port')}`)
