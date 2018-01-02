@@ -61,7 +61,7 @@ module.exports = () => {
                 extensions: ['html']  // This is needed to serve html files other than 'index.html'.
             },
             proxy: {  // Because we are involving an Express dev server
-                "/login/createuser": "http://localhost:63343"
+                "/login/api": "http://localhost:63343"
             },
 
             // Hot Module Replacement

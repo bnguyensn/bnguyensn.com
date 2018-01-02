@@ -4,6 +4,8 @@
    - format: [local-part]@[domain].[top-level domain]
  */
 
+import {postCheckEmDuplication} from './02_login-network';
+
 const tld_json = require('../json/tld');
 const tld_array = Object.keys(tld_json).map((k) => {return tld_json[k]});
 
@@ -78,7 +80,17 @@ function checkSyntax(em) {
 function checkDuplication(em) {
     let errors = [];
 
-    // TODO: query database to check for duplication
+    postCheckEmDuplication(em).then(
+        // Promise fulfilled
+        (response) => {
+            const a = JSON.parse(response);
+            console.log(`Number of occurrences for ${em}: ${a[0]["count"]}`);
+        },
+        // Promise rejected
+        (response) => {
+            console.log(response)
+        }
+    );
 
     return errors
 }
