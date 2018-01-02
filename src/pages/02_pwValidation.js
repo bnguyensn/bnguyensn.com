@@ -11,8 +11,9 @@ export default function pwValidation(pw) {
     // Constraints
     const min_length = 7;
 
-    /* Check errors */
     let errors = [];
+
+    // START PASSWORD VALIDATION
 
     // Check length
     if (pw.length < min_length && pw.length > 0) {
@@ -29,5 +30,16 @@ export default function pwValidation(pw) {
         errors.push(errors_dict[2]);
     }
 
-    return errors
+    // END PASSWORD VALIDATION
+
+    // Return error message strings
+    if (errors.length === 0) {
+        return ''
+    } else {
+        let error_msg = '';
+        for (let i = 0; i < errors.length; i++) {
+            error_msg += `${errors[i]} `;
+        }
+        return error_msg
+    }
 }
