@@ -32,6 +32,7 @@ class SignUpForm extends Component {
         this.showErrors = this.showErrors.bind(this);
         this.hideErrors = this.hideErrors.bind(this);
         this.checkPasswordRe = this.checkPasswordRe.bind(this);
+        this.checkAll = this.checkAll.bind(this);
 
         this.inputChangeWaited = this.inputChangeWaited.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -63,12 +64,24 @@ class SignUpForm extends Component {
         })
     }
 
+    /* ********** INDIVIDUAL CHECK FUNCTIONS ********** */
+
+
+
     // This is a helper function to match password and password_re
     checkPasswordRe() {
         this.state.password_re === '' ? this.hideErrors('password_re') :
             this.state.password_re !== this.state.password ?
                 this.showErrors('password_re', 'Password does not match password re-enter.') :
                 this.hideErrors('password_re');
+    }
+
+    // This checks all input fields.
+    // Since the email check is a Promise, this function should also be a Promise.
+    checkAll() {
+        return new Promise((resolve, reject) => {
+
+        })
     }
 
     /* ********** HANDLE ALL INPUT CHANGES ********** */
@@ -158,6 +171,13 @@ class SignUpForm extends Component {
     /* ********** HANDLE SUBMISSION ********** */
 
     handleSubmit(e) {
+
+        this.checkAll().then(
+            () => {},
+            () => {}
+        );
+
+
         if ((this.state.email !== '' && this.state.password !== '' && this.state.password_re !== '') &&
             (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
             // Everything is filled in correctly, submission logic below
@@ -189,6 +209,7 @@ class SignUpForm extends Component {
                 <Form elementID="signup-form" elementOnSubmit={this.handleSubmit}>
                     <TextInput type="text" name="email" title="Email" placeholder="abc@example.com"
                                value={this.state.email}
+                               description=""
                                handleChange={this.handleInputChange}
                                i_colour="green" i_status="check_box"
                                e_content={this.state.error_email} e_vis={this.state.error_email_vis}
@@ -197,6 +218,7 @@ class SignUpForm extends Component {
 
                     <TextInput type="password" name="password" title="Password" placeholder="Choose a password"
                                value={this.state.password}
+                               description="Password should be 7 characters minimum, with at least 1 numeral and 1 non-numeral."
                                handleChange={this.handleInputChange}
                                i_colour="green" i_status="check_box"
                                e_content={this.state.error_password} e_vis={this.state.error_password_vis}
@@ -204,6 +226,7 @@ class SignUpForm extends Component {
 
                     <TextInput type="password" name="password_re" title="Password (re-enter)" placeholder="Re-enter your password"
                                value={this.state.password_re}
+                               description=""
                                handleChange={this.handleInputChange}
                                i_colour="green" i_status="check_box"
                                e_content={this.state.error_password_re} e_vis={this.state.error_password_re_vis}

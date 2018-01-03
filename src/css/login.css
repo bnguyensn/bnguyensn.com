@@ -34,11 +34,16 @@
 
 .text-input-container {
     display: flex;
+    flex-flow: column wrap;
+}
+
+.text-input-label-container {
+    display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.text-input-container * {
+.text-input-label {
 
 }
 
@@ -59,10 +64,23 @@
     font-size: 100%;
 }
 
-.text-input-check {
+.text-input-indicator {
     margin: 5px;
 
     opacity: 0;
+}
+
+.text-input-description-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.text-input-description {
+    max-width: 250px;
+    margin-right: 39px;  /* Indicator's margin 5px + Indicator's size 34px */
+
+    /*text-align: right;*/
+    font-size: 75%;
 }
 
 /** ********* ERROR TOOLTIP ********* **/
