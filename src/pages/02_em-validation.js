@@ -149,7 +149,7 @@ export default function emValidation(em) {
         } else {
             // There are email syntax errors, let's flag to fix these first.
             // Since there are no async functions in this case, there's no need to call reject()
-            // and the Promise will always resolve().
+            // as the Promise will always resolve().
             resolve(em_syntax_errors);
         }
     })

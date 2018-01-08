@@ -15,7 +15,7 @@ class SignUpForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: 'test@example.com',
+            email: '',
             password: '1234567!',
             password_re: '1234567!',
             error_email: '',
@@ -31,6 +31,9 @@ class SignUpForm extends Component {
         this.processErrors = this.processErrors.bind(this);
         this.showErrors = this.showErrors.bind(this);
         this.hideErrors = this.hideErrors.bind(this);
+
+        this.checkEmail = this.checkEmail.bind(this);
+        this.checkPassword = this.checkPassword.bind(this);
         this.checkPasswordRe = this.checkPasswordRe.bind(this);
         this.checkAll = this.checkAll.bind(this);
 
@@ -47,6 +50,7 @@ class SignUpForm extends Component {
     }
 
     processErrors(name, error_msg) {
+        // This function is used when we have an unknown error message
         error_msg === '' ? this.hideErrors(name) : this.showErrors(name, error_msg);
     }
 
@@ -64,23 +68,61 @@ class SignUpForm extends Component {
         })
     }
 
-    /* ********** INDIVIDUAL CHECK FUNCTIONS ********** */
+    /* ********** FIELD CHECK FUNCTIONS ********** */
 
+    checkEmail(email) {
+        return new Promise((resolve, reject) => {
+            if (email === '') {
+                this.hideErrors('email');
+                resolve();
+            } else {
+                // Note that emValidation() is a Promise because we need to make a database request to check for email duplication.
+                emValidation(email).then(
+                    (error_msg) => {
+                        this.processErrors('email', error_msg);
+                        resolve();
+                    },
+                    (server_error_msg) => {
+                        this.processErrors('email', server_error_msg);
+                        reject();
+                    }
+                );
+            }
+        })
 
+    }
 
-    // This is a helper function to match password and password_re
-    checkPasswordRe() {
-        this.state.password_re === '' ? this.hideErrors('password_re') :
-            this.state.password_re !== this.state.password ?
+    checkPassword(password, password_re) {
+        if (password === '') {
+            this.hideErrors('password');
+
+            // Because password is linked to password_re, we should remove password_re errors as well
+            this.hideErrors('password_re');
+        } else {
+            this.processErrors('password', pwValidation(password));
+
+            // Because password is linked to password_re, we should match password and password_re as well
+            this.checkPasswordRe(password_re, password);
+        }
+    }
+
+    checkPasswordRe(password_re, password) {
+        password_re === '' ? this.hideErrors('password_re') :
+            (password_re !== password && password !== '') ?
                 this.showErrors('password_re', 'Password does not match password re-enter.') :
                 this.hideErrors('password_re');
     }
 
     // This checks all input fields.
-    // Since the email check is a Promise, this function should also be a Promise.
+    // Because checkEmail() is a Promise, this needs to be a Promise too.
     checkAll() {
         return new Promise((resolve, reject) => {
-
+            this.checkPassword(this.state.password, this.state.password_re);
+            this.checkPasswordRe(this.state.password_re, this.state.password);
+            this.checkEmail(this.state.email).then(
+                () => { resolve(); },
+                () => { reject(); }
+            );
         })
     }
 
@@ -115,53 +157,20 @@ class SignUpForm extends Component {
             switch (name) {
                 case 'email':
                     this.inputChangeWaited(value, name).then(
-                        () => {
-                            if (this.state.email === '') {
-                                // Don't display any errors if field is blank
-                                this.hideErrors('email');
-                            } else {
-                                // Check for errors in all other cases.
-                                // Note that emValidation() is a Promise because we need to make a database request
-                                // to check for email duplication.
-                                emValidation(this.state.email).then(
-                                    (error_msg) => {
-                                        this.processErrors('email', error_msg);
-                                    },
-                                    (error_msg) => {
-                                        this.processErrors('email', error_msg);
-                                    }
-                                );
-                            }
-                        },
-                        () => { /* Promise rejected. Don't really need to do anything */ }
+                        () => { this.checkEmail(this.state.email); },
+                        () => { /* Promise rejected (user is still typing). Don't really need to do anything */ }
                     );
                     break;
                 case 'password':
                     this.inputChangeWaited(value, name).then(
-                        () => {
-                            if (this.state.password === '') {
-                                this.hideErrors('password');
-
-                                // Because password is linked to password_re, we should remove password_re errors as well
-                                this.hideErrors('password_re');
-                            } else {
-                                this.processErrors('password', pwValidation(this.state.password));
-
-                                // Because password is linked to password_re, we should match password and password_re as well
-                                this.checkPasswordRe();
-                            }
-                        },
-                        () => { /* Promise rejected. Don't really need to do anything */ }
+                        () => { this.checkPassword(this.state.password, this.state.password_re); },
+                        () => { /* Promise rejected (user is still typing). Don't really need to do anything */ }
                     );
                     break;
                 case 'password_re':
                     this.inputChangeWaited(value, name).then(
-                        () => {
-                            if (this.state.password !== '') {
-                                this.checkPasswordRe();
-                            }
-                        },
-                        () => { /* Promise rejected. Don't really need to do anything */ }
+                        () => { this.checkPasswordRe(this.state.password_re, this.state.password); },
+                        () => { /* Promise rejected (user is still typing). Don't really need to do anything */ }
                     );
                     break;
             }
@@ -171,36 +180,38 @@ class SignUpForm extends Component {
     /* ********** HANDLE SUBMISSION ********** */
 
     handleSubmit(e) {
-
         this.checkAll().then(
-            () => {},
+            () => {
+                if ((this.state.email !== '' && this.state.password !== '' && this.state.password_re !== '') &&
+                    (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
+                    // Everything is filled in correctly, submission logic below
+
+                    // Make a POST request with email & password data. It'll be Promises all the way down from here.
+                    postNewUser(this.state.email, this.state.password).then(
+                        // Promise fulfilled (new user successfully created)
+                        (status) => {
+                            console.log(`Submission successful. Status: ${status}`);
+                        },
+                        // Promise rejected (something went wrong)
+                        (status) => {
+                            console.log(`Submission failed. Status: ${status}`);
+                        }
+                    );
+                } else {
+                    alert('Please ensure the form is filled in correctly.')
+                }
+            },
             () => {}
         );
-
-
-        if ((this.state.email !== '' && this.state.password !== '' && this.state.password_re !== '') &&
-            (this.state.error_email === '' && this.state.error_password === '' && this.state.error_password_re === '')) {
-            // Everything is filled in correctly, submission logic below
-
-            // Make a POST request with email & password data. It'll be Promises all the way down from here.
-            postNewUser(this.state.email, this.state.password).then(
-                // Promise fulfilled (new user successfully created)
-                (status) => {
-                    console.log(`Submission successful. Status: ${status}`);
-                },
-                // Promise rejected (something went wrong)
-                (status) => {
-                    console.log(`Submission failed. Status: ${status}`);
-                }
-            );
-        } else {
-            alert('Please ensure the form is filled in correctly.')
-        }
 
         e.preventDefault();
     }
 
     /* ********** RENDER ********** */
+
+    componentWillMount() {
+        this.checkAll();
+    }
 
     render() {
         return (
