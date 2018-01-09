@@ -8,30 +8,53 @@ import pwValidation from "./02_pwValidation";
 
 import {postNewUser} from "./02_login-network";
 
-// 'error-tooltip-hidden' is a CSS class in 'login.css' with where visibility and opacity are set to none"
-const hidden_clsname = 'error-tooltip-hidden';
+// Class name for the CSS class(es) that hide(s) elements.
+const hidden_clsname = 'hidden-vis-op';
+// This object is used for the indicator. The "icons" correspond to Google Font's icon font, while "colours" are found in index.css.
+const indicators = {
+    ok: 'check_box',
+    error: 'error',
+    loading: 'hourglass_empty',
+    ok_colour: 'green',
+    error_colour: 'red',
+    loading_colour: 'yellow',
+    hidden_colour: hidden_clsname
+};
 
 class SignUpForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
-            password: '1234567!',
-            password_re: '1234567!',
+            password: '',
+            password_re: '',
             error_email: '',
             error_password: '',
             error_password_re: '',
-            //The states below help show / hide the error tooltips
+            // The states below help show / hide the error tooltips
             error_email_vis: hidden_clsname,
             error_password_vis: hidden_clsname,
             error_password_re_vis: hidden_clsname,
+            // The states below manage the indicators
+            indicator_email: indicators.ok,
+            indicator_email_colour: indicators.hidden_colour,
+            indicator_password: indicators.ok,
+            indicator_password_colour: indicators.hidden_colour,
+            indicator_password_re: indicators.ok,
+            indicator_password_re_colour: indicators.hidden_colour,
         };
 
-        this.updateIndicator = this.updateIndicator.bind(this);
-        this.processErrors = this.processErrors.bind(this);
-        this.showErrors = this.showErrors.bind(this);
-        this.hideErrors = this.hideErrors.bind(this);
+        this.showIndicator = this.showIndicator.bind(this);
+        this.hideIndicator = this.hideIndicator.bind(this);
 
+        this.showErrorTooltip = this.showErrorTooltip.bind(this);
+        this.hideErrorTooltip = this.hideErrorTooltip.bind(this);
+        this.processErrorTooltip = this.processErrorTooltip.bind(this);
+
+        this.hideError = this.hideError.bind(this);
+        this.showError = this.showError.bind(this);
+        this.showNoError = this.showNoError.bind(this);
+        this.processError = this.processError.bind(this);
         this.checkEmail = this.checkEmail.bind(this);
         this.checkPassword = this.checkPassword.bind(this);
         this.checkPasswordRe = this.checkPasswordRe.bind(this);
@@ -43,63 +66,91 @@ class SignUpForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    /* ********** HELPERS ********** */
+    /* ********** STATUS INDICATORS ********** */
 
-    updateIndicator(status, colour) {
-
+    showIndicator(name, status, colour) {
+        this.setState({
+            [`indicator_${name}`]: status,
+            [`indicator_${name}_colour`]: colour
+        })
     }
 
-    processErrors(name, error_msg) {
-        // This function is used when we have an unknown error message
-        error_msg === '' ? this.hideErrors(name) : this.showErrors(name, error_msg);
+    hideIndicator(name) {
+        this.setState({ [`indicator_${name}_colour`]: indicators.hidden_colour })
     }
 
-    showErrors(name, error_msg) {
+    /* ********** ERROR TOOLTIPS ********** */
+
+    showErrorTooltip(name, error_msg) {
         this.setState({
             [`error_${name}`]: error_msg,
             [`error_${name}_vis`]: ''  // Essentially removing the hidden CSS class for the error tooltip
         });
     }
 
-    hideErrors(name) {
+    hideErrorTooltip(name) {
         this.setState({
             [`error_${name}`]: '',
             [`error_${name}_vis`]: hidden_clsname  // Essentially adding the hidden CSS class for the error tooltip
-        })
+        });
     }
 
-    /* ********** FIELD CHECK FUNCTIONS ********** */
+    processErrorTooltip(name, error_msg) {
+        // This function is used when we have an unknown error message
+        error_msg === '' ? this.hideErrorTooltip(name) : this.showErrorTooltip(name, error_msg);
+    }
+
+    /* ********** FIELD CHECKS ********** */
+
+    hideError(name) {
+        this.hideErrorTooltip(name);
+        this.hideIndicator(name);
+    }
+
+    showError(name, error_msg) {
+        this.showErrorTooltip(name, error_msg);
+        this.showIndicator(name, indicators.error, indicators.error_colour);
+    }
+
+    showNoError(name) {
+        this.hideErrorTooltip(name);
+        this.showIndicator(name, indicators.ok, indicators.ok_colour);
+    }
+
+    processError(name, error_msg) {
+        error_msg === '' ? this.showNoError(name) : this.showError(name, error_msg);
+    }
 
     checkEmail(email) {
         return new Promise((resolve, reject) => {
             if (email === '') {
-                this.hideErrors('email');
+                this.hideError('email');
                 resolve();
             } else {
                 // Note that emValidation() is a Promise because we need to make a database request to check for email duplication.
+                this.showIndicator('email', indicators.loading, indicators.loading_colour);  // This is usable because we have a Promise coming right after.
                 emValidation(email).then(
                     (error_msg) => {
-                        this.processErrors('email', error_msg);
+                        this.processError('email', error_msg);
                         resolve();
                     },
                     (server_error_msg) => {
-                        this.processErrors('email', server_error_msg);
+                        this.processError('email', server_error_msg);
                         reject();
                     }
                 );
             }
         })
-
     }
 
     checkPassword(password, password_re) {
         if (password === '') {
-            this.hideErrors('password');
+            this.hideError('password');
 
             // Because password is linked to password_re, we should remove password_re errors as well
-            this.hideErrors('password_re');
+            this.hideError('password_re');
         } else {
-            this.processErrors('password', pwValidation(password));
+            this.processError('password', pwValidation(password));
 
             // Because password is linked to password_re, we should match password and password_re as well
             this.checkPasswordRe(password_re, password);
@@ -107,10 +158,10 @@ class SignUpForm extends Component {
     }
 
     checkPasswordRe(password_re, password) {
-        password_re === '' ? this.hideErrors('password_re') :
+        password_re === '' ? this.hideError('password_re') :
             (password_re !== password && password !== '') ?
-                this.showErrors('password_re', 'Password does not match password re-enter.') :
-                this.hideErrors('password_re');
+                this.showError('password_re', 'Password does not match password re-enter.') :
+                this.showNoError('password_re');
     }
 
     // This checks all input fields.
@@ -126,7 +177,7 @@ class SignUpForm extends Component {
         })
     }
 
-    /* ********** HANDLE ALL INPUT CHANGES ********** */
+    /* ********** HANDLE INPUT CHANGES ********** */
 
     inputChangeWaited(value, name) {
         // Wait Xs before validating user input
@@ -177,7 +228,7 @@ class SignUpForm extends Component {
         });
     }
 
-    /* ********** HANDLE SUBMISSION ********** */
+    /* ********** SUBMISSION ********** */
 
     handleSubmit(e) {
         this.checkAll().then(
@@ -210,7 +261,7 @@ class SignUpForm extends Component {
     /* ********** RENDER ********** */
 
     componentWillMount() {
-        this.checkAll();
+        // this.checkAll();  // This is currently not needed as the default field values are '' so there won't be any errors.
     }
 
     render() {
@@ -222,7 +273,7 @@ class SignUpForm extends Component {
                                value={this.state.email}
                                description=""
                                handleChange={this.handleInputChange}
-                               i_colour="green" i_status="check_box"
+                               i_status={this.state.indicator_email} i_colour={this.state.indicator_email_colour}
                                e_content={this.state.error_email} e_vis={this.state.error_email_vis}
 
                     />
@@ -231,7 +282,7 @@ class SignUpForm extends Component {
                                value={this.state.password}
                                description="Password should be 7 characters minimum, with at least 1 numeral and 1 non-numeral."
                                handleChange={this.handleInputChange}
-                               i_colour="green" i_status="check_box"
+                               i_status={this.state.indicator_password} i_colour={this.state.indicator_password_colour}
                                e_content={this.state.error_password} e_vis={this.state.error_password_vis}
                     />
 
@@ -239,7 +290,7 @@ class SignUpForm extends Component {
                                value={this.state.password_re}
                                description=""
                                handleChange={this.handleInputChange}
-                               i_colour="green" i_status="check_box"
+                               i_status={this.state.indicator_password_re} i_colour={this.state.indicator_password_re_colour}
                                e_content={this.state.error_password_re} e_vis={this.state.error_password_re_vis}
                     />
 

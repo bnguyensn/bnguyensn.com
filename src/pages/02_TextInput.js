@@ -50,7 +50,7 @@ class TextInput extends Component {
                             <ErrorTooltip content={this.props.e_content} vis={this.props.e_vis}/>
                         </span>
                     </label>
-                    <Indicator colour={this.props.i_colour} status={this.props.i_status}/>
+                    <Indicator status={this.props.i_status} colour={this.props.i_colour}/>
                 </div>
                 <div className="text-input-description-container">
                     <span className="text-input-description">{this.props.description}</span>

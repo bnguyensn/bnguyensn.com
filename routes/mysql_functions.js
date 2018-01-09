@@ -3,7 +3,6 @@
 // Client side will need to send a GET / POST request to this middleware to access / modify the database
 
 const mysql = require('mysql');
-const mysql_config = require('../server/db/mysql-config');
 
 const pw_functions = require('../server/pw/hashPw');
 
@@ -13,7 +12,7 @@ function validateNewUserEntry(em, pw) {
 
 function queryDatabase(escapedQuery, connection_pool) {
     return new Promise((resolve, reject) => {
-        console.log(`Attempting to get a mysql connection from the pool)...`);
+        console.log(`Attempting to get a mysql connection from the pool...`);
         connection_pool.getConnection((err, connection) => {
             if (err) {
                 reject(err);
@@ -53,7 +52,7 @@ function checkEmDuplication(em, connection_pool) {
             },
             // Promise rejected
             (err) => {
-                console.log(`checkEmDuplication() failed. Error: ${err.code}: ${err}`);
+                console.log(`checkEmDuplication() failed. ${err}`);
                 reject();
             }
         );
@@ -75,7 +74,7 @@ function createUser(em, pw, connection_pool) {
             },
             // Promise rejected
             (err) => {
-                console.log(`createNewUserEntry() failed. Error: ${err.code}: ${err}`);
+                console.log(`createNewUserEntry() failed. ${err}`);
                 reject();
             }
         );

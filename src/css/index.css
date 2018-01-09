@@ -28,6 +28,8 @@ a {
 
 .hidden {display: none;}
 .hidden-vis {visibility: hidden;}
+.hidden-op {opacity: 0;}
+.hidden-vis-op {visibility: hidden; opacity: 0;}
 .block {display: block;}
 .inline-block {display: inline-block;}
 .text-left {text-align: left;}
@@ -70,3 +72,5 @@ a {
 .material-icons.green.inactive { color: rgba(102, 187, 106, 0.3); }
 .material-icons.red { color: rgba(239, 83, 80, 1); }  /* Red 400 */
 .material-icons.red.inactive { color: rgba(239, 83, 80, 0.3); }
+.material-icons.yellow { color: rgba(255,202,40 ,1); }  /* Amber 400 */
+.material-icons.yellow.inactive { color: rgba(255,202,40 ,0.3); }
