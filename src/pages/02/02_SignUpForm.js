@@ -3,10 +3,10 @@ import React, {Component} from 'react';
 import Form from './02_Form';
 import TextInput from './02_TextInput';
 
-import emValidation from "./02_em-validation";
-import pwValidation from "./02_pwValidation";
+import emValidation from "../../js/02/02_validation-em";
+import pwValidation from "../../js/02/02_validation-pw";
 
-import {postNewUser} from "./02_login-network";
+import {postNewUser} from "../../js/02/02_network";
 
 // Class name for the CSS class(es) that hide(s) elements.
 const hidden_clsname = 'hidden-vis-op';

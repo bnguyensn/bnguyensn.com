@@ -1,3 +1,8 @@
+/**
+ * Basic POST XMLHttpRequest function using Promise
+ * @param {string} url - The URL of the POST request
+ * @param {string} query - The query string of the POST request
+ */
 function post(url, query) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -15,7 +20,6 @@ function post(url, query) {
                 }
             }
         };
-        console.log(`Sending POST request to ${url}.`);
         xhr.send(query);
     })
 }

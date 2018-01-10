@@ -1,4 +1,4 @@
-// Run the server for production
+/** ********** INITIAL APP SETUP ********** **/
 
 const express = require('express');
 const path = require('path');
@@ -31,6 +31,7 @@ app.locals.db_connection_pool = mysql_setup.createConnectionPool();  //  This cr
 
 /** ********** LOAD MIDDLEWARES ********** **/
 
+// Default middlewares
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

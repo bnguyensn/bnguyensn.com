@@ -6,9 +6,9 @@
  * @return {String} error messages
  */
 
-import {postCheckEmDuplication} from './02_login-network';
+import {postCheckEmDuplication} from './02_network';
 
-const tld_json = require('../json/tld');  // Top-level domain list, to check domain validity
+const tld_json = require('../../json/tld');  // Top-level domain list, to check domain validity
 const tld_array = Object.keys(tld_json).map((k) => {return tld_json[k]});  // Convert the above to an array
 
 const errors_dict = {

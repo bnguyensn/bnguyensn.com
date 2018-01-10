@@ -9,11 +9,7 @@ function ErrorTooltip(props) {
 }
 
 function Indicator(props) {
-    /* This is the little icon next to the input field
-       Available statuses (Google Icon): check_box, error
-       Available colour (index.css): green, red
-    */
-
+    // This is the little icon next to the input field, indicating input errors (if any)
     return (
         <span>
             <i className={`text-input-indicator material-icons ${props.colour}`}>
