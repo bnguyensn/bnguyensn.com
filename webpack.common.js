@@ -1,3 +1,5 @@
+/** ********** WEBPACK CONFIG FILE 1/3 ********** **/
+
 const webpack = require('webpack');
 const path = require('path');
 const WebpackMd5Hash = require('webpack-md5-hash');
@@ -8,17 +10,19 @@ const WebpackMd5Hash = require('webpack-md5-hash');
    Hence we have to leave global variables out here
 */
 
-// Vendor packages
+/** List of external packages that are 'required' */
 const vendorPackages = [
     'react',
     'react-dom'
 ];
+
+/** List of external packages that are requested via CDN */
 const vendorCDNPackages = {
-    // Add any vendor CDN packages
+
 };
 
+/** The main configuration */
 module.exports = {
-    // Main config
     entry: {
         index: './src/index.js',
         login: './src/login.js',

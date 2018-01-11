@@ -1,3 +1,5 @@
+/** ********** WEBPACK CONFIG FILE 3/3 ********** **/
+
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
@@ -5,6 +7,7 @@ const common = require('./webpack.common.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+/** The main configuration */
 module.exports = () => {
     // Loader constants
     const urlLoaderSizeLimit = 32000;  // 32kb

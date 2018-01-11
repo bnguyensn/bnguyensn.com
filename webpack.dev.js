@@ -1,8 +1,11 @@
+/** ********** WEBPACK CONFIG FILE 2/3 ********** **/
+
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
+/** The main configuration */
 module.exports = () => {
     // Loader constants
     const urlLoaderSizeLimit = 32000;  // 32kb
