@@ -4,6 +4,7 @@
 
 * Node.js
 * Express
+* Webpack
 * React
 
 ### Boilerplate parts
@@ -44,7 +45,8 @@ src  /* Everything in here are client-side */
     |---t_index.html
     js
     |
-    index.js  /* Files directly under src/ will be used as entry point for webpack */ 
+    index.js  /* Files directly under src/ will be used as entry point for webpack */
+    index.html 
 
 views  /* Optional if you don't use a view engine */
 

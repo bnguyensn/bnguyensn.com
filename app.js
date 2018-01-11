@@ -6,6 +6,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');  // Needed to access POST requests' data
+const helmet = require('helmet');  // Production security package
 
 const mysql_setup = require('./server/db/setup');  // MySQL setup
 
@@ -36,6 +37,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+// Production security
+app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        // defaultSrc: ['https:'],  // This won't work for local builds
+        scriptSrc: ["'self'"],
+        styleSrc: ["'unsafe-inline'", "'self'", 'https://fonts.googleapis.com'],
+        objectSrc: ["'none'"],
+        reportUri: 'https://cspreport.bnguyensn.com'
+    }
+}));
 
 // The folder where generated production client files are
 app.use(express.static(path.join(__dirname, 'dist')));

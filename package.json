@@ -17,6 +17,7 @@
     "cookie-parser": "~1.x.x",
     "debug": "~3.x.x",
     "express": "~4.x.x",
+    "helmet": "^3.x.x",
     "morgan": "~1.x.x",
     "mysql": "^2.x.x",
     "pug": "2.0.0-rc.4",

@@ -48,7 +48,7 @@ module.exports = () => {
             new webpack.HotModuleReplacementPlugin(),
         ],
 
-        devtool: 'eval',
+        devtool: 'inline-source-map',
 
         devServer: {
             // The location of the "index.html" for webpack-dev-server:
