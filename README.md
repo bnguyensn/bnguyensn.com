@@ -1,6 +1,6 @@
 # 1d100
 
-###Underlying Technologies
+### Underlying Technologies
 
 * Node.js
 * Express
@@ -8,7 +8,7 @@
 
 ### Boilerplate parts
 
-######Essential generic files for any new projects that employ the same technologies
+###### Essential generic files for any new projects that employ the same technologies
 
 First, you should have these global packages:
 
