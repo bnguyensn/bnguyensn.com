@@ -1,0 +1,26 @@
+#header-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    padding: 5px 15px 5px 15px;
+
+    background-color: #212121;  /* Gray 900 */
+}
+
+.nav-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 10px 0 5px;
+    padding: 5px;
+
+
+
+    color: #fafafa;  /* Gray 50 */
+}
+
+.nav-button-content {
+
+}
