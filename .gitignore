@@ -1,3 +1,5 @@
+# ** ********** DEFAULT RULES ********* **
+
 # IntelliJ
 .idea
 *.iml
@@ -38,14 +40,19 @@ npm-debug.log
 # dotenv
 .env
 
+# macOS
+.DS_store
+
+# ** ********** CUSTOM RULES ********* **
+
 # dist folder
 dist
 
 # webpack stuff
 stats.json
 
-# macOS
-.DS_store
-
 # mysql
 /server/db/mysql-cfg.json
+
+# misc.
+webpack.config.js

@@ -1,11 +1,15 @@
 /** ******** MAIN COMPONENT OF THE HOMEPAGE ********** **/
 
 import React, {Component} from 'react';
-import Header from '../00/00_Header';
+
+import Button from './01_Button';
 import '../../css/home.css';
 
-/** Main content for the homepage */
-class HomeContent extends Component {
+
+
+
+/** Test content for the homepage */
+class TestContent extends Component {
     render() {
         return (
             <div id='home-content'>
@@ -24,8 +28,9 @@ class Home extends Component {
     render() {
         return (
             <div id='home-canvas'>
-                <Header />
-                <HomeContent />
+                <div id='home-content-container'>
+                    Some content
+                </div>
             </div>
         )
     }

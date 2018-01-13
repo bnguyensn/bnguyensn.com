@@ -39,37 +39,24 @@ module.exports = {
     module: {
         // Loaders config for various file types
         rules: [
+            // .css - Implemented differently for prod and dev. Please refer to these configs.
+
             // .js
             {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
             },
-            // .css
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            /*modules: true,  // TODO: implement CSS modules
-                             localIdentName: '[chunkhash]'*/
-                            importLoaders: 1
-                        }
-                    },
-                    'postcss-loader'
-                ],
-                exclude: /node_modules/
-            },
-            // Images
-            // Implemented in dev and prod configs
+
+            // Images - Implemented differently for prod and dev. Please refer to these configs.
+
             // JSONs
             {
                 test: /\.(json|geojson)$/,
                 use: 'json-loader',
                 exclude: /node_modules/
             },
+
             // Texts (raw files)
             {
                 test: /\.txt$/,

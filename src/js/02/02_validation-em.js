@@ -23,7 +23,11 @@ const errors_dict = {
 function checkLocalPart(lp) {
     return lp.length <= 0
 
-    // TODO: add all the special rules for local part
+    /* We only have 1 rule for local part here.
+    *  This is because we are going to do email validation on the server side anyway
+    *  and there being so many different validation rules for local part making it inefficient
+    *  to have client-side validation.
+    *  */
 }
 
 function checkDomain(d) {

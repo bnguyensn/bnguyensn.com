@@ -15,9 +15,9 @@ const indicators = {
     ok: 'check_box',
     error: 'error',
     loading: 'hourglass_empty',
-    ok_colour: 'green',
-    error_colour: 'red',
-    loading_colour: 'yellow',
+    ok_colour: 'md-green',
+    error_colour: 'md-red',
+    loading_colour: 'md-yellow',
     hidden_colour: hidden_clsname
 };
 

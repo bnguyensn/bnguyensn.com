@@ -3,12 +3,14 @@
 import React, {Component} from 'react';
 import '../../css/headerfooter.css';
 
-/** Navigation button component */
+/** Navigation button */
 function NavButton(props) {
     return (
         <a href={props.link}>
-            <div className="nav-button">
-                {props.content}
+            <div className='nav-button'>
+                <span className='nav-button-content'>
+                    {props.content}
+                </span>
             </div>
         </a>
     )
@@ -21,12 +23,19 @@ function NavButton(props) {
 class Header extends Component {
     render() {
         return (
-            <div id="header-container">
-                <NavButton link="/"
-                           content={<i className="nav-button-content material-icons md-24 md-light">home</i>}
-                />
-                <NavButton link="/about" content="About" />
-                <NavButton link="/projects" content="Projects" />
+            <div id='header-canvas'>
+                <div id='header-container'>
+                    <div id='header-main'>
+                        <NavButton link='/'
+                                   content={<i className='material-icons'>home</i>}
+                        />
+                        <NavButton link='/about' content='ABOUT' />
+                        <NavButton link='/projects' content='PROJECTS' />
+                    </div>
+                    <div id='header-side'>
+                        <NavButton link='/credits' content='CREDITS'/>
+                    </div>
+                </div>
             </div>
         )
     }

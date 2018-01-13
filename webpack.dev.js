@@ -19,6 +19,27 @@ module.exports = () => {
 
         module: {
             rules: [
+                /* .css - We use ExtractTextPlugin for prod. This plugin can't be used in dev because
+                 * it does not work with HotModuleReplacement
+                 */
+                {
+                    test: /\.css$/,
+                    use: [
+                        'style-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                /*modules: true,  // TODO: implement CSS modules
+                                 localIdentName: '[chunkhash]'*/
+                                importLoaders: 2
+                            }
+                        },
+                        'postcss-loader',
+                        'sass-loader'
+                    ],
+                    exclude: /node_modules/
+                },
+
                 // Images
                 {
                     test: /\.(png|jpg|gif)$/,

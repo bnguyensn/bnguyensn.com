@@ -21,6 +21,7 @@ Then the files you want are:
 
 ```
 .babelrc
+.env  /* NOTE: this file should NOT be committed to version control i.e. put it in your .gitignore. See the 'dotenv' package for details.
 .gitignore
 package.json
 postcss.config.js
@@ -30,7 +31,7 @@ webpack.dev.js
 webpack.prod.js
 ```
 
-With the `package.json`, do a `yarn install` :coffee:.
+Having the `package.json`, do a `yarn install` :coffee:.
 
 Now create these basic folders & files to finish:
 

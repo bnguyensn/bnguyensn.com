@@ -1,5 +1,5 @@
 * {
-    /* Make padding and border are included in the total width and height of elements */
+    /* Make padding and border included in the total width and height of elements */
     box-sizing: border-box;
 }
 
@@ -20,12 +20,6 @@ a {
     min-width: 280px;
 }
 
-.wrapper {
-    /* Center content horizontally when the screen is large */
-    max-width: 768px; /* Breakpoint is 768px */
-    margin: 0 auto; /* This center the class horizontally */
-}
-
 .hidden {display: none;}
 .hidden-vis {visibility: hidden;}
 .hidden-op {opacity: 0;}
@@ -41,8 +35,15 @@ a {
 
 /* ===== RESPONSIVE WEB DESIGN ===== */
 
-/* Change the size of certain elements to fit different screens */
+.rd-max-width { max-width: 768px; }
 
+/* Center content horizontally when the screen is large */
+.wrapper {
+    max-width: 768px; /* Breakpoint is 768px */
+    margin: 0 auto; /* This center the class horizontally */
+}
+
+/* Change the size of certain elements to fit different screens */
 @media only screen and (max-width: 768px) {
     body {
 
@@ -68,9 +69,9 @@ a {
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
 /* My custom colouring rules. */
-.material-icons.green { color: rgba(102, 187, 106, 1); }  /* Green 400 */
-.material-icons.green.inactive { color: rgba(102, 187, 106, 0.3); }
-.material-icons.red { color: rgba(239, 83, 80, 1); }  /* Red 400 */
-.material-icons.red.inactive { color: rgba(239, 83, 80, 0.3); }
-.material-icons.yellow { color: rgba(255,202,40 ,1); }  /* Amber 400 */
-.material-icons.yellow.inactive { color: rgba(255,202,40 ,0.3); }
+.material-icons.md-green { color: rgba(102, 187, 106, 1); }  /* Green 400 */
+.material-icons.md-green.inactive { color: rgba(102, 187, 106, 0.3); }
+.material-icons.md-red { color: rgba(239, 83, 80, 1); }  /* Red 400 */
+.material-icons.md-red.inactive { color: rgba(239, 83, 80, 0.3); }
+.material-icons.md-yellow { color: rgba(255,202,40 ,1); }  /* Amber 400 */
+.material-icons.md-yellow.inactive { color: rgba(255,202,40 ,0.3); }
