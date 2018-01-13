@@ -34,11 +34,18 @@
 
 .text-input-container {
     display: flex;
+    flex-flow: column wrap;
+
+    margin: 5px;
+}
+
+.text-input-label-container {
+    display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.text-input-container * {
+.text-input-label {
 
 }
 
@@ -59,10 +66,23 @@
     font-size: 100%;
 }
 
-.text-input-check {
-    margin: 5px;
+.text-input-description-container {
+    display: flex;
+    justify-content: flex-end;
+}
 
-    opacity: 0;
+.text-input-description {
+    max-width: 250px;
+    margin-right: 39px;  /* Indicator's margin 5px + Indicator's size 34px */
+
+    /*text-align: right;*/
+    font-size: 75%;
+}
+
+/** ********* INDICATOR ********* **/
+
+.text-input-indicator {
+    margin: 5px;
 }
 
 /** ********* ERROR TOOLTIP ********* **/

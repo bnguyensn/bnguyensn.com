@@ -1,8 +1,11 @@
+/** ********** WEBPACK CONFIG FILE 2/3 ********** **/
+
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
+/** The main configuration */
 module.exports = () => {
     // Loader constants
     const urlLoaderSizeLimit = 32000;  // 32kb
@@ -16,6 +19,27 @@ module.exports = () => {
 
         module: {
             rules: [
+                /* .css - We use ExtractTextPlugin for prod. This plugin can't be used in dev because
+                 * it does not work with HotModuleReplacement
+                 */
+                {
+                    test: /\.css$/,
+                    use: [
+                        'style-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                /*modules: true,  // TODO: implement CSS modules
+                                 localIdentName: '[chunkhash]'*/
+                                importLoaders: 2
+                            }
+                        },
+                        'postcss-loader',
+                        'sass-loader'
+                    ],
+                    exclude: /node_modules/
+                },
+
                 // Images
                 {
                     test: /\.(png|jpg|gif)$/,
@@ -45,7 +69,7 @@ module.exports = () => {
             new webpack.HotModuleReplacementPlugin(),
         ],
 
-        devtool: 'eval',
+        devtool: 'inline-source-map',
 
         devServer: {
             // The location of the "index.html" for webpack-dev-server:

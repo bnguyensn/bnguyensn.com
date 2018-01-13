@@ -1,11 +1,13 @@
-// Run the server for production
+/** ********** INITIAL APP SETUP ********** **/
 
+const dotenv = require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');  // Needed to access POST requests' data
+const helmet = require('helmet');  // Production security package
 
 const mysql_setup = require('./server/db/setup');  // MySQL setup
 
@@ -31,10 +33,23 @@ app.locals.db_connection_pool = mysql_setup.createConnectionPool();  //  This cr
 
 /** ********** LOAD MIDDLEWARES ********** **/
 
+// Default middlewares
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+// Production security
+app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        // defaultSrc: ['https:'],  // This won't work for local builds
+        scriptSrc: ["'self'"],
+        styleSrc: ["'unsafe-inline'", "'self'", 'https://fonts.googleapis.com'],
+        objectSrc: ["'none'"],
+        reportUri: 'https://cspreport.bnguyensn.com'
+    }
+}));
 
 // The folder where generated production client files are
 app.use(express.static(path.join(__dirname, 'dist')));

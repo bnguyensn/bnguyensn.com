@@ -1,3 +1,5 @@
+/** ********** WEBPACK CONFIG FILE 1/3 ********** **/
+
 const webpack = require('webpack');
 const path = require('path');
 const WebpackMd5Hash = require('webpack-md5-hash');
@@ -8,17 +10,19 @@ const WebpackMd5Hash = require('webpack-md5-hash');
    Hence we have to leave global variables out here
 */
 
-// Vendor packages
+/** List of external packages that are 'required' */
 const vendorPackages = [
     'react',
     'react-dom'
 ];
+
+/** List of external packages that are requested via CDN */
 const vendorCDNPackages = {
-    // Add any vendor CDN packages
+
 };
 
+/** The main configuration */
 module.exports = {
-    // Main config
     entry: {
         index: './src/index.js',
         login: './src/login.js',
@@ -35,37 +39,24 @@ module.exports = {
     module: {
         // Loaders config for various file types
         rules: [
+            // .css - Implemented differently for prod and dev. Please refer to these configs.
+
             // .js
             {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
             },
-            // .css
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            /*modules: true,  // TODO: implement CSS modules
-                             localIdentName: '[chunkhash]'*/
-                            importLoaders: 1
-                        }
-                    },
-                    'postcss-loader'
-                ],
-                exclude: /node_modules/
-            },
-            // Images
-            // Implemented in dev and prod configs
+
+            // Images - Implemented differently for prod and dev. Please refer to these configs.
+
             // JSONs
             {
                 test: /\.(json|geojson)$/,
                 use: 'json-loader',
                 exclude: /node_modules/
             },
+
             // Texts (raw files)
             {
                 test: /\.txt$/,

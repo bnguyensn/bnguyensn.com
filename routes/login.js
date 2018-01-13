@@ -4,9 +4,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const db_functions = require('./mysql_functions');
+/** Contains our app server's database functions */
+const db_functions = require('./mysql');
 
-// Set up route
+/** Set up root route */
 router.get('/', (req, res, next) => {
     const msg = 'Opening login page';
     console.log(msg);
@@ -16,6 +17,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
+/** Set up route to check the database for email duplication */
 router.post('/api/checkemduplication', (req, res, next) => {
     db_functions.checkEmDuplication(req.body.em, req.app.locals.db_connection_pool).then(
         (results) => {
@@ -29,6 +31,7 @@ router.post('/api/checkemduplication', (req, res, next) => {
     .catch(next);
 });
 
+/** Set up route to create a new user in the database */
 router.post('/api/createuser', (req, res, next) => {
     db_functions.createUser(req.body.em, req.body.pw, req.app.locals.db_connection_pool).then(
         () => {

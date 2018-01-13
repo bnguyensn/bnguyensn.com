@@ -6,9 +6,9 @@
  * @return {String} error messages
  */
 
-import {postCheckEmDuplication} from './02_login-network';
+import {postCheckEmDuplication} from './02_network';
 
-const tld_json = require('../json/tld');  // Top-level domain list, to check domain validity
+const tld_json = require('../../json/tld');  // Top-level domain list, to check domain validity
 const tld_array = Object.keys(tld_json).map((k) => {return tld_json[k]});  // Convert the above to an array
 
 const errors_dict = {
@@ -23,7 +23,11 @@ const errors_dict = {
 function checkLocalPart(lp) {
     return lp.length <= 0
 
-    // TODO: add all the special rules for local part
+    /* We only have 1 rule for local part here.
+    *  This is because we are going to do email validation on the server side anyway
+    *  and there being so many different validation rules for local part making it inefficient
+    *  to have client-side validation.
+    *  */
 }
 
 function checkDomain(d) {
@@ -149,7 +153,7 @@ export default function emValidation(em) {
         } else {
             // There are email syntax errors, let's flag to fix these first.
             // Since there are no async functions in this case, there's no need to call reject()
-            // and the Promise will always resolve().
+            // as the Promise will always resolve().
             resolve(em_syntax_errors);
         }
     })

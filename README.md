@@ -1,1 +1,55 @@
 # 1d100
+
+### Underlying Technologies
+
+* Node.js
+* Express
+* Webpack
+* React
+
+### Boilerplate parts
+
+###### Essential generic files for any new projects that employ the same technologies
+
+First, you should have these global packages:
+
+```
+yarn
+```
+
+Then the files you want are:
+
+```
+.babelrc
+.env  /* NOTE: this file should NOT be committed to version control i.e. put it in your .gitignore. See the 'dotenv' package for details.
+.gitignore
+package.json
+postcss.config.js
+README.md
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+```
+
+Having the `package.json`, do a `yarn install` :coffee:.
+
+Now create these basic folders & files to finish:
+
+```
+routes  /* Server-side express routes */
+    index.js
+
+src  /* Everything in here are client-side */
+    css
+    |---index.css
+    html  /* Store .html template for webpack's production build */
+    |---t_index.html
+    js
+    |
+    index.js  /* Files directly under src/ will be used as entry point for webpack */
+    index.html 
+
+views  /* Optional if you don't use a view engine */
+
+app.js  /* Server-side express standard app.js */
+```
