@@ -1,14 +1,8 @@
-/** ******** MAIN COMPONENT OF THE HOMEPAGE ********** **/
-
 import React, {Component} from 'react';
-
-import Button from './01_Button';
+import ControlPanel from './01_ControlPanel';
+import MessageBoard from './01_MessageBoard';
 import '../../css/home.css';
 
-
-
-
-/** Test content for the homepage */
 class TestContent extends Component {
     render() {
         return (
@@ -23,12 +17,13 @@ class TestContent extends Component {
     }
 }
 
-/** Homepage layout */
 class Home extends Component {
     render() {
         return (
             <div id='home-canvas'>
                 <div id='home-content-container'>
+                    <ControlPanel />
+
                     Some content
                 </div>
             </div>

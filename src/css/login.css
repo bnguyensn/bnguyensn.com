@@ -142,10 +142,12 @@
 
     background-color: #7CB342;  /* Light Green 600 */
 
+    text-align: center;
     font-size: 100%;
     color: #FAFAFA;  /* Grey 50 */
 
     cursor: pointer;
+    user-select: none;
 }
 
 .input-submit-btn:hover {

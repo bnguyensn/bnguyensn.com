@@ -14,14 +14,59 @@
 
     height: 100vh;
     max-width: 768px;
-    padding: 10px;
 
     font-size: 1.5em;
 }
 
-/** *********  ********* **/
+/** ********* CONTROL PANEL ********* **/
 
+.cp-container {
+    display: flex;
+    justify-content: center;
 
+    margin: 10px;
+}
+
+.cp-bar {
+    display: inline-flex;
+    justify-content: center;
+
+    background-color: #424242;  /* Grey 800 */
+}
+
+.cp-btn-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 5px;
+
+    border-bottom: 3px solid #BDBDBD;  /* Grey 400 */
+
+    text-align: center;
+    color: #BDBDBD;  /* Gray 400 */
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.cp-btn-container > span {
+
+}
+
+.cp-btn-container:hover {
+    color: #9CCC65;  /* Light Green 400 */
+
+    border-bottom-color: #9CCC65;  /* Light Green 400 */
+}
+
+.cp-btn-container:active {
+    color: #7CB342;  /* Light Green 600 */
+
+    border-bottom-color: #7CB342;  /* Light Green 600 */
+}
+
+/** ********* MESSAGE BOARD ********* **/
 
 /** ********* HOMEPAGE BUTTONS ********* **/
 

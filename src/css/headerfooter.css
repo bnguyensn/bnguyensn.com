@@ -36,25 +36,27 @@
 
 /** ********* COMPONENTS ********* **/
 
-.nav-button {
+.nav-btn-link {
     margin: 0 10px 0 10px;
     padding: 5px;
 
     color: #BDBDBD;  /* Gray 400 */
+
+    user-select: none;
 }
 
-.nav-button:hover {
+.nav-btn-link:hover {
     color: #FAFAFA;  /* Grey 50 */
 
     text-shadow: 1px 1px 2px;
 }
 
-.nav-button:active {
+.nav-btn-link:active {
     color: #FAFAFA;  /* Grey 50 */
 
     text-shadow: 0 0 2px;
 }
 
-.nav-button-content {
+.nav-btn-content {
 
 }

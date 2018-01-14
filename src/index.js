@@ -1,5 +1,3 @@
-/** ******** ENTRY POINT OF THE WEBSITE ********** **/
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from './pages/00/00_Header';
