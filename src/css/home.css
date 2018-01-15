@@ -31,6 +31,10 @@
     display: inline-flex;
     justify-content: center;
 
+    padding: 0 5px 0 5px;
+
+    border-radius: 5px;
+
     background-color: #424242;  /* Grey 800 */
 }
 
@@ -41,7 +45,7 @@
 
     padding: 5px;
 
-    border-bottom: 3px solid #BDBDBD;  /* Grey 400 */
+    /*border-bottom: 3px solid #BDBDBD;  !* Grey 400 *!*/
 
     text-align: center;
     color: #BDBDBD;  /* Gray 400 */
@@ -50,20 +54,35 @@
     user-select: none;
 }
 
-.cp-btn-container > span {
-
+.cp-btn-container i {
+    font-size: 1.5em;
 }
 
-.cp-btn-container:hover {
-    color: #9CCC65;  /* Light Green 400 */
-
-    border-bottom-color: #9CCC65;  /* Light Green 400 */
+.cp-btn-container svg {
+    width: 1.5em; height: 1.5em;
 }
 
-.cp-btn-container:active {
-    color: #7CB342;  /* Light Green 600 */
+.cp-btn-container path {
+    fill: #BDBDBD;  /* Grey 400 */
+}
 
-    border-bottom-color: #7CB342;  /* Light Green 600 */
+.cp-btn-container.btn-msg:hover {
+    color: #4CAF50;  /* Green 500 */
+
+    /*border-bottom-color: #4CAF50;  !* Green 500 *!*/
+}
+
+.cp-btn-container.btn-twitter:hover {
+    /*border-bottom-color: #1DA1F2;  !* Twitter *!*/
+}
+.cp-btn-container.btn-twitter:hover path {
+    fill: #1DA1F2;  /* Twitter */
+}
+
+.cp-btn-container.btn-help:hover {
+    color: #AB47BC;  /* Purple 400 */
+
+    /*border-bottom-color: #AB47BC;  !* Purple 400 *!*/
 }
 
 /** ********* MESSAGE BOARD ********* **/
