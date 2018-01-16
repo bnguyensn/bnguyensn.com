@@ -20,18 +20,20 @@ a {
     min-width: 280px;
 }
 
-.hidden {display: none;}
-.hidden-vis {visibility: hidden;}
-.hidden-op {opacity: 0;}
-.hidden-vis-op {visibility: hidden; opacity: 0;}
-.block {display: block;}
-.inline-block {display: inline-block;}
-.text-left {text-align: left;}
-.text-center {text-align: center;}
-.text-right {text-align: right;}
-.text-justify {text-align: justify;}
-.text-bold {font-weight: bold;}
-.color-teal {color: #009688; /* Teal 500 */}
+.hidden { display: none; }
+.hidden-vis { visibility: hidden; }
+.hidden-op { opacity: 0; }
+.hidden-vis-op { visibility: hidden; opacity: 0; }
+
+.block { display: block; }
+.inline-block { display: inline-block; }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+.min-width-100p {min-width: 100%;}
 
 /* ===== COLOURS ===== */
 

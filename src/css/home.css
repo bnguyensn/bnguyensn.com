@@ -30,11 +30,14 @@
     display: inline-flex;
     justify-content: center;
 
+    min-width: 0;  /* Needed for transition as can't do 'auto' -> x */
     padding: 0 5px 0 5px;
 
     border-radius: 5px;
 
     background-color: #424242;  /* Grey 800 */
+
+    transition: min-width 0.5s;
 }
 
 .cp-btn-container {
