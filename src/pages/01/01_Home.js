@@ -23,8 +23,7 @@ class Home extends Component {
             <div id='home-canvas'>
                 <div id='home-content-container'>
                     <ControlPanel />
-
-                    Some content
+                    <MessageBoard />
                 </div>
             </div>
         )

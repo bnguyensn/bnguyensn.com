@@ -5,7 +5,7 @@ import Home from './pages/01/01_Home';
 import './css/index.css';
 
 ReactDOM.render(
-    <div id="root-container">
+    <div id="root-canvas">
         <Header />
         <Home />
     </div>,

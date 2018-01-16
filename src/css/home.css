@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
 
-    height: 100vh;
+    min-height: 100vh;
 
     background: url("../img/binding_light.png");
 }
@@ -12,15 +12,14 @@
 #home-content-container {
     flex-grow: 1;
 
-    height: 100vh;
     max-width: 768px;
 
     font-size: 1.5em;
 }
 
-/** ********* CONTROL PANEL ********* **/
+/** ********* CONTROL PANEL - PART 1 ********* **/
 
-.cp-container {
+.cp-canvas {
     display: flex;
     justify-content: center;
 
@@ -45,10 +44,8 @@
 
     padding: 5px;
 
-    /*border-bottom: 3px solid #BDBDBD;  !* Grey 400 *!*/
-
     text-align: center;
-    color: #BDBDBD;  /* Gray 400 */
+    color: #BDBDBD;  /* Grey 400 */
 
     cursor: pointer;
     user-select: none;
@@ -68,24 +65,30 @@
 
 .cp-btn-container.btn-msg:hover {
     color: #4CAF50;  /* Green 500 */
-
-    /*border-bottom-color: #4CAF50;  !* Green 500 *!*/
 }
 
-.cp-btn-container.btn-twitter:hover {
-    /*border-bottom-color: #1DA1F2;  !* Twitter *!*/
-}
+.cp-btn-container.btn-twitter:hover {}
 .cp-btn-container.btn-twitter:hover path {
     fill: #1DA1F2;  /* Twitter */
 }
 
 .cp-btn-container.btn-help:hover {
     color: #AB47BC;  /* Purple 400 */
-
-    /*border-bottom-color: #AB47BC;  !* Purple 400 *!*/
 }
 
+/** ********* CONTROL PANEL - PART 2 ********* **/
+
+
+
 /** ********* MESSAGE BOARD ********* **/
+
+.msgb-canvas {
+    display: flex;
+
+    margin: 10px;
+
+    background-color: #BDBDBD;  /* Grey 400 */
+}
 
 /** ********* HOMEPAGE BUTTONS ********* **/
 
