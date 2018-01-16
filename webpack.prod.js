@@ -111,6 +111,12 @@ module.exports = () => {
                 chunks: ['chat', 'vendor', 'manifest'],
                 filename: '../chat.html'
             }),
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/html/t_celeborigin.html'),
+                //inject: true,
+                chunks: ['celeborigin', 'vendor', 'manifest'],
+                filename: '../celeborigin.html'
+            }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
             // For development builds, we use NamedModulesPlugin instead

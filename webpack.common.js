@@ -27,6 +27,7 @@ module.exports = {
         index: './src/index.js',
         login: './src/login.js',
         chat: './src/chat.js',
+        celeborigin: './src/celeborigin.js',
         vendor: vendorPackages
     },
 
