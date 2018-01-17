@@ -27,7 +27,7 @@ class TextInput extends Component {
     }
 
     handleChange(e) {
-        this.props.handleChange(e);
+        this.props.handleInputChange(e);
     }
 
     render() {
