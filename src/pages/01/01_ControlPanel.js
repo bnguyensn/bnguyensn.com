@@ -37,12 +37,12 @@ function TextInput(props) {
         props.handleChange(e);
     }
 
-    function toggleTextInput(e) {
-        props.toggleTextInput(e);
+    function toggleTextBarExpansion(e) {
+        props.toggleTextBarExpansion(e);
     }
 
     return (
-        <div className={`cp-inp-container ${props.widthControl}`} name='message' onTransitionEnd={toggleTextInput}>
+        <div className={`cp-inp-container ${props.widthControl}`} name='message' onTransitionEnd={toggleTextBarExpansion}>
             <input className={`cp-inp ${props.isShown}`}
                    name={props.name}
                    type='text'
@@ -63,10 +63,11 @@ class ControlPanel extends Component {
         this.actionTweet = this.actionTweet.bind(this);
         this.actionHelp = this.actionHelp.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.toggleTextInput = this.toggleTextInput.bind(this);
+        this.toggleTextBarExpansion = this.toggleTextBarExpansion.bind(this);
 
         this.state = {
             message_btn_clicked: false,
+            message_bar_expanded: false,
             message_field_isShown: 'hidden',
             message: ''
         }
@@ -82,6 +83,7 @@ class ControlPanel extends Component {
         this.setState((prevState, props) => {
             return {
                 message_btn_clicked: !prevState.message_btn_clicked,
+                message_field_isShown: prevState.message_bar_expanded ? 'hidden' : prevState.message_field_isShown
             }
         });
     }
@@ -102,13 +104,14 @@ class ControlPanel extends Component {
         });
     }
 
-    toggleTextInput(e) {
+    toggleTextBarExpansion(e) {
         const name = e.target.getAttribute('name');
-        const isShown = this.state[`${name}_btn_clicked`] ? '' : 'hidden';
-        this.setState({
-            [`${name}_field_isShown`]: isShown
+        this.setState((prevState, props) => {
+            return {
+                [`${name}_bar_expanded`]: !prevState[`${name}_bar_expanded`],
+                [`${name}_field_isShown`]: prevState[`${name}_bar_expanded`] ? prevState[`${name}_field_isShown`] : ''
+            }
         });
-        console.log(`Text input toggled! e.target.name = ${name}`);
     }
 
     /* ********** MAIN ********** */
@@ -131,7 +134,7 @@ class ControlPanel extends Component {
                                placeholder='Type in some message...'
                                value={this.state.message}
                                handleChange={this.handleInputChange}
-                               toggleTextInput={this.toggleTextInput} />
+                               toggleTextBarExpansion={this.toggleTextBarExpansion} />
                     <ButtonSVG path='M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z'
                                name='btn-twitter'
                                handleClick={this.actionTweet} />
