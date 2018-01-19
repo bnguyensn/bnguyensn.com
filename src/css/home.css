@@ -91,6 +91,10 @@
     transition: width 0.5s;
 }
 
+.cp-inp-container-max {
+    width: 600px;
+}
+
 .cp-inp {
     width: 100%;
     border: none;
