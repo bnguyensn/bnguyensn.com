@@ -88,13 +88,13 @@
     align-items: center;
 
     width: 0;
-    padding: 5px;
 
-    transition: width 0.5s;
+    transition: 0.5s;
 }
 
 .cp-inp-container-max {
     width: 600px;
+    padding: 5px;
 }
 
 .cp-inp-container-max .cp-inp {
@@ -108,7 +108,7 @@
 
     border-radius: 2px;
 
-    transition: padding 0.5s;
+    transition: 0.5s;
 }
 
 /** ********* MESSAGE BOARD ********* **/
@@ -117,8 +117,63 @@
     display: flex;
 
     margin: 10px;
+    padding: 10px;
+}
 
-    background-color: #BDBDBD;  /* Grey 400 */
+.msgb-msg-container {
+    display: flex;
+
+    border: 1px solid #4CAF50;  /* Green 500 */
+
+    border-radius: 5px;
+
+    background-color: #C8E6C9;  /* Green 100 */
+
+
+}
+
+.msgb-msg-container > * {
+    padding: 5px;
+}
+
+.msgb-msg-icon-container {
+    display: inline-flex;
+    align-items: center;
+
+    user-select: none;
+}
+
+.msgb-msg-icon-container * {
+    font-size: 1.5em;
+}
+
+.msgb-msg-body-container {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.msgb-msg-body-container > * {
+    width: 100%;
+
+    padding: 1px;
+}
+
+.msgb-msg-subject {
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.msgb-msg-message {
+    font-size: 0.6em;
+
+    text-align: justify;
+}
+
+.msgb-msg-timestamp {
+    font-style: italic;
+    font-size: 0.4em;
+
+    text-align: right;
 }
 
 /** ********* HOMEPAGE BUTTONS ********* **/

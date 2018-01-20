@@ -39,7 +39,7 @@ function TextInput(props) {
 
     return (
         <div className={`cp-inp-container ${props.widthControl}`} name='message'>
-            <input className={`cp-inp ${props.isShown}`}
+            <input className={`cp-inp`}
                    name={props.name}
                    type='text'
                    placeholder={props.placeholder}

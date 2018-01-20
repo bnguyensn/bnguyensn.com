@@ -2,47 +2,32 @@ import React, {Component} from 'react';
 
 const PostDatabase = {};
 
-function PostIcon(props) {
+function MsgIcon(props) {
     return (
-        <div className='msgb-post-icon-container'>
-            <img className='msgb-post-icon' src={props.icon}/>
+        <div className='msgb-msg-icon-container'>
+            {props.icon}
         </div>
     )
 }
 
-function PostBodyMessage(props) {
+function MsgBody(props) {
+    const d = new Date();
+    const dStr = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+
     return (
-        <div className='msgb-post-body-msg-container'>
-            <p>
-                <span className='msgb-post-body-msg-subject'>{props.subject}</span>
-                <p className='msgb-post-body-msg-message'>{props.message}</p>
-            </p>
+        <div className='msgb-msg-body-container'>
+            <div className='msgb-msg-subject'>{props.subject}</div>
+            <div className='msgb-msg-message'>{props.message}</div>
+            <div className='msgb-msg-timestamp'>{dStr}</div>
         </div>
     )
 }
 
-function PostBodyTimestamp(props) {
+function Msg(props) {
     return (
-        <div className='msgb-post-body-timestamp'>
-
-        </div>
-    )
-}
-
-function PostBody(props) {
-    return (
-        <div className='msgb-post-body-container'>
-            <PostBodyMessage subject={props.subject} message={props.message} />
-            <PostBodyTimestamp />
-        </div>
-    )
-}
-
-function Post(props) {
-    return (
-        <div className='msgb-post-container'>
-            <PostIcon icon={props.icon} />
-            <PostBody subject={props.subject} message={props.message} />
+        <div className='msgb-msg-container'>
+            <MsgIcon icon={props.icon} />
+            <MsgBody subject={props.subject} message={props.message} />
         </div>
     )
 }
@@ -78,8 +63,10 @@ class MessageBoard extends Component {
     render() {
         return (
             <div className='msgb-canvas'>
-                {this.state.scroll_y}
-                {this.state.scroll_y_bottom}
+                <Msg icon={<i className='material-icons'>message</i>}
+                     subject='Test subject'
+                     message={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec pharetra nisl. Curabitur
+                      non metus. ${this.state.scroll_y} | ${this.state.scroll_y_bottom}`} />
             </div>
         )
     }
