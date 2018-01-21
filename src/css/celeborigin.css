@@ -1,0 +1,36 @@
+#game-canvas {
+    max-width: 768px;
+}
+
+.celeb-card-container {
+    border: 1px solid #212121;  /* Grey 900 */
+    padding: 5px;
+}
+
+.celeb-img {
+    border: 1px solid #212121;  /* Grey 900 */
+}
+
+ul.ans-list {
+    margin: 0;
+    padding: 0;
+
+    list-style-type: none;
+}
+
+li.ans-container {
+    display: flex;
+    align-items: center;
+
+    margin: 1px;
+    padding: 1px;
+}
+
+.ans-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.ans-text {
+    padding: 1px;
+}

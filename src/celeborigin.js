@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import GameCanvas from './pages/04/04_GameCanvas';
 //import Footer from './pages/00_Footer';
 import './css/index.css';
+import './css/celeborigin.css';
 
 ReactDOM.render(
     <div id="celeb-origin-canvas">
