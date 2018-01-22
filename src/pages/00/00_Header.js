@@ -1,14 +1,11 @@
-/** ******** HEADER ********** **/
-
 import React, {Component} from 'react';
 import '../../css/headerfooter.css';
 
-/** Navigation button */
 function NavButton(props) {
     return (
-        <a href={props.link}>
-            <div className='nav-button'>
-                <span className='nav-button-content'>
+        <a className='nav-btn-link' href={props.link}>
+            <div className='nav-btn'>
+                <span className='nav-btn-content'>
                     {props.content}
                 </span>
             </div>
@@ -16,10 +13,6 @@ function NavButton(props) {
     )
 }
 
-/**
- * Header component
- * Navigation structures: Home | About | Projects
- */
 class Header extends Component {
     render() {
         return (

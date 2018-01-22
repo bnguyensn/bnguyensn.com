@@ -20,18 +20,45 @@ a {
     min-width: 280px;
 }
 
-.hidden {display: none;}
-.hidden-vis {visibility: hidden;}
-.hidden-op {opacity: 0;}
-.hidden-vis-op {visibility: hidden; opacity: 0;}
-.block {display: block;}
-.inline-block {display: inline-block;}
-.text-left {text-align: left;}
-.text-center {text-align: center;}
-.text-right {text-align: right;}
-.text-justify {text-align: justify;}
-.text-bold {font-weight: bold;}
-.color-teal {color: #009688; /* Teal 500 */}
+.hidden { display: none; }
+.hidden-vis { visibility: hidden; }
+.hidden-op { opacity: 0; }
+.hidden-vis-op { visibility: hidden; opacity: 0; }
+
+.block { display: block; }
+.inline-block { display: inline-block; }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+.width-0 {width: 0;}
+.width-100p {width: 100%;}
+.min-width-100p {min-width: 100%;}
+
+/* ===== COLOURS ===== */
+
+.red { background-color: #ef5350; }  /* Red 400 */
+.orange { background-color: #FFA726; }  /* Orange 400 */
+.yellow { background-color: #FFEE58; }  /* Yellow 400 */
+.blue { background-color: #42A5F5; }  /* Blue 400 */
+.green { background-color: #66BB6A; }  /* Green 400 */
+.indigo { background-color: #7986CB; }  /* Indigo 400 */
+.purple { background-color: #BA68C8; }  /* Purple 400 */
+
+.b-red { background-color: #e53935; }  /* Red 400 */
+.b-blue { background-color: #1E88E5; }  /* Blue 400 */
+.b-green { background-color: #43A047; }  /* Green 400 */
+
+.b-red:hover { background-color: #d32f2f; }  /* Red 200 */
+.b-blue:hover { background-color: #1976D2; }  /* Blue 200 */
+.b-green:hover { background-color: #388E3C; }  /* Green 200 */
+
+.b-red:active { background-color: #c62828; }  /* Red 600 */
+.b-blue:active { background-color: #1565C0; }  /* Blue 600 */
+.b-green:active { background-color: #2E7D32; }  /* Green 600 */
+
 
 /* ===== RESPONSIVE WEB DESIGN ===== */
 
@@ -54,21 +81,26 @@ a {
 
 /* Google's material design icon guidelines */
 
-/* Rules for sizing the icon. */
+/* Rules for sizing the icon */
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 
-/* Rules for using icons as black on a light background. */
+/* My custom sizing rules */
+svg.msvg-24 { width: 24px; height: 24px; }
+svg.msvg-36 { width: 36px; height: 36px; }
+path.msvg-grey { fill: #BDBDBD; }  /* Grey 400 */
+
+/* Rules for using icons as black on a light background */
 .material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
 .material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
 
-/* Rules for using icons as white on a dark background. */
+/* Rules for using icons as white on a dark background */
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
-/* My custom colouring rules. */
+/* My custom colouring rules */
 .material-icons.md-green { color: rgba(102, 187, 106, 1); }  /* Green 400 */
 .material-icons.md-green.inactive { color: rgba(102, 187, 106, 0.3); }
 .material-icons.md-red { color: rgba(239, 83, 80, 1); }  /* Red 400 */
