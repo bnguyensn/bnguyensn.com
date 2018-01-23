@@ -17,13 +17,22 @@ class TestContent extends Component {
     }
 }
 
+function Intro(props) {
+    return (
+        <div id='home-intro'>
+            <span id='home-intro-s-1'>Hello,</span> I am a dude living in London who likes to code, draw, and read.
+            <br/><br/>
+            This place holds my writings, as well as my projects. Explore on and tell me what you think!
+        </div>
+    )
+}
+
 class Home extends Component {
     render() {
         return (
             <div id='home-canvas'>
                 <div id='home-content-container'>
-                    <ControlPanel />
-                    <MessageBoard />
+                    <Intro />
                 </div>
             </div>
         )

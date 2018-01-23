@@ -4,57 +4,99 @@
     display: flex;
     justify-content: center;
 
-    background-color: #212121;  /* Gray 900 */
+    background: url("../img/binding_light.png");
 }
 
 #header-container {
     display: flex;
 
+    margin: 10px;
     width: 768px;
+    border-bottom: 2px solid #212121;
 }
 
-#header-main, #header-side {
+/** ********* HEADER CONTENT ********* **/
+
+#header-title, #header-navs {
     display: inline-flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
-    flex-grow: 1;
 
     padding: 5px 15px 5px 15px;
-
-    font-size: 1.5em;
 }
 
-#header-side {
-    justify-content: right;
+#header-title {
+    flex-grow: 1;
 }
 
-#header-main *, #header-side * {
+#header-navs > * {
+    flex-grow: 1;
+}
+
+@media only screen and (max-width: 576px) {  /* 512px is roughly when the header gets too tight */
+    #header-title {
+        display: none;
+    }
+    #header-navs {
+        flex-grow: 1;
+    }
+}
+
+@media only screen and (min-width: 577px) {  /* 512px is roughly when the header gets too tight */
+    #header-title {
+        display: inline-flex;
+    }
+    #header-navs {
+        flex-grow: 0;
+    }
+}
+
+
+.nav-btn-link {
     display: inline-flex;
     justify-content: center;
     align-items: center;
 }
 
-/** ********* COMPONENTS ********* **/
+.nav-btn-title .nav-btn-content {
+    color: #1B5E20;
+}
+
+@media only screen and (max-width: 576px) {  /* 576px is roughly when 'binh nguyen' becomes 2 lines */
+    .nav-btn-title {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 577px) {  /* 576px is roughly when 'binh nguyen' becomes 2 lines */
+    .nav-btn-title {
+        display: inline-flex;
+    }
+}
+
+
+
+/** ********* NAV BUTTONS ********* **/
 
 .nav-btn-link {
     margin: 0 10px 0 10px;
     padding: 5px;
 
-    color: #BDBDBD;  /* Gray 400 */
+    color: #212121;
 
     user-select: none;
 }
 
 .nav-btn-link:hover {
-    color: #FAFAFA;  /* Grey 50 */
+    /*color: #1565C0;  */
 
-    text-shadow: 1px 1px 2px;
+    /*text-shadow: 0 0 1px;*/
 }
 
 .nav-btn-link:active {
-    color: #FAFAFA;  /* Grey 50 */
+    /*color: #0D47A1;*/
 
-    text-shadow: 0 0 2px;
+    /*text-shadow: 0 0 1px;*/
 }
 
 .nav-btn-content {
