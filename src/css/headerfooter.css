@@ -42,15 +42,6 @@
     }
 }
 
-@media only screen and (min-width: 577px) {  /* 512px is roughly when the header gets too tight */
-    #header-title {
-        display: inline-flex;
-    }
-    #header-navs {
-        flex-grow: 0;
-    }
-}
-
 
 .nav-btn-link {
     display: inline-flex;
@@ -67,14 +58,6 @@
         display: none;
     }
 }
-
-@media only screen and (min-width: 577px) {  /* 576px is roughly when 'binh nguyen' becomes 2 lines */
-    .nav-btn-title {
-        display: inline-flex;
-    }
-}
-
-
 
 /** ********* NAV BUTTONS ********* **/
 
