@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import MIcon from './00_MIcon';
 import '../../css/headerfooter.css';
 
 function Cover(props) {
@@ -20,13 +21,16 @@ function ProfilePic(props) {
 
 function NavButton(props) {
     const id = props.id !== undefined ? props.id : null;
-    const extraCls = props.className !== undefined ? props.className : '';
+    const extraCls = props.extraCls !== undefined ? props.extraCls : '';
 
     return (
         <a id={id} className={`nav-btn-link ${extraCls}`} href={props.link}>
             <div className='nav-btn'>
                 <span className='nav-btn-content'>
                     {props.content}
+                </span>
+                <span className='nav-btn-content'>
+                    {props.contentIcon}
                 </span>
             </div>
         </a>
@@ -39,13 +43,13 @@ class Header extends Component {
             <div id='header-canvas'>
                 <div id='header-container'>
                     <div id='header-title'>
-                        <NavButton className='nav-btn-title' link='/' content='binh nguyen' />
+                        <NavButton extraCls='nav-btn-title' link='/' content='binh nguyen' contentIcon='b.n' />
                     </div>
                     <div id='header-navs'>
-                        <NavButton link='/about' content='about' />
-                        <NavButton link='/archive' content='archive' />
-                        <NavButton link='/projects' content='projects' />
-                        <NavButton link='/contact' content='contact' />
+                        <NavButton link='/about' content='about' contentIcon={<MIcon icon='account_box' />} />
+                        <NavButton link='/archive' content='archive' contentIcon={<MIcon icon='archive' />} />
+                        <NavButton link='/projects' content='projects' contentIcon={<MIcon icon='weekend' />} />
+                        <NavButton link='/contact' content='contact' contentIcon={<MIcon icon='mail' />} />
                     </div>
                 </div>
             </div>
