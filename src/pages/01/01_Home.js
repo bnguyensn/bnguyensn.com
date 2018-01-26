@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import ControlPanel from './01_ControlPanel';
-import MessageBoard from './01_MessageBoard';
 import '../../css/home.css';
 
 class TestContent extends Component {

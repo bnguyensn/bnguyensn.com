@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from './pages/00/00_Header';
-import Home from './pages/01/01_Home';
+import Index from './pages/01/01_Index';
 import './css/index.css';
 
 ReactDOM.render(
     <div id="root-canvas">
-        <Header />
-        <Home />
+        <Index />
     </div>,
     document.getElementById('root')
 );

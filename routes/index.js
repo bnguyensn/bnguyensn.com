@@ -26,6 +26,8 @@ router.get('/', (req, res, next) => {
     });*/
 });
 
+// TODO: write redirects for homepage-related content
+
 // TEST
 router.get('/test', (req, res, next) => {
     console.log('Test route achieved');

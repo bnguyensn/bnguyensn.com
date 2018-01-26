@@ -87,6 +87,15 @@ module.exports = () => {
             proxy: {  // Because we are involving an Express dev server
                 "/login/api": "http://localhost:63343"
             },
+            historyApiFallback: {
+                rewrites: [
+                    // Redirects homepage-related URLs
+                    { from: '/about', to: '/index.html' },
+                    { from: '/archive', to: '/index.html' },
+                    { from: '/projects', to: '/index.html' },
+                    { from: '/contact', to: '/index.html' },
+                ]
+            },
 
             // Hot Module Replacement
             hot: true
