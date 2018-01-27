@@ -15,6 +15,7 @@ module.exports = () => {
         output: {
             publicPath: '/',  // Different from prod config
             filename: '[name].js',  // Different from prod config
+            chunkFilename: '[name].js',  // Different from prod config
         },
 
         module: {
