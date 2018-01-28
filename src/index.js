@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Index from './pages/01/01_Index';
+import Main from './pages/01/Main';
 import './css/index.css';
 
 ReactDOM.render(
     <div id="root-canvas">
-        <Index />
+        <Main />
     </div>,
     document.getElementById('root')
 );
@@ -13,9 +13,9 @@ ReactDOM.render(
 
 // Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./pages/01/01_Home', () => {
-        console.log('Accepting the updated Home module.');
-        const Next = require('./pages/01/01_Home');
+    module.hot.accept('./pages/01/Main', () => {
+        console.log('Accepting the updated module.');
+        const Next = require('./pages/01/Main');
         ReactDOM.render(<Next />, document.getElementById('root'));
-    })
+    });
 }

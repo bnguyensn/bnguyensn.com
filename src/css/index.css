@@ -18,6 +18,7 @@ a {
 .hidden { display: none; }
 .hidden-vis { visibility: hidden; }
 .hidden-op { opacity: 0; }
+.shown-op { opacity: 1; }
 .hidden-vis-op { visibility: hidden; opacity: 0; }
 
 .block { display: block; }

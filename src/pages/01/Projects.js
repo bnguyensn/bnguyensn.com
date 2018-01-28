@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class Projects extends Component {
     render() {
         return (
-            <div id='about-canvas'>
+            <div id='projects-canvas'>
                 Projects
             </div>
         )

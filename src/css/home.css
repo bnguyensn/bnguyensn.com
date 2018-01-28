@@ -1,4 +1,4 @@
-/** ********* OVERALL CANVAS ********* **/
+/** ********** HOME CANVAS ********** **/
 
 #home-canvas {
     display: flex;
@@ -18,7 +18,7 @@
     padding: 10px;
 }
 
-/** ********* HOME INTRO ********* **/
+/** ********** HOME INTRO ********** **/
 
 #home-intro {
     margin: 10px 0 10px 0;
