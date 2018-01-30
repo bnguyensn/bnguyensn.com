@@ -53,14 +53,22 @@
 
 /** ********* RESPONSIVE WEB DESIGN ********* **/
 
-@media only screen and (max-width: 576px) {  /* 576px is roughly when 'binh nguyen' becomes 2 lines */
+@media only screen and (max-width: 580px) {  /* 580px is roughly when 'binh nguyen' becomes 2 lines */
     .navs-section {
         padding-left: 0;
         padding-right: 0;
     }
 
     .navs-section:first-child {
-        flex-grow: 0;
+        flex-grow: 1;
+    }
+
+    .navs-section:last-child {
+        flex-grow: 4;
+    }
+
+    .navs-section:last-child > * {
+        flex-grow: 1
     }
 
     /* The below .nav-btn-content rules replace our longer, more verbose link with the shorter version */
