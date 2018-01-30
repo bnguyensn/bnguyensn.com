@@ -5,13 +5,9 @@
     justify-content: center;
 
     min-height: 100vh;
-
-    font-family: 'Gentium Basic', serif;
 }
 
 #home-content-container {
-    flex-grow: 1;
-
     max-width: 768px;
     padding: 10px;
 }
@@ -27,7 +23,7 @@
 }
 
 #home-intro-s-1 {
-    font-size: 1.2em;
+    font-size: 1.5em;
 
-    color: #1B5E20;
+    color: #43A047;  /* Green 600 */
 }

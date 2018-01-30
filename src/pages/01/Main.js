@@ -103,9 +103,6 @@ class Main extends Component {
             '/projects': () => import(/* webpackChunkName: "projects" */ './Projects'),
             '/contact': () => import(/* webpackChunkName: "contact" */ './Contact'),
         };
-        this.import_status = {
-
-        }
 
         /**
          * window.onpopstate is triggered when the user clicks the browser's back / forward button

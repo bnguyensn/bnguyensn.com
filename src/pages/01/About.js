@@ -4,7 +4,9 @@ class About extends Component {
     render() {
         return (
             <div id='about-canvas'>
-                About
+                <div id='about-content-container'>
+                    About.
+                </div>
             </div>
         )
     }
