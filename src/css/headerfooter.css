@@ -3,8 +3,6 @@
 #header-canvas {
     display: flex;
     justify-content: center;
-
-    background: url("../img/binding_light.png");
 }
 
 #header-container {
@@ -18,7 +16,7 @@
 
 /** ********* HEADER CONTENT ********* **/
 
-#header-title, #header-navs {
+.navs-section {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -26,43 +24,17 @@
     padding: 5px 15px 5px 15px;
 }
 
-#header-title {
+.navs-section:first-child {  /* This targets the section containing our title */
     flex-grow: 1;
-}
-
-.nav-btn-link {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-btn-title .nav-btn-content {
-    color: #1B5E20;
-}
-
-.nav-btn-content:last-child {
-    display: none;
-}
-
-@media only screen and (max-width: 576px) {  /* 576px is roughly when 'binh nguyen' becomes 2 lines */
-    #header-title, #header-navs {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    #header-title {
-        flex-grow: 0;
-    }
-    .nav-btn-content:first-child {
-        display: none;
-    }
-    .nav-btn-content:last-child {
-        display: inline;
-    }
 }
 
 /** ********* NAV BUTTONS ********* **/
 
-.nav-btn-link {
+.nav-btn-link {  /* This is the <a> element that wraps around each .nav-btn */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
     margin: 0 10px 0 10px;
     padding: 5px;
 
@@ -71,14 +43,27 @@
     user-select: none;
 }
 
-.nav-btn-link:hover {
-    /*color: #1565C0;  */
-
-    /*text-shadow: 0 0 1px;*/
+.nav-btn-link.active {
+    color: #43A047;  /* Green 600 */
 }
 
-.nav-btn-link:active {
-    /*color: #0D47A1;*/
+/* This hides the shorter version of a link (default behaviour)
+   This is used in conjunction with the Responsive Web Design rules below */
+.nav-btn-content:last-child { display: none; }
 
-    /*text-shadow: 0 0 1px;*/
+/** ********* RESPONSIVE WEB DESIGN ********* **/
+
+@media only screen and (max-width: 576px) {  /* 576px is roughly when 'binh nguyen' becomes 2 lines */
+    .navs-section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .navs-section:first-child {
+        flex-grow: 0;
+    }
+
+    /* The below .nav-btn-content rules replace our longer, more verbose link with the shorter version */
+    .nav-btn-content:first-child { display: none; }
+    .nav-btn-content:last-child { display: inline; }
 }

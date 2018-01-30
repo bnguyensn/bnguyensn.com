@@ -20,7 +20,7 @@ function Intro(props) {
         <div id='home-intro'>
             Hello, I am a dude living in London who likes to code, draw, and read.
             <br/><br/>
-            This place holds my writings, as well as my projects.
+            This place holds my writings, as well as my projects. I hope you find what you're looking for!
         </div>
     )
 }

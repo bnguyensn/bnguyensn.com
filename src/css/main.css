@@ -1,6 +1,5 @@
 /* ********** MAIN CONTENT ********** */
 
-/* This includes the loader and the page content */
 #main-canvas {
     position: relative;
 
@@ -10,14 +9,11 @@
 
 
     min-height: 100vh;
-
-    background: url("../img/binding_light.png");
 }
 
 #main-loader-canvas {
 
 }
-
 
 #main-content-canvas {
 
