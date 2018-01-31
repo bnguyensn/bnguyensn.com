@@ -1,0 +1,51 @@
+/* ********** MAIN CONTENT ********** */
+
+#main-canvas {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+}
+
+#main-loader-canvas {
+
+}
+
+#main-content-canvas {
+    font-family: 'Gentium Basic', serif;
+}
+
+/* ********** LOADER ********** */
+
+/* ***** Spinning Circle ***** */
+
+.loader {
+    width: 4em;
+    height: 4em;
+    border: 0.5em solid #E0E0E0;
+    border-top: 0.5em solid #64B5F6;
+
+    border-radius: 50%;
+
+    animation: 2s linear infinite spin;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ***** Fading In/Out Text ***** */
+
+.loader-text {
+    animation: 2s linear infinite fade;
+}
+
+@keyframes fade {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}

@@ -3,60 +3,75 @@
 #header-canvas {
     display: flex;
     justify-content: center;
-
-    background-color: #212121;  /* Gray 900 */
 }
 
 #header-container {
     display: flex;
+    justify-content: center;
 
+    margin: 10px;
     width: 768px;
+    border-bottom: 2px solid #212121;
 }
 
-#header-main, #header-side {
-    display: inline-flex;
-    justify-content: left;
-    align-items: center;
-    flex-grow: 1;
+/** ********* HEADER CONTENT ********* **/
 
-    padding: 5px 15px 5px 15px;
-
-    font-size: 1.5em;
-}
-
-#header-side {
-    justify-content: right;
-}
-
-#header-main *, #header-side * {
+.navs-section {
     display: inline-flex;
     justify-content: center;
     align-items: center;
+
+    padding: 5px 15px 5px 15px;
 }
 
-/** ********* COMPONENTS ********* **/
+.navs-section:first-child {  /* This targets the section containing our title */
+    flex-grow: 1;
+}
 
-.nav-btn-link {
+/** ********* NAV BUTTONS ********* **/
+
+.nav-btn-link {  /* This is the <a> element that wraps around each .nav-btn */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
     margin: 0 10px 0 10px;
     padding: 5px;
 
-    color: #BDBDBD;  /* Gray 400 */
+    color: #212121;
 
     user-select: none;
 }
 
-.nav-btn-link:hover {
-    color: #FAFAFA;  /* Grey 50 */
-
-    text-shadow: 1px 1px 2px;
+.nav-btn-link.active {
+    color: #43A047;  /* Green 600 */
 }
 
-.nav-btn-link:active {
-    color: #FAFAFA;  /* Grey 50 */
+/* This hides the shorter version of a link (default behaviour)
+   This is used in conjunction with the Responsive Web Design rules below */
+.nav-btn-content:last-child { display: none; }
 
-    text-shadow: 0 0 2px;
-}
+/** ********* RESPONSIVE WEB DESIGN ********* **/
 
-.nav-btn-content {
+@media only screen and (max-width: 580px) {  /* 580px is roughly when 'binh nguyen' becomes 2 lines */
+    .navs-section {
+        padding-left: 0;
+        padding-right: 0;
+    }
 
+    .navs-section:first-child {
+        flex-grow: 1;
+    }
+
+    .navs-section:last-child {
+        flex-grow: 4;
+    }
+
+    .navs-section:last-child > * {
+        flex-grow: 1
+    }
+
+    /* The below .nav-btn-content rules replace our longer, more verbose link with the shorter version */
+    .nav-btn-content:first-child { display: none; }
+    .nav-btn-content:last-child { display: inline; }
 }

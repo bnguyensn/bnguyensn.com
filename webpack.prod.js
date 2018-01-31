@@ -18,6 +18,7 @@ module.exports = () => {
         output: {
             publicPath: 'static/',  // Different from dev config
             filename: '[name].[chunkhash].js',  // Different from dev config
+            chunkFilename: '[name].[chunkhash].js',  // Different from dev config
         },
 
         module: {

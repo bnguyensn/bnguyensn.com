@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import ControlPanel from './01_ControlPanel';
-import MessageBoard from './01_MessageBoard';
 import '../../css/home.css';
 
 class TestContent extends Component {
@@ -17,13 +15,22 @@ class TestContent extends Component {
     }
 }
 
+function Intro(props) {
+    return (
+        <div id='home-intro'>
+            <span id='home-intro-s-1'>Hello,</span> I am a dude living in London who likes to code, draw, and read.
+            <br/><br/>
+            This place holds my writings, as well as my projects. I hope you find what you're looking for!
+        </div>
+    )
+}
+
 class Home extends Component {
     render() {
         return (
             <div id='home-canvas'>
                 <div id='home-content-container'>
-                    <ControlPanel />
-                    <MessageBoard />
+                    <Intro />
                 </div>
             </div>
         )

@@ -15,6 +15,7 @@ module.exports = () => {
         output: {
             publicPath: '/',  // Different from prod config
             filename: '[name].js',  // Different from prod config
+            chunkFilename: '[name].js',  // Different from prod config
         },
 
         module: {
@@ -86,6 +87,15 @@ module.exports = () => {
             },
             proxy: {  // Because we are involving an Express dev server
                 "/login/api": "http://localhost:63343"
+            },
+            historyApiFallback: {
+                rewrites: [
+                    // Redirects homepage-related URLs
+                    { from: '/about', to: '/index.html' },
+                    { from: '/archive', to: '/index.html' },
+                    { from: '/projects', to: '/index.html' },
+                    { from: '/contact', to: '/index.html' },
+                ]
             },
 
             // Hot Module Replacement
