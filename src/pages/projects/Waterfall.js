@@ -2,10 +2,32 @@ import React, {Component} from 'react';
 
 /** ********** CONTROL PANEL ********** **/
 
+function NumberInput(props) {
+    return (
+        <div className='inp-container-num'>
+            <label className='inp-label-num'>
+                <input type='number' name={props.name} placeholder={props.placeholder}
+                       step={props.step} min='0' />
+            </label>
+        </div>
+    )
+}
+
+function CheckboxInput(props) {
+    return (
+        <div className='inp-container-chk'>
+            <input type='checkbox' name={props.name} id={`inp-chk-${props.name}`} value={props.name} />
+            <label for={`inp-chk-${props.name}`} className='inp-label-chk' >
+                {props.label}
+            </label>
+        </div>
+    )
+}
+
 function ControlBox(props) {
     return (
         <div className='cb-container'>
-            
+            {props.children}
         </div>
     )
 }
@@ -78,7 +100,17 @@ class Waterfall extends Component {
     render() {
         return (
             <div>
-                <ControlBox />
+                <ControlBox>
+                    <NumberInput name='com' placeholder="Enter investors' invested capital in the fund"
+                                 step='500000' />
+                    <NumberInput name='nav' placeholder="Enter the fund's net assets value"
+                                 step='500000' />
+                    <NumberInput name='irr' placeholder="Enter waterfall hurdle rate"
+                                 step='.01' />
+                    <CheckboxInput name='ctu' label='Is there a catch-up stage?' />
+                    <NumberInput name='fin' placeholder="Enter investors' share of profit"
+                                 step='.01' />
+                </ControlBox>
 
                 <VisualBox>
                     <WSection name='air' style={{height: this.state.h_air}}
@@ -93,7 +125,9 @@ class Waterfall extends Component {
                               ws_d_text='' ws_text={this.state.t_roc} />
                 </VisualBox>
 
-                <ResultsBox />
+                <ResultsBox>
+
+                </ResultsBox>
             </div>
         )
     }
