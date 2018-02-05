@@ -1,0 +1,10 @@
+#cs-canvas {
+    display: flex;
+}
+
+/* ********** BIO ********** */
+
+#cs-bio-profilepic {
+    width: 13em;
+    height: 13em;
+}
