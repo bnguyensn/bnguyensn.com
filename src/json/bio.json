@@ -1,6 +1,30 @@
 {
   "name": "Binh Nguyen",
   "dob": "02/09/1992",
-  "class": "Apprentice",
+  "class": "Average Joe",
   "bkg": "Hi, I'm a dude living in London who likes to code, draw, and read.<br/><br/>Sometimes I write about things. You can find this in the Archive.<br/><br/>I like playing around with computers in my free time. This website serves as my playground where I work and experiment new things."
+  "attributesPrimary": {
+    "HTML / CSS": {
+      "icon": "",
+      "points": 5,
+      "tooltip": "HTML / CSS skill"
+    },
+    "JavaScript": {
+      "icon": "",
+      "points": 5,
+      "tooltip": "JavaScript skill"
+    },
+    "Python": {
+      "icon": "",
+      "points": 5,
+      "tooltip": "Python skill"
+    }
+  },
+  "attributesSecondary": {
+    "Cooking": {
+      "icon": "",
+      "points": 5,
+      "tooltip": "The character is average at cooking"
+    }
+  }
 }
