@@ -46,34 +46,16 @@ function getAge(dob_date) {
 }
 
 /**
- * Convert a date string in the format of "DD/MM/YYYY" into age (up to current date)
+ * Convert a date string in the format of "DD/MM/YYYY" to a Date object
  * @param {string} dob_str - A string in the format of "DD/MM/YYYY"
  * */
 function dobToAge(dob_str) {
-    let age = [0, 0];  // Intended structure: [y, d]
-
     const dob_arr = dob_str.split('/');
+
     const dob_d = parseInt(dob_arr[0], 10);
     const dob_m = parseInt(dob_arr[1], 10);
     const dob_y = parseInt(dob_arr[2], 10);
-    const dob = new Date(dob_y, dob_m, dob_d);
-
-    const today = new Date();
-
-    if (today <= dob) {
-        return age
-    }
-
-    const today_d = today.getDay();
-    const today_m = today.getMonth() + 1;
-    const today_y = today.getFullYear();
-
-    const days_diff = getDaysDiff(today, dob);
-
-    age[0] = Math.floor(days_diff / 365);
-    age[1] = days_diff % 365;
-
-    return age
+    return new Date(dob_y, dob_m, dob_d);
 }
 
 function Atrribute(props) {
@@ -88,6 +70,8 @@ function Atrribute(props) {
 }
 
 function Bio(props) {
+    const dob_D = dobToAge(bio_json.dob);
+
     return (
         <div>
             <div id='cs-bio-profilepic'>
@@ -95,7 +79,7 @@ function Bio(props) {
             </div>
             <div id='cs-bio-profiledesc'>
                 <span id='cs-bio-name'>{bio_json.name}</span>
-                <span id='cs-bio-class'>{`${dobToAge(bio_json.dob)} - ${bio_json.class}`}</span>
+                <span id='cs-bio-class'>{`${getAge(dob_D)} - ${bio_json.class}`}</span>
                 <span id='cs-bio-bkg'>{bio_json.bkg}</span>
             </div>
             <div id='cs-bio-attributes'>
