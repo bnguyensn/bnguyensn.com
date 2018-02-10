@@ -93,7 +93,6 @@ class Main extends Component {
 
         /**
          * Store all dynamic import functions for lazy-loading purposes
-         *
          * @type {object}
          * */
         this.import_dict = {
@@ -107,7 +106,6 @@ class Main extends Component {
         /**
          * window.onpopstate is triggered when the user clicks the browser's back / forward button
          * we check if e.state exists to see if the history entry was created by our pushState() / replaceState()
-         *
          * ***NOTE: Chrome <34 and Safari <10 always emit a popstate event on page load, but Firefox doesn't
          * */
         window.onpopstate = (e) => {

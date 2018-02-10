@@ -1,15 +1,7 @@
 /** ********** HOME CANVAS ********** **/
 
 #home-canvas {
-    display: flex;
-    justify-content: center;
 
-    min-height: 100vh;
-}
-
-#home-content-container {
-    max-width: 768px;
-    padding: 10px;
 }
 
 /** ********** HOME INTRO ********** **/
@@ -17,13 +9,13 @@
 #home-intro {
     margin: 10px 0 10px 0;
 
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
 
-    text-align: justify;
+    /*text-align: justify;*/
 }
 
 #home-intro-s-1 {
-    font-size: 1.5em;
+    font-size: 1.25em;
 
     color: #43A047;  /* Green 600 */
 }

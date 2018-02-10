@@ -4,7 +4,7 @@ class Contact extends Component {
     render() {
         return (
             <div id='contact-canvas'>
-                Contact
+                There doesn't seem to be anything here.
             </div>
         )
     }

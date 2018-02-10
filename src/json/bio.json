@@ -3,7 +3,8 @@
   "dob": "02/09/1992",
   "class": "Average Joe",
   "faction": "Vietnam",
-  "bkg": "Hi, I'm a dude living in London who is trying to make sense of life. I like coding, reading, and other geeky activities.<br/><br/>This website was created as a sanctum to document my thoughts and works, which hopefully can be of use for you.",
+  "location": "London",
+  "bkg": "Just your typical friendly neighbor",
   "attributesPrimary": {
     "Strength": {
       "name": "Strength",
