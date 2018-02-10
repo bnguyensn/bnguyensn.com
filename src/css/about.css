@@ -1,10 +1,33 @@
-#cs-canvas {
+/** ********** ABOUT CANVAS ********** **/
+
+#about-canvas {
     display: flex;
+    justify-content: center;
+
+    min-height: 100vh;
 }
 
-/* ********** BIO ********** */
+#about-content-container {
+    max-width: 768px;
+    padding: 10px;
+}
 
-#cs-bio-profilepic {
-    width: 13em;
-    height: 13em;
+/* ********** CHARACTER SHEET ********** */
+
+.cs-canvas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cs-canvas > div {
+    border: 1px solid #000000;
+}
+
+
+.cs-profile-pic > img {
+    display: block;  /* img is an inline element by default. Without changing this there will be a whitespace in the container*/
+
+    width: 10em;
+    height: 10em;
 }

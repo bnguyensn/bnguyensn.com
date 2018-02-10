@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import '../../css/about.css';
 const age = require('../../js/01/age');
 const bio_json = require('../../json/bio');
 
-function Atrribute(props) {
+function Attribute(props) {
     return (
         <div className='bio-attr'>
             <div className='bio-attr-ico'>{props.icon}</div>
@@ -14,51 +15,43 @@ function Atrribute(props) {
 }
 
 function AttributeList(props) {
-    const attrsKeys = Object.keys(props.attrs);  // The passed props.attrs should be an object of attribute objects
-    const attrsLen = attrsKeys.length;
+    const attrs_arr = Object.values(props.attrs);  // The passed props.attrs should be an object of attribute objects
 
-    const attrs_list = props.attrs.map((attr) =>
+    const attrs_list = attrs_arr.map((attr) =>
         <Attribute key={attr.name}
                    icon={attr.icon} name={attr.name} points={attr.points} tooltip={attr.tooltip} />);
 
     return (
-        <div className='bio-attrs-list'>
+        <ul className='bio-attrs-list'>
             {attrs_list}
-        </div>
-    )
-}
-
-function Bio(props) {
-    return (
-        <div>
-            <div className='bio-profile-pic'>
-                <img src={props.my_pic} alt="Character art" />
-            </div>
-            <div className='bio-profile-desc'>
-                <span className='bio-name'>{props.bio.name}</span>
-                <span className='bio-class'>{`${props.myAge} - ${props.bio.class}`}</span>
-                <span className='bio-bkg'>{props.bio.bkg}</span>
-            </div>
-            <div className='bio-attrs'>
-                <AttributeList attrs={props.bio.attributesPrimary} />
-            </div>
-        </div>
+        </ul>
     )
 }
 
 class CharacterSheet extends Component {
     constructor(props) {
         super(props);
-        this.myAge = age.getAge(age.strToDate(this.props.bio.dob));
-        this.myPic = this.props.profilePic;
+        this.my_age = age.getAge(age.strToDate(this.props.bio.dob));
+        this.my_pic = this.props.profilePic;
     }
 
     render() {
         return (
-            <div id='cs-canvas'>
-                <Bio myAge={this.myAge}
-                     myPic={this.myPic}
-                     bio={this.props.bio} />
+            <div className='cs-canvas'>
+                <div className='cs-profile-pic'>
+                    <img src={this.my_pic} alt="Character art" />
+                </div>
+                <div className='cs-profile-desc'>
+                    <span className='cs-name'>{this.props.bio.name}</span>
+                    <span className='cs-class'>{`${this.my_age} - ${this.props.bio.class}`}</span>
+                    <span className='cs-bkg'>{this.props.bio.bkg}</span>
+                </div>
+                <div className='cs-skills-prim'>
+                    <AttributeList attrs={this.props.bio.skillsPrimary} />
+                </div>
+                <div className='cs-skills-sec'>
+                    <AttributeList attrs={this.props.bio.skillsSecondary} />
+                </div>
             </div>
         )
     }
