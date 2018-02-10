@@ -4,7 +4,7 @@ class Contact extends Component {
     render() {
         return (
             <div id='contact-canvas'>
-                There doesn't seem to be anything here.
+                Here are my <a href='https://twitter.com/bnguyensn' target="_blank">twitter</a> and <a href='https://github.com/bnguyensn' target="_blank">github</a>.
             </div>
         )
     }
