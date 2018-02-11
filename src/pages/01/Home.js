@@ -18,9 +18,7 @@ class TestContent extends Component {
 function Intro(props) {
     return (
         <div id='home-intro'>
-            <span id='home-intro-s-1'>Hello,</span> I am a dude living in London who likes to code, draw, and read.
-            <br/><br/>
-            This place holds my writings, as well as my projects. I hope you find what you're looking for!
+            There doesn't seem to be anything here.
         </div>
     )
 }
@@ -29,9 +27,7 @@ class Home extends Component {
     render() {
         return (
             <div id='home-canvas'>
-                <div id='home-content-container'>
-                    <Intro />
-                </div>
+                <Intro />
             </div>
         )
     }
