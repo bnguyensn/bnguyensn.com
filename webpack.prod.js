@@ -11,12 +11,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 /** The main configuration */
 module.exports = () => {
     // Loader constants
-    const urlLoaderSizeLimit = 32000;  // 32kb
+    const urlLoaderSizeLimit = 1024 * 10;  // 10kb
 
     // Main config
     return merge(common, {
         output: {
-            publicPath: 'static/',  // Different from dev config
+            publicPath: '/static/',  // Different from dev config. Be careful to include the prefix '/'
             filename: '[name].[chunkhash].js',  // Different from dev config
             chunkFilename: '[name].[chunkhash].js',  // Different from dev config
         },
@@ -58,14 +58,15 @@ module.exports = () => {
                     exclude: /node_modules/
                 },
 
-                // Images
+                // Images (PNG | JPG | GIF)
                 {
-                    test: /\.(png|jpg|gif)$/,
+                    test: /\.(png|jpe?g|gif)$/,
                     use: {
                         loader: 'url-loader',
                         options: {
                             limit: urlLoaderSizeLimit,
-                            name: 'assets/[chunkhash].[ext]'  // Different from dev config
+                            // [chunkhash] does not seem to work when loading large files. Reasons = unknown
+                            name: 'assets/[name].[hash].[ext]'  // Different from dev config
                         }
                     }, //`url-loader?limit=${urlLoaderSizeLimit}&name=assets/[chunkhash].[ext]`,
                     exclude: /node_modules/
@@ -81,7 +82,9 @@ module.exports = () => {
 
             // ExtractTextPlugin - compiling all .css into one for each entry. Used in prod ONLY.
             new ExtractTextPlugin({
-                filename: '[name].[chunkhash].css',  // We have multiple entries, so can't just use 'styles.css'
+                // We have multiple entries, so can't just use 'styles.css'.
+                // In addition, only [contenthash], [id], and [name] are allowed
+                filename: '[name].[contenthash].css',
                 allChunks: true  // Needed for CommonsChunkPlugin. See official docs for info.
             }),
 
@@ -116,6 +119,12 @@ module.exports = () => {
             // Webpack caching. This is needed to cache the manifest file correctly
             // For development builds, we use NamedModulesPlugin instead
             new webpack.HashedModuleIdsPlugin(),
+
+            /* Concatenate modules together (a.k.a. "module hoisting"). This improves browser execution time, but
+             * decrease build speed. This also does not work with Hot Module Replacement and thus should be enabled
+             * in production only.
+             */
+            new webpack.optimize.ModuleConcatenationPlugin()
         ],
 
         devtool: 'source-map',

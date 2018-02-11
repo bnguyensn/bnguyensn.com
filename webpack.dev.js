@@ -8,7 +8,7 @@ const common = require('./webpack.common.js');
 /** The main configuration */
 module.exports = () => {
     // Loader constants
-    const urlLoaderSizeLimit = 32000;  // 32kb
+    const imgLoaderSizeLimit = 1024 * 10;  // 10kb
 
     // Main config
     return merge(common, {
@@ -41,18 +41,19 @@ module.exports = () => {
                     exclude: /node_modules/
                 },
 
-                // Images
+                // Images (PNG | JPG | GIF)
                 {
-                    test: /\.(png|jpg|gif)$/,
+                    test: /\.(png|jpe?g|gif)$/,
                     use: {
                         loader: 'url-loader',
                         options: {
-                            limit: urlLoaderSizeLimit,
+                            limit: imgLoaderSizeLimit,
                             name: 'assets/[name].[ext]'  // Different from prod config
                         }
                     }, //`url-loader?limit=${urlLoaderSizeLimit}&name=assets/[chunkhash].[ext]`,
                     exclude: /node_modules/
-                }
+                },
+
             ]
         },
 
@@ -67,7 +68,7 @@ module.exports = () => {
             new webpack.NamedModulesPlugin(),
 
             // Hot Module Replacement
-            new webpack.HotModuleReplacementPlugin(),
+            new webpack.HotModuleReplacementPlugin()
         ],
 
         devtool: 'inline-source-map',

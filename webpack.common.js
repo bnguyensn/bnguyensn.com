@@ -21,6 +21,9 @@ const vendorCDNPackages = {
 
 };
 
+// Loader constants
+const imgLoaderSizeLimit = 1024 * 10;  // 10kb
+
 /** The main configuration */
 module.exports = {
     entry: {
@@ -48,7 +51,33 @@ module.exports = {
                 exclude: /node_modules/
             },
 
-            // Images - Implemented differently for prod and dev. Please refer to these configs.
+            // Images (PNG | JPG | GIF) - Implemented differently for prod and dev. Please refer to these configs.
+
+            // Images (SVG)
+            {
+                test: /\.(svg)$/,
+                use: {
+                    loader: 'svg-url-loader',
+                    options: {
+                        limit: imgLoaderSizeLimit,
+                        noquotes: true  // Remove quotes around the encoded URL
+                    }
+                },
+                exclude: /node_modules/
+            },
+
+            // Images compression
+            // image-webpack-loader must work in pair with url-loader / svg-url-loader
+            {
+                test: /\.(png|jpe?g|gif|svg)$/,
+                use: {
+                    loader: 'image-webpack-loader',
+                },
+                // enforce: 'pre' is a webpack option that forces this loader to load first
+                // (in this case, before other image loader)
+                enforce: 'pre',
+                exclude: /node_modules/
+            },
 
             // JSONs
             {
@@ -67,16 +96,20 @@ module.exports = {
     },
 
     plugins: [
-        // CommonsChunk
+        // The below CommonsChunk should be included in .html files in reverse order
+        // e.g. 'manifest' should appear before 'vendor'
+
+        // vendor CommonsChunk
         new webpack.optimize.CommonsChunkPlugin({
             names: vendorPackages,
             name: 'vendor',  // The common bundle's name
             minChunks: Infinity
         }),
 
-        // Extracting webpack's boilerplate and manifest which can change with every build.
+        // Extracting webpack's boilerplate and manifest (a.k.a. runtime) which can change with every build.
         // By specifying a name not mentioned in the entry configuration, the plugin will
-        // automatically extract these into a separate bundle
+        // automatically extract these into a separate bundle.
+        // This bit must come after the vendor CommonsChunk because webpack includes these into the last chunk.
         // Also note that there's an extra step to this - adding either NamedModulesPlugin
         // or HashedModuleIdsPlugin. See webpack.dev.js and webpack.prod.js
         new webpack.optimize.CommonsChunkPlugin({
@@ -86,6 +119,6 @@ module.exports = {
         // Due to an issue in Webpack, chunkhash isn’t deterministic.
         // To ensure hashes are generated based on the file contents,
         // use webpack-md5-hash plugin.
-        new WebpackMd5Hash(),
+        new WebpackMd5Hash()
     ]
 };
