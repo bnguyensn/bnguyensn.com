@@ -1,4 +1,4 @@
-# 1d100
+# bnguyensn.com
 
 ### Underlying Technologies
 
@@ -33,23 +33,22 @@ webpack.prod.js
 
 Having the `package.json`, do a `yarn install` :coffee:.
 
-Now create these basic folders & files to finish:
+### Specific parts
+
+The items below vary heavily between projects. But the most important ones are:
 
 ```
-routes  /* Server-side express routes */
+server/
+    db/
+    routes/
+    views/
+src/
+    css/
+    html/
+    img/
+    js/
+    json/
+    index.html
     index.js
-
-src  /* Everything in here are client-side */
-    css
-    |---index.css
-    html  /* Store .html template for webpack's production build */
-    |---t_index.html
-    js
-    |
-    index.js  /* Files directly under src/ will be used as entry point for webpack */
-    index.html 
-
-views  /* Optional if you don't use a view engine */
-
-app.js  /* Server-side express standard app.js */
+app.js
 ```

@@ -10,9 +10,9 @@ const helmet = require('helmet');  // Production security package
 const mysql_setup = require('./server/db/setup');  // MySQL setup
 
 // Load router modules (always have /index)
-const index = require('./routes/index');
-const login = require('./routes/login');
-const chat = require('./routes/chat');
+const index = require('./server/routes/index');
+const login = require('./server/routes/login');
+const chat = require('./server/routes/chat');
 
 const app = express();  // Create the express app
 

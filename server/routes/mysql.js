@@ -1,7 +1,7 @@
 /** ********** MYSQL MIDDLEWARE ********** **/
 
 const mysql = require('mysql');
-const mysql_cfg = require('../server/db/mysql-cfg');
+const mysql_cfg = require('../db/mysql-cfg');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
