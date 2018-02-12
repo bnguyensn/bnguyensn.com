@@ -50,7 +50,9 @@ app.use(helmet.contentSecurityPolicy({
 }));
 
 // The folder where generated production client files are
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist'), {
+    maxAge: 31536000
+}));
 
 // After loading the router modules above, we attach website paths to them
 // This is just like loading a middleware

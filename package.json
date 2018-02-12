@@ -40,7 +40,7 @@
     "extract-text-webpack-plugin": "^3.x.x",
     "file-loader": "^1.x.x",
     "html-webpack-plugin": "^2.x.x",
-    "image-webpack-loader": "^4.1.0",
+    "image-webpack-loader": "^4.x.x",
     "json-loader": "^0.x.x",
     "node-sass": "^4.x.x",
     "postcss-loader": "^2.x.x",
@@ -49,13 +49,13 @@
     "rimraf": "^2.x.x",
     "sass-loader": "^6.x.x",
     "style-loader": "^0.x.x",
-    "svg-url-loader": "^2.3.1",
+    "svg-url-loader": "^2.x.x",
     "uglifyjs-webpack-plugin": "^1.x.x",
     "url-loader": "^0.x.x",
-    "webpack": "^3.9.1",
+    "webpack": "^3.x.x",
     "webpack-dev-middleware": "^2.x.x",
     "webpack-dev-server": "^2.x.x",
     "webpack-md5-hash": "^0.x.x",
-    "webpack-merge": "^4.1.1"
+    "webpack-merge": "^4.x.x"
   }
 }

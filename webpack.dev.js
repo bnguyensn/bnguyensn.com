@@ -68,7 +68,7 @@ module.exports = () => {
             new webpack.NamedModulesPlugin(),
 
             // Hot Module Replacement
-            new webpack.HotModuleReplacementPlugin()
+            new webpack.HotModuleReplacementPlugin(),
         ],
 
         devtool: 'inline-source-map',
@@ -86,7 +86,7 @@ module.exports = () => {
             staticOptions: {  // Options for serving static files. Follow express rules. See official docs.
                 extensions: ['html']  // This is needed to serve html files other than 'index.html'.
             },
-            proxy: {  // Because we are involving an Express dev server
+            proxy: {  // Because we are involving (note: not using) an Express dev server
                 "/login/api": "http://localhost:63343"
             },
             historyApiFallback: {
@@ -100,7 +100,7 @@ module.exports = () => {
             },
 
             // Hot Module Replacement
-            hot: true
+            hot: true,
         }
     });
 };

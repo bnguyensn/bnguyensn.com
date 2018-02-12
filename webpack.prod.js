@@ -124,7 +124,7 @@ module.exports = () => {
              * decrease build speed. This also does not work with Hot Module Replacement and thus should be enabled
              * in production only.
              */
-            new webpack.optimize.ModuleConcatenationPlugin()
+            new webpack.optimize.ModuleConcatenationPlugin(),
         ],
 
         devtool: 'source-map',

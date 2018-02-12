@@ -119,6 +119,6 @@ module.exports = {
         // Due to an issue in Webpack, chunkhash isn’t deterministic.
         // To ensure hashes are generated based on the file contents,
         // use webpack-md5-hash plugin.
-        new WebpackMd5Hash()
+        new WebpackMd5Hash(),
     ]
 };
