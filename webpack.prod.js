@@ -4,7 +4,8 @@ const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+//const ExtractTextPlugin = require("extract-text-webpack-plugin");  // currently not supported for webpack 4.0
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -15,6 +16,9 @@ module.exports = () => {
 
     // Main config
     return merge(common, {
+
+        mode: 'production',  // webpack 4.0
+
         output: {
             publicPath: '/static/',  // Different from dev config. Be careful to include the prefix '/'
             filename: '[name].[chunkhash].js',  // Different from dev config
@@ -24,20 +28,23 @@ module.exports = () => {
         module: {
             rules: [
                 /* .css
+                 * === ExtractTextPlugin (not yet supported for webpack 4.0)
                  * We use ExtractTextPlugin for prod rather then 'style-loader'.
                  * Can't be used in dev because ExtractTextPlugin can't be used with HotModuleReplacement
                  * The fallback option below is identical to our dev config
+                 * === MiniCssExtractPlugin (replacement)
+                 *
                  */
                 {
                     test: /\.css$/,
-                    use: ExtractTextPlugin.extract({
+                    /*use: ExtractTextPlugin.extract({
                         fallback: [  // this option is identical to our dev config
                             'style-loader',
                             {
                                 loader: 'css-loader',
                                 options: {
-                                    /*modules: true,  // TODO: implement CSS modules
-                                     localIdentName: '[chunkhash]'*/
+                                    /!*modules: true,  // TODO: implement CSS modules
+                                     localIdentName: '[chunkhash]'*!/
                                     importLoaders: 2
                                 }
                             },
@@ -54,7 +61,13 @@ module.exports = () => {
                             'postcss-loader',
                             'sass-loader'
                         ]
-                    }),
+                    }),*/
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        'postcss-loader',
+                        'sass-loader'
+                    ],
                     exclude: /node_modules/
                 },
 
@@ -76,43 +89,49 @@ module.exports = () => {
 
         plugins: [
             // Define environment
-            new webpack.DefinePlugin({
+            // webpack 4.0: now has mode. Environment variables are defaulted with mode as well
+            /*new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production')  // Different from dev config
-            }),
+            }),*/
 
             // ExtractTextPlugin - compiling all .css into one for each entry. Used in prod ONLY.
-            new ExtractTextPlugin({
+            // This is currently not supported in webpack 4.0
+            /*new ExtractTextPlugin({
                 // We have multiple entries, so can't just use 'styles.css'.
                 // In addition, only [contenthash], [id], and [name] are allowed
                 filename: '[name].[contenthash].css',
                 allChunks: true  // Needed for CommonsChunkPlugin. See official docs for info.
+            }),*/
+            new MiniCssExtractPlugin({
+                filename: '[name].[chunkhash].css',
+                chunkFilename: "[name].[chunkhash].css"
             }),
 
             /* UglifyJS - aliasing of this is scheduled for webpack v4.0.0
-             * We therefore use the "manual" installation method for now
+             * the below code was for 3.0
              */
-            new UglifyJSPlugin({
+            /*new UglifyJSPlugin({
                 test: /\.js($|\?)/i,
                 sourceMap: true,
-            }),
+            }),*/
 
             // HTML creation
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, 'src/html/t_index.html'),
                 //inject: true,
-                chunks: ['index', 'vendor', 'manifest'],
+                chunks: ['index', 'vendors', 'runtime~index'],
                 filename: '../index.html'
             }),
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, 'src/html/t_login.html'),
                 //inject: true,
-                chunks: ['login', 'vendor', 'manifest'],
+                chunks: ['login', 'vendors', 'runtime~login'],
                 filename: '../login.html'
             }),
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, 'src/html/t_chat.html'),
                 //inject: true,
-                chunks: ['chat', 'vendor', 'manifest'],
+                chunks: ['chat', 'vendors', 'runtime~chat'],
                 filename: '../chat.html'
             }),
 
@@ -123,10 +142,23 @@ module.exports = () => {
             /* Concatenate modules together (a.k.a. "module hoisting"). This improves browser execution time, but
              * decrease build speed. This also does not work with Hot Module Replacement and thus should be enabled
              * in production only.
+             * ===
+             * webpack 4.0 --> this is in their default config
+             * optimization.concatenateModules  // on by default in production mode
              */
-            new webpack.optimize.ModuleConcatenationPlugin(),
+            //new webpack.optimize.ModuleConcatenationPlugin(),
+
         ],
 
         devtool: 'source-map',
+
+        optimization: {
+            minimizer: [
+                new UglifyJSPlugin({
+                    sourceMap: true
+                }),
+            ],
+            concatenateModules: true
+        },
     });
 };

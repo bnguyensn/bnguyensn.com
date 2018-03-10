@@ -1,6 +1,5 @@
 /** ********** WEBPACK CONFIG FILE 1/3 ********** **/
 
-const webpack = require('webpack');
 const path = require('path');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
@@ -30,10 +29,12 @@ module.exports = {
         index: './src/index.js',
         login: './src/login.js',
         chat: './src/chat.js',
-        vendor: vendorPackages
+        // webpack 4.0: optimization.splitChunks.chunks: "all" is the only option you need for vendor and commons
+        // splitting in webpack
+        //vendor: vendorPackages
     },
 
-    externals: vendorCDNPackages,
+    //externals: vendorCDNPackages,
 
     output: {
         path: path.join(__dirname, 'dist/static'),
@@ -80,11 +81,19 @@ module.exports = {
             },
 
             // JSONs
-            {
+            // webpack 4.0 = handle JSON natively
+            // You may need to add type: "javascript/auto" when transforming JSON via loader to JS
+            // Just using JSON without loader should still work
+            /*{
                 test: /\.(json|geojson)$/,
                 use: 'json-loader',
                 exclude: /node_modules/
-            },
+            },*/
+            /*{
+                test: /\.special\.json$/,
+                type: "javascript/auto",
+                use: "special-loader"
+            },*/
 
             // Texts (raw files)
             {
@@ -100,11 +109,11 @@ module.exports = {
         // e.g. 'manifest' should appear before 'vendor'
 
         // vendor CommonsChunk
-        new webpack.optimize.CommonsChunkPlugin({
+        /*new webpack.optimize.CommonsChunkPlugin({
             names: vendorPackages,
             name: 'vendor',  // The common bundle's name
             minChunks: Infinity
-        }),
+        }),*/
 
         // Extracting webpack's boilerplate and manifest (a.k.a. runtime) which can change with every build.
         // By specifying a name not mentioned in the entry configuration, the plugin will
@@ -112,13 +121,35 @@ module.exports = {
         // This bit must come after the vendor CommonsChunk because webpack includes these into the last chunk.
         // Also note that there's an extra step to this - adding either NamedModulesPlugin
         // or HashedModuleIdsPlugin. See webpack.dev.js and webpack.prod.js
-        new webpack.optimize.CommonsChunkPlugin({
+        /*new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest'  // The name for webpack's boilerplate and manifest
-        }),
+        }),*/
 
         // Due to an issue in Webpack, chunkhash isn’t deterministic.
         // To ensure hashes are generated based on the file contents,
         // use webpack-md5-hash plugin.
         new WebpackMd5Hash(),
-    ]
+    ],
+
+    // webpack 4.0 CommonsChunkPlugin
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                // Create a commons chunk that includes all code shared between entry points
+                /*commons: {
+                    name: "commons",
+                    chunks: "initial",
+                    minChunks: 2,
+                }*/
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    name: "vendors"
+                }
+            }
+        },
+        occurrenceOrder: true,  // To keep filename consistent between different modes (for example building only)
+        runtimeChunk: true
+    }
 };

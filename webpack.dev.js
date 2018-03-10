@@ -12,6 +12,9 @@ module.exports = () => {
 
     // Main config
     return merge(common, {
+
+        mode: 'development',  // webpack 4.0
+
         output: {
             publicPath: '/',  // Different from prod config
             filename: '[name].js',  // Different from prod config
@@ -59,13 +62,15 @@ module.exports = () => {
 
         plugins: [
             // Define environment
-            new webpack.DefinePlugin({
+            // webpack 4.0: now has mode. Environment variables are defaulted with mode as well
+            /*new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('development')  // Different from prod config
-            }),
+            }),*/
 
             // Webpack caching. This is needed to cache the manifest file correctly
             // For production builds, we use HashedModuleIdsPlugin instead
-            new webpack.NamedModulesPlugin(),
+            // === webpack 4.0 -> this is optimization.namedModules (on by default in development mode
+            //new webpack.NamedModulesPlugin(),
 
             // Hot Module Replacement
             new webpack.HotModuleReplacementPlugin(),
@@ -101,6 +106,10 @@ module.exports = () => {
 
             // Hot Module Replacement
             hot: true,
+
+            optimization: {
+                namedModules: true
+            }
         }
     });
 };

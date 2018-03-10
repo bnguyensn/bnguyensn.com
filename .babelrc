@@ -1,8 +1,9 @@
 {
   "presets": [
-    "env",
-    "react",
-    ["es2015", {"modules": false}]
+    ["env", {
+      "modules": false
+    }],
+    "react"
   ],
   "plugins": ["react-hot-loader/babel", "syntax-dynamic-import"]
 }
