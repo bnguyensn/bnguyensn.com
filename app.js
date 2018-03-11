@@ -49,6 +49,12 @@ app.use(helmet.contentSecurityPolicy({
     }
 }));
 
+// The first middleware
+app.use((req, res, next) => {
+    console.log(`Received ${req.method} request`);
+    next();
+});
+
 // The folder where generated production client files are
 app.use(express.static(path.join(__dirname, 'dist'), {
     maxAge: 31536000
