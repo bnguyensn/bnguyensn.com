@@ -1,35 +1,18 @@
 import React, {Component} from 'react';
-import classnames from 'classnames';
 import MIcon from '../00/MIcon';
 import '../../css/main.css';
 import '../../css/headerfooter.css';
 
-/** ********** HELPERS ********** **/
-
-class LoadingPage extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div id='#main-loader-canvas' className={`loader-text ${this.props.display}`}>
-                loading...
-            </div>
-        )
-    }
-}
-
 /** ********** HEADER ********** **/
 
 function NavButton(props) {
-    const extraCls = props.extraCls !== undefined ? props.extraCls : '';
+    const styling = props.styling !== undefined ? props.styling : '';
     const is_active = props.active ? 'active' : '';
 
     function navigate(e) {
         e.preventDefault();
 
-        // Change the URL. No navigation happened yet.
+        // Change the URL. Navigation does not happen here
         window.history.pushState({url: props.link}, '', props.link);
 
         // Actual navigation
@@ -37,7 +20,7 @@ function NavButton(props) {
     }
 
     return (
-        <a className={`nav-btn-link ${extraCls} ${is_active}`} href={props.link} onClick={navigate}>
+        <a className={`nav-btn-link ${styling} ${is_active}`} href={props.link} onClick={navigate}>
             <div className='nav-btn'>
                 <span className='nav-btn-content'>
                     {props.content}
@@ -62,23 +45,14 @@ function NavSection(props) {
     )
 }
 
-/**
- * This component is also created for styling purposes.
- * */
-class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div id='header-canvas'>
-                <div id='header-container'>
-                    {this.props.children}
-                </div>
+function Header(props) {
+    return (
+        <div id='header-canvas'>
+            <div id='header-container'>
+                {props.children}
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 /** ********** MAIN LAYOUT ********** **/
@@ -102,6 +76,7 @@ class Main extends Component {
             '/archive': () => import(/* webpackChunkName: "archive" */ './Archive'),
             '/projects': () => import(/* webpackChunkName: "projects" */ './Projects'),
             '/contact': () => import(/* webpackChunkName: "contact" */ './Contact'),
+            '/404': () => import(/* webpackChunkName: "404" */ './404')
         };
 
         /**
@@ -110,8 +85,6 @@ class Main extends Component {
          * ***NOTE: Chrome <34 and Safari <10 always emit a popstate event on page load, but Firefox doesn't
          * */
         window.onpopstate = (e) => {
-            console.log(`onpopstate fired! e.state.url = ${e.state.url}`);
-
             if (e.state) {
                 this.navigate(e.state.url);
             }
@@ -119,11 +92,12 @@ class Main extends Component {
 
         /**
          * Perform a navigation on the first load
+         * Also perform a replaceState(). This will create an e.state for our page which will enable
+         * proper loading when the user restarts / comes back to / comes forward to the page
          * */
-        this.navigate(window.location.pathname);
-        history.replaceState({url: window.location.pathname}, '', window.location.pathname);
-        console.log(`page loaded. the state url is ${history.state.url}`);
-        //window.history.pushState({url: window.location.pathname}, '', window.location.pathname);
+        const cur_pg_link = window.location.pathname;
+        this.navigate(cur_pg_link);
+        history.replaceState({url: cur_pg_link}, '', cur_pg_link);
 
     }
 
@@ -138,19 +112,16 @@ class Main extends Component {
      * @param {String} link: link to the target page e.g. '/'
      */
     navigate(link) {
-        const importFunc = this.import_dict[link];
+        const sanitised_link = this.import_dict.hasOwnProperty(link) ? link : '/404';
 
-        console.log(`navigating to ${link}`);
-
-        //window.history.pushState({url: link}, '', link);
-
-        importFunc().then((module) => {
-            const Module = module.default;
+        this.import_dict[sanitised_link]().then((module) => {
+            const Module = module.default;  // JSX only accepts capitalised elements
             this.setState({
                 active_link: link,
                 cur_pg: <Module />,
             });
         });
+
     }
 
     render() {
@@ -158,7 +129,7 @@ class Main extends Component {
             <div>
                 <Header>
                     <NavSection>
-                        <NavButton extraCls='text-bold'
+                        <NavButton styling='text-bold'
                                    link='/' content='binh nguyen' contentIcon='b.n'
                                    active={this.state.active_link === '/'}
                                    navigate={this.navigate} />
