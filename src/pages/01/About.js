@@ -83,7 +83,7 @@ class About extends Component {
                     <p>
                         I got my Economics degree from the <a href='https://www.southampton.ac.uk' target="_blank">University of Southampton</a> in 2013.
                         <br/><br/>
-                        I obtained my <a href='https://www.icaew.com/' target="_blank">Chartered Accountant</a> certification in 2017 after 3 years working for <a href='https://www.pwc.co.uk' target="_blank">PwC</a>.
+                        I obtained my <a href='https://www.icaew.com/' target="_blank">Chartered Accountant</a> certification in 2017 after 3 years of working for <a href='https://www.pwc.co.uk' target="_blank">PwC</a>.
                     </p>
                 </section>
                 <section id='s-corporate'>

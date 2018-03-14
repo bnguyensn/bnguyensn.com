@@ -29,9 +29,11 @@ function NavButton(props) {
     function navigate(e) {
         e.preventDefault();
 
+        // Change the URL. No navigation happened yet.
         window.history.pushState({url: props.link}, '', props.link);
 
-        props.navigate(props.link)
+        // Actual navigation
+        props.navigate(props.link);
     }
 
     return (
@@ -49,7 +51,7 @@ function NavButton(props) {
 }
 
 /**
- * This component is created for styling purpose.
+ * This component is created for styling purposes.
  * The intention is to have the site title on a separate section with the remaining nav buttons.
  * */
 function NavSection(props) {
@@ -60,6 +62,9 @@ function NavSection(props) {
     )
 }
 
+/**
+ * This component is also created for styling purposes.
+ * */
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -78,22 +83,18 @@ class Header extends Component {
 
 /** ********** MAIN LAYOUT ********** **/
 
-/**
- * The top-level controller of our SPA-style site. All states should be stored here.
- */
 class Main extends Component {
     constructor(props) {
         super(props);
         this.navigate = this.navigate.bind(this);
 
         this.state = {
-            active_link: '',
-            cur_pg: null,
+            active_link: '',  // Helps with styling the current active link
+            cur_pg: null,  // Part of our lazy-loading functionality
         };
 
         /**
-         * Store all dynamic import functions for lazy-loading purposes
-         * @type {object}
+         * webpack - Store all dynamic import functions for lazy-loading purposes
          * */
         this.import_dict = {
             '/': () => import(/* webpackChunkName: "homepage" */ './Home'),
@@ -109,6 +110,8 @@ class Main extends Component {
          * ***NOTE: Chrome <34 and Safari <10 always emit a popstate event on page load, but Firefox doesn't
          * */
         window.onpopstate = (e) => {
+            console.log(`onpopstate fired! e.state.url = ${e.state.url}`);
+
             if (e.state) {
                 this.navigate(e.state.url);
             }
@@ -118,20 +121,28 @@ class Main extends Component {
          * Perform a navigation on the first load
          * */
         this.navigate(window.location.pathname);
+        history.replaceState({url: window.location.pathname}, '', window.location.pathname);
+        console.log(`page loaded. the state url is ${history.state.url}`);
+        //window.history.pushState({url: window.location.pathname}, '', window.location.pathname);
+
     }
 
     /**
-     * Replace the area between the header and footer with a page of some sort.
+     * Replace the area between the header and footer with a page of some sort. The core of our SPA.
      *
      * The main caution with this method is the loading indicator. For example, if the user's network speed is
      * too high, the loading indicator might flash abruptly, leading to bad UX.
-
+     *
      * Because of this, we are leaving the loading screen for now.
      *
      * @param {String} link: link to the target page e.g. '/'
      */
     navigate(link) {
         const importFunc = this.import_dict[link];
+
+        console.log(`navigating to ${link}`);
+
+        //window.history.pushState({url: link}, '', link);
 
         importFunc().then((module) => {
             const Module = module.default;

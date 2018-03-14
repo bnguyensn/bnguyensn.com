@@ -18,7 +18,7 @@ class TestContent extends Component {
 function Intro(props) {
     return (
         <div id='home-intro'>
-            There doesn't seem to be anything here.
+            There doesn't seem to be anything here. Until now...
         </div>
     )
 }
