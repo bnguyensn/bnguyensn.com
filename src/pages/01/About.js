@@ -55,42 +55,42 @@ class About extends Component {
         return (
             <div id='about-canvas'>
                 <section id='s-intro'>
-                    <p>
+                    <section>
                         Hi, I'm a {my_age[0]} years old dude living in London. This website was created as a place to document my thoughts and works.
                         <br/><br/>
                         The site is powered by <a href='https://nodejs.org/en/' target="_blank">Nodejs</a> and <a href='https://facebook.github.io/react/' target="_blank">React</a>.
-                    </p>
+                    </section>
                 </section>
                 <section id='s-fav'>
                     <h1>Favourites</h1>
-                    <p>
+                    <section>
                         I wander around mainly in JavaScript and Python. Getting comfortable with C++ is currently my next target.
                         <br/><br/>
                         Outside of computer-related things, I like the the cinema, good food (not cooking good food), and nicely constructed LEGO sets.
-                    </p>
+                    </section>
                 </section>
                 <section id='s-projects'>
                     <h1>Things I've Created</h1>
-                    <p>
+                    <section>
                         I like toying around with computers in my pastime. Below is a list of my completed projects:
                         <ul>
                             <li>An <a href='#' target="_blank">anagram solver</a> [<a href='#' target="_blank">github</a>]</li>
                         </ul>
-                    </p>
+                    </section>
                 </section>
                 <section id='s-edu'>
                     <h1>Education</h1>
-                    <p>
+                    <section>
                         I got my Economics degree from the <a href='https://www.southampton.ac.uk' target="_blank">University of Southampton</a> in 2013.
                         <br/><br/>
                         I obtained my <a href='https://www.icaew.com/' target="_blank">Chartered Accountant</a> certification in 2017 after 3 years of working for <a href='https://www.pwc.co.uk' target="_blank">PwC</a>.
-                    </p>
+                    </section>
                 </section>
                 <section id='s-corporate'>
                     <h1>Corporate</h1>
-                    <p>
+                    <section>
                         I have been working as an auditor for <a href='https://www.pwc.co.uk' target="_blank">PwC</a> London since 2014.
-                    </p>
+                    </section>
                 </section>
             </div>
         )

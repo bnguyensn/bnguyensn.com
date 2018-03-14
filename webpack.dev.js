@@ -101,15 +101,17 @@ module.exports = () => {
                     { from: '/archive', to: '/index.html' },
                     { from: '/projects', to: '/index.html' },
                     { from: '/contact', to: '/index.html' },
+                    { from: '/404', to: '/index.html' },
                 ]
             },
 
             // Hot Module Replacement
             hot: true,
 
-            optimization: {
+            // TODO: Somehow this is invalid - check back later
+            /*optimization: {
                 namedModules: true
-            }
+            }*/
         }
     });
 };
