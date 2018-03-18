@@ -5,7 +5,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-/** The main configuration */
+// The main config
 module.exports = () => {
     // Loader constants
     const imgLoaderSizeLimit = 1024 * 10;  // 10kb
@@ -108,8 +108,9 @@ module.exports = () => {
             // Hot Module Replacement
             hot: true,
 
-            // TODO: Somehow this is invalid - check back later
+            // TODO: optimization is currently invalid for webpack-dev-server. Check back later
             /*optimization: {
+                // namedModules is on by default for development
                 namedModules: true
             }*/
         }

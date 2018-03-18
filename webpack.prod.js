@@ -9,7 +9,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-/** The main configuration */
+// The main config
 module.exports = () => {
     // Loader constants
     const urlLoaderSizeLimit = 1024 * 10;  // 10kb
@@ -153,12 +153,20 @@ module.exports = () => {
         //devtool: 'source-map',
 
         optimization: {
+            splitChunks: {
+                // Since the chunk name includes all origin chunk names it’s recommended for production builds
+                // with long term caching to NOT include [name] in the filenames,
+                // or switch off name generation via optimization.splitChunks.name: false
+                name: false
+            },
             minimizer: [
                 new UglifyJSPlugin({
                     sourceMap: true
                 }),
             ],
-            concatenateModules: true
+
+            // This is on by default in production mode
+            // concatenateModules: true
         },
     });
 };

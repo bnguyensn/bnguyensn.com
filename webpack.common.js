@@ -9,29 +9,26 @@ const WebpackMd5Hash = require('webpack-md5-hash');
    Hence we have to leave global variables out here
 */
 
-/** List of external packages that are 'required' */
+// List of external packages that are 'required'
 const vendorPackages = [
     'react',
     'react-dom'
 ];
 
-/** List of external packages that are requested via CDN */
+// List of external packages that are requested via CDN
 const vendorCDNPackages = {
 
 };
 
-// Loader constants
+// Other constants
 const imgLoaderSizeLimit = 1024 * 10;  // 10kb
 
-/** The main configuration */
+// The main config
 module.exports = {
     entry: {
         index: './src/index.js',
         login: './src/login.js',
         chat: './src/chat.js',
-        // webpack 4.0: optimization.splitChunks.chunks: "all" is the only option you need for vendor and commons
-        // splitting in webpack
-        //vendor: vendorPackages
     },
 
     //externals: vendorCDNPackages,
@@ -131,9 +128,11 @@ module.exports = {
         new WebpackMd5Hash(),
     ],
 
-    // webpack 4.0 CommonsChunkPlugin
+    // webpack 4.0 CommonsChunkPlugin replacement
     optimization: {
         splitChunks: {
+            // By default, optimization.splitChunks only works for async chunks
+            // We need to specify chunks: 'all' to scope in initial chunks
             chunks: 'all',
             cacheGroups: {
                 // Create a commons chunk that includes all code shared between entry points
@@ -150,6 +149,6 @@ module.exports = {
             }
         },
         occurrenceOrder: true,  // To keep filename consistent between different modes (for example building only)
-        runtimeChunk: true
+        runtimeChunk: true,
     }
 };
