@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import '../../css/about.css';
-const age = require('../../js/01/age');
+import './css/about.css';
+const age = require('./js/age');
 const my_age = age.getAge(age.strToDate('02/09/1992'));
 
 function Attribute(props) {

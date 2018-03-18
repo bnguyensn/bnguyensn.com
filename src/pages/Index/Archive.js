@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../../css/archive.css';
+import './css/archive.css';
 
 class Archive extends Component {
     render() {

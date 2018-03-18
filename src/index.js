@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Main from './pages/01/Main';
+import Main from './pages/Index/Main';
 import './css/index.css';
 
 ReactDOM.render(
@@ -12,9 +12,9 @@ ReactDOM.render(
 
 // Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./pages/01/Main', () => {
+    module.hot.accept('./pages/Index/Main', () => {
         console.log('Accepting the updated module.');
-        const Next = require('./pages/01/Main');
+        const Next = require('./pages/Index/Main');
         ReactDOM.render(<Next />, document.getElementById('root'));
     });
 }

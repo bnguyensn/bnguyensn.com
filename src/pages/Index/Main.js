@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MIcon from '../00/MIcon';
-import '../../css/main.css';
-import '../../css/headerfooter.css';
+import './css/main.css';
+import './css/headerfooter.css';
 
 /** ********** HEADER ********** **/
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MIcon from './MIcon';
-import '../../css/headerfooter.css';
+import '../Index/css/headerfooter.css';
 
 function Cover(props) {
     return (
@@ -58,21 +58,21 @@ class Header extends Component {
                 <div id='header-container'>
                     <div id='header-title'>
                         <NavButton extraCls='nav-btn-title' link='/' content='binh nguyen' contentIcon='b.n'
-                                   importFunc={() => {import(/* webpackChunkName: "homepage" */ '../01/Home');}}
+                                   importFunc={() => {import(/* webpackChunkName: "homepage" */ '../Index/Home');}}
                                    navigate={this.props.navigate} />
                     </div>
                     <div id='header-navs'>
                         <NavButton link='/about' content='about' contentIcon={<MIcon icon='account_box' />}
-                                   importFunc={() => {import(/* webpackChunkName: "about" */ '../01/About');}}
+                                   importFunc={() => {import(/* webpackChunkName: "about" */ '../Index/About');}}
                                    navigate={this.props.navigate} />
                         <NavButton link='/archive' content='archive' contentIcon={<MIcon icon='archive' />}
-                                   importFunc={() => {import(/* webpackChunkName: "archive" */ '../01/Archive');}}
+                                   importFunc={() => {import(/* webpackChunkName: "archive" */ '../Index/Archive');}}
                                    navigate={this.props.navigate} />
                         <NavButton link='/projects' content='projects' contentIcon={<MIcon icon='weekend' />}
-                                   importFunc={() => {import(/* webpackChunkName: "projects" */ '../01/Projects');}}
+                                   importFunc={() => {import(/* webpackChunkName: "projects" */ '../Index/Projects');}}
                                    navigate={this.props.navigate} />
                         <NavButton link='/contact' content='contact' contentIcon={<MIcon icon='mail' />}
-                                   importFunc={() => {import(/* webpackChunkName: "contact" */ '../01/Contact');}}
+                                   importFunc={() => {import(/* webpackChunkName: "contact" */ '../Index/Contact');}}
                                    navigate={this.props.navigate} />
                     </div>
                 </div>
