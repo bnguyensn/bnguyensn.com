@@ -3,7 +3,7 @@
 import React, {PureComponent} from 'react';
 import '../blog.css';
 
-function ShowMoreButton {
+function ShowMoreButton(props) {
     return (
         <button type='button'>...</button>
     )
