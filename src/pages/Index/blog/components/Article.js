@@ -1,8 +1,6 @@
 'use strict';
 
 import React, {PureComponent} from 'react';
-import '../blog.css';
-
 
 class Article extends PureComponent {
     constructor(props) {
