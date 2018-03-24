@@ -1,33 +1,50 @@
+// Set up process.env
 const dotenv = require('dotenv').config();
+
+// Express server
 const express = require('express');
+
+// Utilities
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');  // Needed to access POST requests' data
+
+// Security
 const helmet = require('helmet');  // Production security package
 
-const mysql_setup = require('./server/db/setup');  // MySQL setup
+// Features
+const blog_db = require('./server/blog/connect');
 
-// Load router modules (always have /index)
+/**
+ * ROUTER MODULES =========
+ * Each route corresponds to a host in our domain
+ * */
+
 const index = require('./server/routes/index');
 const login = require('./server/routes/login');
 const chat = require('./server/routes/chat');
 
-const app = express();  // Create the express app
+/**
+ * EXPRESS APPLICATION ==========
+ * */
 
-// View engine setup
+// Create the Express server
+const app = express();
+
+// Set up view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /src
 //app.use(favicon(path.join(__dirname, 'src', 'favicon.ico')));
 
-// Set up the port
+// Set up port
 app.set('port', process.env.PORT || 63343);
 
-// Set up MySQL
-app.locals.db_connection_pool = mysql_setup.createConnectionPool();  //  This creates the MySQL connection pool and saves it in an app.local
+// Set up features
+blog_db.connect();
 
 /** ********** LOAD MIDDLEWARES ********** **/
 

@@ -16,6 +16,7 @@
     "dotenv": "^5.x.x",
     "express": "~4.x.x",
     "helmet": "^3.x.x",
+    "mongodb": "^3.0.5",
     "morgan": "~1.x.x",
     "mysql": "^2.x.x",
     "pug": "2.x.x",
