@@ -44,7 +44,7 @@ app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 63343);
 
 // Set up features
-blog_db.connect();
+//blog_db.connect();
 
 /** ********** LOAD MIDDLEWARES ********** **/
 

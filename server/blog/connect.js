@@ -11,14 +11,21 @@ const dbName = process.env.BLOG_DB_NAME;
 
 // Connect to the server
 function connect() {
-    MongoClient.connect(url, (err, client) => {
-        assert.strictEqual(null, err);
-        console.log('Successfully connected to the MongoDB server');
+    try {
+        // Instantiate connection and return database instance
+        MongoClient.connect(url, (err, client) => {
+            // Throw AssertionError if encounter errors
+            assert.strictEqual(null, err);
 
-        const db = client.db(dbName);
+            // Else return the connection instance
+            return client.db(dbName);
+        });
+    }
+    catch (e) {
+        // Rethrow errors
+        throw e
+    }
 
-        client.close();
-    });
 }
 
 module.exports = {
