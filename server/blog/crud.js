@@ -4,6 +4,10 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const connect = require('./connect');
 
+/**
+ * CREATE
+ * */
+
 async function createNewPost(col, post_data) {
     try {
         // Connect to the database
@@ -22,6 +26,10 @@ async function createNewPost(col, post_data) {
         return e
     }
 }
+
+/**
+ * READ
+ * */
 
 async function retrievePost(col, post_id) {
     try {
@@ -42,6 +50,10 @@ async function retrievePost(col, post_id) {
     }
 }
 
+/**
+ * UPDATE
+ * */
+
 async function updatePost(col, post_id, post_update) {
     try {
         // Connect to the database
@@ -53,6 +65,29 @@ async function updatePost(col, post_id, post_update) {
         // Check for errors
         assert.equal(1, r.matchedCount);
         assert.equal(1, r.modifiedCount);
+
+        // No errors. Close connection
+        db.close();
+    }
+    catch (e) {
+        return e
+    }
+}
+
+/**
+ * DELETE
+ * */
+
+async function deletePost(col, post_id) {
+    try {
+        // Connect to the database
+        const db = await connect.connect();
+
+        // Delete document
+        const r = await db.collection(col).deleteOne({_id: post_id});
+
+        // Check for errors
+        assert.equal(1, r.deletedCount);
 
         // No errors. Close connection
         db.close();
