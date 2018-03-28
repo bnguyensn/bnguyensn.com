@@ -96,3 +96,10 @@ async function deletePost(col, post_id) {
         return e
     }
 }
+
+module.exports = {
+    createNewPost: createNewPost,
+    retrievePost: retrievePost,
+    updatePost: updatePost,
+    deletePost: deletePost
+};
