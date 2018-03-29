@@ -78,10 +78,12 @@ async function updatePost(col, post_id, post_update) {
  * DELETE
  * */
 
-async function deletePost(col, post_id) {
+async function deletePost(col, post_id, pwd) {
     try {
         // Connect to the database
         const db = await connect.connect();
+
+        // TODO: check password here
 
         // Delete document
         const r = await db.collection(col).deleteOne({_id: post_id});
