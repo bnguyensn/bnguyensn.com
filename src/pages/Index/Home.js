@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import BlogCanvas from './blog/components/BlogCanvas';
 import './css/home.css';
 
-function Intro(props) {
+function Test(props) {
     return (
         <div id='home-intro'>
             There doesn't seem to be anything here. Until now...
@@ -13,7 +14,7 @@ class Home extends Component {
     render() {
         return (
             <div id='home-canvas'>
-                <Intro />
+                <BlogCanvas />
             </div>
         )
     }

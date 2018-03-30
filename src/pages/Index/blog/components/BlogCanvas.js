@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import '../blog.css';
 
-class Canvas extends Component {
+class BlogCanvas extends Component {
     render() {
         return (
             <div className='blog-canvas'>
@@ -13,4 +13,4 @@ class Canvas extends Component {
     }
 }
 
-export default Canvas
+export default BlogCanvas

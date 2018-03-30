@@ -13,6 +13,10 @@ async function createNewPost(col, post_data) {
         // Connect to the database
         const db = await connect.connect();
 
+        // create Index based on timestamp
+        // will only run for first document
+        db.collection(col).createIndex({'timestamp': 1});
+
         // Insert document
         const r = await db.collection(col).insertOne(post_data);
 
@@ -28,10 +32,10 @@ async function createNewPost(col, post_data) {
 }
 
 /**
- * READ
+ ** ********** READ **********
  * */
 
-async function retrievePost(col, post_id) {
+async function retrievePostById(col, post_id) {
     try {
         // Connect to the database
         const db = await connect.connect();
@@ -47,6 +51,46 @@ async function retrievePost(col, post_id) {
     }
     catch (e) {
 
+    }
+}
+
+async function retrievePostBetweenDate(col, date_from, date_to) {
+
+}
+
+/**
+ * Return a specified number of articles from a specified date. Main use = retrieve x latest articles.
+ * @param col - The mongodb collection to search in
+ * @param date_from - The timestamp from when the search will commence
+ * @param quantity - How many articles to return
+ * @return Array - An Array containing the specified articles
+ * */
+async function retrievePostFromDate(col, date_from, quantity) {
+    try {
+        // Connect to the database
+        const db = await connect.connect();
+
+        // Retrieve a number of documents dated as specified
+        const r = [];
+        await db.collection(col).find().sort({'timestamp': 1}).limit(quantity).toArray((err, res) => {
+            assert.equal(null, err);
+
+            res.forEach((res) => {
+                r.append(res);
+            });
+        });
+
+        // Check for errors
+        assert.equal(null, r);
+
+        // No errors. Close connection
+        db.close();
+
+        // Return results
+        return r
+    }
+    catch (e) {
+        return e
     }
 }
 
