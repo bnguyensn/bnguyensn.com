@@ -1,0 +1,9 @@
+{
+  "host": "127.0.0.1",
+  "user": "root",
+  "password": "GeneralStarm8",
+  "database": "1d100_db_01",
+  "tbl_users": "users",
+  "tbl_users_em": "email",
+  "tbl_users_pw": "password"
+}
