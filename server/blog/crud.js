@@ -2,7 +2,10 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+
 const connect = require('./connect');
+
+const DB_NAME = 'dev_blog_articles';
 
 /**
  * CREATE
@@ -11,7 +14,7 @@ const connect = require('./connect');
 async function createNewPost(col, post_data) {
     try {
         // Connect to the database
-        const db = await connect.connect();
+        const db = await connect.connect(DB_NAME);
 
         // create Index based on timestamp
         // will only run for first document
@@ -38,7 +41,7 @@ async function createNewPost(col, post_data) {
 async function retrievePostById(col, post_id) {
     try {
         // Connect to the database
-        const db = await connect.connect();
+        const db = await connect.connect(DB_NAME);
 
         // Get the first document that matches the query
         const r = await db.collection(col).findOne({_id: post_id});
@@ -68,7 +71,7 @@ async function retrievePostBetweenDate(col, date_from, date_to) {
 async function retrievePostFromDate(col, date_from, quantity) {
     try {
         // Connect to the database
-        const db = await connect.connect();
+        const db = await connect.connect(DB_NAME);
 
         // Retrieve a number of documents dated as specified
         const r = [];
@@ -101,7 +104,7 @@ async function retrievePostFromDate(col, date_from, quantity) {
 async function updatePost(col, post_id, post_update) {
     try {
         // Connect to the database
-        const db = await connect.connect();
+        const db = await connect.connect(DB_NAME);
 
         // Update document
         const r = await db.collection(col).updateOne({_id: post_id}, {$set: post_update});
@@ -125,7 +128,7 @@ async function updatePost(col, post_id, post_update) {
 async function deletePost(col, post_id, pwd) {
     try {
         // Connect to the database
-        const db = await connect.connect();
+        const db = await connect.connect(DB_NAME);
 
         // TODO: check password here
 
@@ -145,7 +148,7 @@ async function deletePost(col, post_id, pwd) {
 
 module.exports = {
     createNewPost: createNewPost,
-    retrievePost: retrievePost,
+    //retrievePost: retrievePost,
     updatePost: updatePost,
     deletePost: deletePost
 };
