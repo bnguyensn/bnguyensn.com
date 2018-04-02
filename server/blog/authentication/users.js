@@ -1,8 +1,6 @@
 'use strict';
 
-/**
- * Handle user management
- * */
+const jwt = require('jsonwebtoken');
 
 const connect = require('../connect');
 
@@ -13,51 +11,79 @@ const AUTH_OPT = {
     AUTH_PWD: process.env.BLOG_DB_USR_ADMIN_PWD,
     AUTH_USR: process.env.BLOG_DB_USR_ADMIN
 };
+const JWT_SECRET = process.env.BLOG_DB_JWT_SECRET;
 
 async function createUser(username, pwd) {
-    try {
-        const db = await connect.connect(DB_NAME, AUTH_OPT);
+    const client = await connect.connect(DB_NAME, AUTH_OPT);
 
-        if (db instanceof Error) {
-            return db
-        }
-        
+    // Check for errors during connection
+    if (client instanceof Error) {
+        return client
+    }
+
+    const db = client.db(DB_NAME);
+
+    try {
         const coll = db.collection(COLL_NAME);
         
-        // Check for duplicate
-        coll.findOne({username: username}, (err, r) => {
-            if (err !== null) {
-                console.log('Error in findOne()');
-                db.close();
-                return err
-            }
+        // Check for duplicate user
+        const duplicate_username = await coll.findOne({username: username});
 
-            if (r !== null) {
-                // Duplicate found, return error
-                console.log('Username already exists');
-                db.close();
-                return new Error('Username already exists.')
-            }
-        });
+        if (duplicate_username !== null) {
+            console.log('Username already exists');
+            return new Error('Username already exists')
+        }
 
         // Add user if no duplicate
-        coll.insertOne({username: username, pwd: pwd}, (err, r) => {
-            if (err !== null) {
-                console.log('Error in insertOne()');
-                db.close();
-                return err
-            }
-            console.log(`Inserted ${username} as ID ${r.insertedId}`);
-            db.close();
-            return `Inserted ${username} as ID ${r.insertedId}`
-        });
+        return await coll.insertOne({username: username, pwd: pwd});
     }
     catch (e) {
-        console.log(`Error: ${e.message}`);
         return e
+    }
+    finally {
+        client.close(true);
+        console.log('mongodb connection closed');
+    }
+}
+
+/**
+ * LOGGING IN
+ * */
+
+async function login(username, pwd) {
+    const client = await connect.connect(DB_NAME, AUTH_OPT);
+
+    // Check for errors during connection
+    if (client instanceof Error) {
+        return client
+    }
+
+    const db = client.db(DB_NAME);
+
+    try {
+        const coll = db.collection(COLL_NAME);
+
+        const user_credentials = await coll.findOne({username: username, pwd: pwd});
+
+        if (user_credentials === null) {
+            console.log('Username / password pairing not found');
+            return new Error('Username / password pairing not found');
+        }
+
+        // User's credentials valid, create a signed token
+        const payload = {userId: user_credentials._id};  // a.k.a. "claims"
+        return jwt.sign(payload, JWT_SECRET, {algorithm: 'HS256', expiresIn: '30d'})
+    }
+    catch (e) {
+        return e
+    }
+    finally {
+        client.close(true);
+        console.log('mongodb connection closed');
     }
 }
 
 module.exports = {
-    createUser: createUser
+    createUser: createUser,
+    login: login
 };
