@@ -1,5 +1,6 @@
 'use strict';
 
+const ObjectId = require('mongodb').ObjectId;
 const jwt = require('jsonwebtoken');
 
 const connect = require('../connect');
@@ -47,7 +48,7 @@ async function createUser(username, pwd) {
 }
 
 /**
- * LOGGING IN
+ * LOG IN
  * */
 
 async function login(username, pwd) {
@@ -83,7 +84,48 @@ async function login(username, pwd) {
     }
 }
 
+async function loginToken(token) {
+    const client = await connect.connect(DB_NAME, AUTH_OPT);
+
+    // Check for errors during connection
+    if (client instanceof Error) {
+        return client
+    }
+
+    const db = client.db(DB_NAME);
+
+    try {
+
+        // Decode token & verify signature
+        const decoded_userId = jwt.verify(token, JWT_SECRET).userId;
+
+        // Check if user exists
+        const coll = db.collection(COLL_NAME);
+
+        const user_exist = await coll.findOne({_id: ObjectId(decoded_userId)});
+
+        if (user_exist === null) {
+            console.log('Invalid token: user not found');
+            return new Error('Invalid token: user not found');
+        }
+
+        return true
+    }
+    catch (e) {
+        return e
+    }
+    finally {
+        client.close(true);
+        console.log('mongodb connection closed');
+    }
+}
+
+/**
+ * EXPORTS
+ * */
+
 module.exports = {
     createUser: createUser,
-    login: login
+    login: login,
+    loginToken: loginToken
 };
