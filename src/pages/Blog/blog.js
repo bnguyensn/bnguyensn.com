@@ -1,25 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-//import Header from './pages/00_Header';
-import Login from './pages/02/02_Login';
-//import Footer from './pages/00_Footer';
+// Needed for async functions to work
+import 'babel-polyfill';
 
-import './css/index.css';
-import './css/login.css';
+import Main from './pages/Main';
+
+import '../../css/index.css';
 
 ReactDOM.render(
-    <div id="p-canvas">
-        <Login />
+    <div id="canvas">
+        <Main />
     </div>,
     document.getElementById('root')
 );
 
 // Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./pages/02/02_Login', () => {
-        console.log('Accepting the updated Login module.');
-        const Next = require('./pages/02/02_Login');
+    module.hot.accept('./', () => {
+        console.log('Accepting the updated module.');
+        const Next = require('./pages/Main');
         ReactDOM.render(<Next />, document.getElementById('root'));
-    })
+    });
 }

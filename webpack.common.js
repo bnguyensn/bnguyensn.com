@@ -29,6 +29,8 @@ module.exports = {
         index: './src/index.js',
         login: './src/login.js',
         chat: './src/chat.js',
+
+        blog: './src/pages/Blog/blog.js'
     },
 
     //externals: vendorCDNPackages,

@@ -19,12 +19,14 @@ const blog_db = require('./server/blog/connect');
 
 /**
  * ROUTER MODULES =========
- * Each route corresponds to a host in our domain
+ * Each router module corresponds to a host in our domain
+ * Also known as middleware functions
  * */
 
 const index = require('./server/routes/index');
-const login = require('./server/routes/login');
-const chat = require('./server/routes/chat');
+const blog = require('./server/routes/blog');
+// const login = require('./server/routes/login');
+// const chat = require('./server/routes/chat');
 
 /**
  * EXPRESS APPLICATION ==========
@@ -46,13 +48,15 @@ app.set('port', process.env.PORT || 63343);
 // Set up features
 //blog_db.connect();
 
-/** ********** LOAD MIDDLEWARES ********** **/
+/**
+ * LOAD MIDDLEWARES ==========
+ * */
 
 // Default middlewares
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser(process.env.BLOG_DB_JWT_SECRET));
 
 // Production security
 app.use(helmet());
@@ -77,15 +81,22 @@ app.use(express.static(path.join(__dirname, 'dist'), {
     maxAge: 31536000
 }));
 
-// After loading the router modules above, we attach website paths to them
-// This is just like loading a middleware
+// Finally, after loading the router modules above, we attach website paths to them
+// This is just like loading another middleware
 app.use('/', index);
-app.use('/login', login);
-app.use('/chat', chat);
+app.use('/blog', blog);
+// app.use('/login', login);
+// app.use('/chat', chat);
 
-/** ********** ERROR HANDLING ********** **/
+/**
+ * ERROR HANDLING ==========
+ * */
 
-// Catch 404
+const errors = require('./server/routes/errors');
+
+app.use(errors);
+
+/*// Catch 404
 app.use(function (req, res, next) {
     let err = new Error('Not Found');
     err.status = 404;
@@ -103,9 +114,11 @@ app.use(function (err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
-});
+});*/
 
-/** ********** START THE APP ********** **/
+/**
+ * START THE APPLICATION ==========
+ * */
 
 app.listen(app.get('port'), () => {
     console.log(`app live on port ${app.get('port')}`)

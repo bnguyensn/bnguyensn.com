@@ -2,15 +2,12 @@
 
 /** ********* BLOG MIDDLEWARE ********* **/
 
-/**
- * This middleware connects the client and the server handling blogging operations
- * It is expected that the host which http requests will go through is blog.bnguyensn.com
- * */
-
 const express = require('express');
 const router = express.Router();
 const assert = require('assert');
 const path = require('path');
+
+const date_methods = require('../_helpers/date-methods');
 
 const blog = require('../blog/crud');
 const users = require('../blog/authentication/users');
@@ -23,11 +20,24 @@ const COLLECTION_ARTICLES = 'articles';  // Name of the mongodb collection for b
  * Check if a token exists to verify user's credentials
  * */
 router.use((req, res, next) => {
-    
-
     next();
 });
 
+/**
+ * Check user's login token
+ * */
+router.post('/api/logintoken', async (req, res, next) => {
+    const token_valid = await users.loginToken(req.signedCookies.logininfo);
+    console.log(`signedCookie logininfo = ${req.signedCookies.logininfo}`);
+
+    if (token_valid instanceof Error) {
+        res.status(400).send(token_valid.message);
+    } else {
+        res.status(200).send(token_valid);
+    }
+
+    next();
+});
 
 /**
  * Check user's credentials
@@ -38,8 +48,38 @@ router.post('/api/login', async (req, res, next) => {
     if (token instanceof Error) {
         res.status(400).send(token.message);
     } else {
-        res.status(200).send(token);
+
+        // If storing token using WebStorage, no need to do anything here.
+        // The token is sent back to the client and is handled there
+
+        // Storing token using cookie
+        res.cookie('logininfo', token, {
+
+            path: 'blog/api/logintoken',
+            maxAge: date_methods.daysToMs(30),
+            httpOnly: true,
+            //secure: true,
+            signed: true
+        });
+
+        res.status(200).send('Token stored in cookie');
     }
+
+    next();
+});
+
+/**
+ * Clear cookies
+ * */
+router.get('/api/clearlogincookies', (req, res, next) => {
+    res.clearCookie('logininfo', {
+        path: 'blog/api/logintoken',
+        httpOnly: true,
+        //secure: true,
+        signed: true
+    });
+
+    res.status(200).send('All cookies cleared');
 
     next();
 });

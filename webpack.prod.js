@@ -134,6 +134,16 @@ module.exports = () => {
                 chunks: ['chat', 'vendors', 'runtime~chat'],
                 filename: '../chat.html'
             }),
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/pages/Blog/blog_t.html'),
+                //inject: true,
+                chunks: ['blog', 'vendors', 'runtime~blog'],
+                chunksSortMode: (a, b) => {
+                    const order = ['blog', 'vendors', 'runtime~blog'];
+                    return order.indexOf(b.names[0]) - order.indexOf(a.names[0])
+                },
+                filename: '../blog.html'
+            }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
             // For development builds, we use NamedModulesPlugin instead
