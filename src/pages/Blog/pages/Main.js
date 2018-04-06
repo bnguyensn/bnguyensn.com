@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 
 import {get, post} from '../js/xhr';
 
-const CREATE_USER_URL = '/blog/api/createuser';
+const CREATE_USER_URL = '/blog/api/signup';
 const LOGIN_URL = '/blog/api/login';
 const LOGIN_URL_TOKEN = '/blog/api/logintoken';
 const LOGIN_URL_CLEARCOOKIES = '/blog/api/clearlogincookies';
@@ -17,7 +17,7 @@ class Main extends Component {
         this.submitLogin = this.submitLogin.bind(this);
         this.clearCookies = this.clearCookies.bind(this);
         this.state = {
-            logged_in: false,
+            loggedIn: false,
             username: '',
             pwd: '',
             res: '',
@@ -37,7 +37,7 @@ class Main extends Component {
 
                 // Render logged in page
                 this.setState({
-                    logged_in: true
+                    loggedIn: true
                 });
             } else {
 
@@ -60,13 +60,13 @@ class Main extends Component {
 
     async submitCreateUser() {
         try {
-            const inserted_user_id = await post(CREATE_USER_URL, `username=${this.state.username}&pwd=${this.state.pwd}`);
+            const insertedUserId = await post(CREATE_USER_URL, `username=${this.state.username}&pwd=${this.state.pwd}`);
 
             // Remove existing token
             localStorage.removeItem('loginid');
 
             this.setState({
-                res: `Success! Inserted user at ID ${inserted_user_id}.`
+                res: `Success! Inserted user at ID ${insertedUserId}.`
             });
         }
         catch (e) {
@@ -128,7 +128,7 @@ class Main extends Component {
                 <br/>
                 <span>{this.state.res}</span>
                 <br/>
-                <span>{`Logged in state: ${this.state.logged_in}`}</span>
+                <span>{`Logged in state: ${this.state.loggedIn}`}</span>
             </div>
         )
     }

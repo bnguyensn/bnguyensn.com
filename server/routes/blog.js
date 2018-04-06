@@ -27,13 +27,13 @@ router.use((req, res, next) => {
  * Check user's login token
  * */
 router.post('/api/logintoken', async (req, res, next) => {
-    const token_valid = await users.loginToken(req.signedCookies.logininfo);
+    const tokenValid = await users.loginToken(req.signedCookies.logininfo);
     console.log(`signedCookie logininfo = ${req.signedCookies.logininfo}`);
 
-    if (token_valid instanceof Error) {
-        res.status(400).send(token_valid.message);
+    if (tokenValid instanceof Error) {
+        res.status(400).send(tokenValid.message);
     } else {
-        res.status(200).send(token_valid);
+        res.status(200).send(tokenValid);
     }
 
     next();
@@ -100,14 +100,14 @@ router.get('/', (req, res, next) => {
 /**
  * Create a new user
  * */
-router.post('/api/createuser', async (req, res, next) => {
-    const inserted_user = await users.createUser(req.body.username, req.body.pwd);
+router.post('/api/signup', async (req, res, next) => {
+    const insertedUser = await users.createUser(req.body.username, req.body.pwd);
 
-    if (inserted_user instanceof Error) {
-        res.status(400).send(inserted_user.message);
+    if (insertedUser instanceof Error) {
+        res.status(400).send(insertedUser.message);
     } else {
         // inserted_user, if sent by itself, will be an object like this: {ok: 1, n: 1}
-        res.status(200).send(inserted_user.insertedId);
+        res.status(200).send(insertedUser.insertedId);
     }
     next();
 });

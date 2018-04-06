@@ -15,7 +15,7 @@ const bodyParser = require('body-parser');  // Needed to access POST requests' d
 const helmet = require('helmet');  // Production security package
 
 // Features
-const blog_db = require('./server/blog/connect');
+const blogDb = require('./server/blog/connect');
 
 /**
  * ROUTER MODULES =========

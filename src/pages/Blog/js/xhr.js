@@ -35,7 +35,7 @@ function get(url) {
  * @param {string} query - The query string of the POST request
  * @param {object} [options] - The options available for the POST request
  */
-function post(url, query, {token_WS_auth = ''} = {}) {
+function post(url, query, {tokenWebStorageAuth = ''} = {}) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         console.log('Opening POST request...');
@@ -44,8 +44,8 @@ function post(url, query, {token_WS_auth = ''} = {}) {
 
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         // Bearer Authorization: used when storing token in WebStorage
-        if (token_WS_auth !== '') {
-            xhr.setRequestHeader('Authorization', `Bearer ${token_WS_auth}`);
+        if (tokenWebStorageAuth !== '') {
+            xhr.setRequestHeader('Authorization', `Bearer ${tokenWebStorageAuth}`);
         }
 
         xhr.onreadystatechange = () => {

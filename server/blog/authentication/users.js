@@ -28,9 +28,9 @@ async function createUser(username, pwd) {
         const coll = db.collection(COLL_NAME);
         
         // Check for duplicate user
-        const duplicate_username = await coll.findOne({username: username});
+        const duplicateUsername = await coll.findOne({username: username});
 
-        if (duplicate_username !== null) {
+        if (duplicateUsername !== null) {
             console.log('Username already exists');
             return new Error('Username already exists')
         }
@@ -64,15 +64,15 @@ async function login(username, pwd) {
     try {
         const coll = db.collection(COLL_NAME);
 
-        const user_credentials = await coll.findOne({username: username, pwd: pwd});
+        const userCredentials = await coll.findOne({username: username, pwd: pwd});
 
-        if (user_credentials === null) {
+        if (userCredentials === null) {
             console.log('Username / password pairing not found');
             return new Error('Username / password pairing not found');
         }
 
         // User's credentials valid, create a signed token
-        const payload = {userId: user_credentials._id};  // a.k.a. "claims"
+        const payload = {userId: userCredentials._id};  // a.k.a. "claims"
         return jwt.sign(payload, JWT_SECRET, {algorithm: 'HS256', expiresIn: '30d'})
     }
     catch (e) {
