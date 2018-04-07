@@ -102,6 +102,7 @@ module.exports = () => {
                     { from: '/projects', to: '/index.html' },
                     { from: '/contact', to: '/index.html' },
                     { from: '/404', to: '/index.html' },
+                    { from: '/blog', to: '/blog.html' },
                 ]
             },
 

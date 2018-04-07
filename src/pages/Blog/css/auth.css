@@ -1,6 +1,6 @@
-/** ********* OVERALL CANVAS ********* **/
+/** ********* PAGE ********* **/
 
-#p-canvas {
+.auth-canvas {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,25 +10,79 @@
     background-color: #263238;  /* Blue Grey 900 */
 }
 
-.form-container {
+/** ********* AUTH CONTAINER ********* **/
+
+.auth-container {
     padding: 10px;
 
     background-color: #FAFAFA;  /* Grey 50 */
 }
 
-.form-title {
+/** ********* AUTH FORM SELECTION BUTTONS ********* **/
+
+
+.auth-sel-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    user-select: none;
+}
+
+.auth-sel-btn.active {
+    background-color: #FAFAFA;  /* Grey 50 */
+    color: #212121;  /* Grey 900 */
+    cursor: pointer;
+}
+
+.auth-sel-btn.inactive {
+    background-color: #757575;  /* Grey 600 */
+    color: #424242;  /* Grey 800 */
+    cursor: not-allowed;
+}
+
+/** ********* AUTH FORMS ********* **/
+
+
+
+/** ********* AUTH FORM COMPONENTS ********* **/
+
+.auth-label {
     display: block;
-    margin: 5px 5px 25px 5px;
 
-    font-family: 'Risque', cursive;
-    font-size: 200%;
+    padding: 5px;
+}
+
+.auth-btn {
+    margin: 5px;
+    width: 50%;
+    padding: 10px;
+
+    border-radius: 5px;
+    background-color: #7CB342;  /* Light Green 600 */
+
     text-align: center;
+    font-size: 100%;
+    color: #FAFAFA;  /* Grey 50 */
+
+    cursor: pointer;
+    user-select: none;
 }
 
-#login-form, #signup-form {
-    display: flex;
-    flex-flow: column wrap;
+.auth-btn:hover {
+    background-color: #689F38;  /* Light Green 700 */
 }
+
+.auth-btn:active {
+    background-color: #558B2F;  /* Light Green 800 */
+}
+
+
+
+
+
+
+
 
 /** ********* TEXT INPUT FIELDS ********* **/
 
@@ -124,36 +178,4 @@
 .error-tooltip-hidden {
     visibility: hidden;
     opacity: 0;
-}
-
-/** ********* SUBMIT BUTTON ********* **/
-
-.input-submit-btn-container {
-    display: flex;
-    justify-content: center;
-}
-
-.input-submit-btn {
-    width: 150px;
-    border: none;
-    border-radius: 5px;
-    margin: 5px;
-    padding: 10px;
-
-    background-color: #7CB342;  /* Light Green 600 */
-
-    text-align: center;
-    font-size: 100%;
-    color: #FAFAFA;  /* Grey 50 */
-
-    cursor: pointer;
-    user-select: none;
-}
-
-.input-submit-btn:hover {
-    background-color: #689F38;  /* Light Green 700 */
-}
-
-.input-submit-btn:active {
-    background-color: #558B2F;  /* Light Green 800 */
 }

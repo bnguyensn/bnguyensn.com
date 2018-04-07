@@ -2,6 +2,7 @@
 
 import React, {PureComponent} from 'react';
 import {post} from "../js/xhr";
+import '../css/auth.css';
 
 const LOGIN_URL = '/blog/api/login';
 const SIGNUP_URL = '/blog/api/signup';
@@ -31,20 +32,19 @@ class SignUpForm extends PureComponent {
             await post(SIGNUP_URL, `username=${this.state.username}&pwd=${this.state.pwd}`);
 
             this.setState({
-                res: `Success! Inserted user at ID ${insertedUserId}.`
+                status: `User successfully created!`
             });
         }
         catch (e) {
-            console.log(`Some error happened! Error message: ${e}`);
             this.setState({
-                res: `Some error happened! Error message: ${e}`
+                status: `Could not create user: ${e}`
             });
         }
     }
 
     render() {
         return (
-            <div className='signup-canvas'>
+            <div className='auth-signup-canvas'>
                 <label className='auth-label'>
                     <span>Username</span>
                     <input name='username' type='text'
@@ -109,7 +109,7 @@ class LoginForm extends PureComponent {
 
     render() {
         return (
-            <div className='login-canvas'>
+            <div className='auth-form-canvas'>
                 <label className='auth-label'>
                     <span>Username</span>
                     <input name='username' type='text'
@@ -122,25 +122,33 @@ class LoginForm extends PureComponent {
                            value={this.state.pwd}
                            onChange={this.handleInputChange} />
                 </label>
-                <br/>
                 <div className='auth-btn' onClick={this.submitLogin}>LOGIN</div>
             </div>
         )
     }
 }
 
-function AuthFormSelectionHeader(props) {
+function AuthFormSelectionBtn(props) {
+    function switchAuthForm() {
+        props.switchAuthForm(props.name);
+    }
+
     return (
-        <div className='auth-form-sel-header' onClick={props.handleSwitchAuthForm}>
+        <div className={`auth-sel-btn ${props.active ? 'active' : 'inactive'}`} onClick={switchAuthForm}>
             {props.label}
         </div>
     )
 }
 
+/**
+ * This top-level component handles switching between <LoginForm/> and <SignUpForm/>
+ * The switch is managed via state.authForm
+ * */
 class Authentication extends PureComponent {
     constructor(props) {
         super(props);
         this.switchAuthForm = this.switchAuthForm.bind(this);
+        this.setStatusText = this.setStatusText.bind(this);
         this.authFormIndex = {
             login: <LoginForm />,
             signup: <SignUpForm />
@@ -157,16 +165,28 @@ class Authentication extends PureComponent {
         });
     }
 
+    setStatusText(text) {
+        this.setState({
+            statusText: text
+        });
+    }
+
     render() {
         return (
             <div className='auth-canvas'>
-                <AuthFormSelectionHeader label='LOGIN' handleSwitchAuthForm={this.switchAuthForm} />
-                <AuthFormSelectionHeader label='SIGN UP' handleSwitchAuthForm={this.switchAuthForm} />
-                <div className='auth-form'>
+                <div className='auth-container'>
+                    <AuthFormSelectionBtn name='login'
+                                          label='LOGIN'
+                                          active={this.state.authForm === 'login'}
+                                          switchAuthForm={this.switchAuthForm} />
+                    <AuthFormSelectionBtn name='signup'
+                                          label='SIGN UP'
+                                          active={this.state.authForm === 'signup'}
+                                          handleSwitchAuthForm={this.switchAuthForm} />
                     {this.authFormIndex[this.state.authForm]}
-                </div>
-                <div className='auth-status-txt'>
-                    {this.state.statusText}
+                    <div className='auth-status-txt'>
+                        {this.state.statusText}
+                    </div>
                 </div>
             </div>
         )

@@ -17,7 +17,7 @@ ReactDOM.render(
 
 // Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./', () => {
+    module.hot.accept('./pages/Main', () => {
         console.log('Accepting the updated module.');
         const Next = require('./pages/Main');
         ReactDOM.render(<Next />, document.getElementById('root'));
