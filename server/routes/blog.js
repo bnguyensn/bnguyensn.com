@@ -26,7 +26,7 @@ router.use((req, res, next) => {
 /**
  * Check user's login token
  * */
-router.post('/api/logintoken', async (req, res, next) => {
+router.get('/api/logintoken', async (req, res, next) => {
     const tokenValid = await users.loginToken(req.signedCookies.logininfo);
     console.log(`signedCookie logininfo = ${req.signedCookies.logininfo}`);
 

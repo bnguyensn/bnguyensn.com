@@ -8,7 +8,7 @@
     "build:p": "rimraf ./dist && webpack --config webpack.prod.js --progress"
   },
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^2.x.x",
     "body-parser": "~1.x.x",
     "classnames": "^2.x.x",
     "cookie-parser": "~1.x.x",

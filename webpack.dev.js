@@ -7,6 +7,7 @@ const common = require('./webpack.common.js');
 
 // The main config
 module.exports = () => {
+
     // Loader constants
     const imgLoaderSizeLimit = 1024 * 10;  // 10kb
 
@@ -80,7 +81,10 @@ module.exports = () => {
 
         devServer: {
             // The location of the "index.html" for webpack-dev-server:
-            contentBase: path.join(__dirname, 'src'),
+            contentBase: [
+                path.join(__dirname, 'src/pages/Blog'),
+                path.join(__dirname, 'src')
+            ],
 
             compress: true,
             port: 8080,
@@ -102,7 +106,6 @@ module.exports = () => {
                     { from: '/projects', to: '/index.html' },
                     { from: '/contact', to: '/index.html' },
                     { from: '/404', to: '/index.html' },
-                    { from: '/blog', to: '/blog.html' },
                 ]
             },
 

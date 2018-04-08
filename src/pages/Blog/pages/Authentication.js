@@ -175,14 +175,16 @@ class Authentication extends PureComponent {
         return (
             <div className='auth-canvas'>
                 <div className='auth-container'>
-                    <AuthFormSelectionBtn name='login'
-                                          label='LOGIN'
-                                          active={this.state.authForm === 'login'}
-                                          switchAuthForm={this.switchAuthForm} />
-                    <AuthFormSelectionBtn name='signup'
-                                          label='SIGN UP'
-                                          active={this.state.authForm === 'signup'}
-                                          handleSwitchAuthForm={this.switchAuthForm} />
+                    <div className='auth-sel-btn-container'>
+                        <AuthFormSelectionBtn name='login'
+                                              label='LOGIN'
+                                              active={this.state.authForm === 'login'}
+                                              switchAuthForm={this.switchAuthForm} />
+                        <AuthFormSelectionBtn name='signup'
+                                              label='SIGN UP'
+                                              active={this.state.authForm === 'signup'}
+                                              handleSwitchAuthForm={this.switchAuthForm} />
+                    </div>
                     {this.authFormIndex[this.state.authForm]}
                     <div className='auth-status-txt'>
                         {this.state.statusText}

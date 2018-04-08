@@ -13,18 +13,24 @@
 /** ********* AUTH CONTAINER ********* **/
 
 .auth-container {
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     background-color: #FAFAFA;  /* Grey 50 */
 }
 
 /** ********* AUTH FORM SELECTION BUTTONS ********* **/
 
+.auth-sel-btn-container {
+    display: flex;
+    justify-content: center;
+}
 
 .auth-sel-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    padding: 20px;
+
+    text-align: center;
 
     user-select: none;
 }
@@ -41,16 +47,17 @@
     cursor: not-allowed;
 }
 
-/** ********* AUTH FORMS ********* **/
-
-
-
 /** ********* AUTH FORM COMPONENTS ********* **/
 
 .auth-label {
     display: block;
 
+    margin: 15px;
     padding: 5px;
+}
+
+.auth-label input {
+    font: inherit;
 }
 
 .auth-btn {
