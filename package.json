@@ -48,7 +48,7 @@
     "raw-loader": "^0.x.x",
     "react-hot-loader": "^4.x.x",
     "rimraf": "^2.x.x",
-    "sass-loader": "^6.x.x",
+    "sass-loader": "^7.x.x",
     "style-loader": "^0.x.x",
     "svg-url-loader": "^2.x.x",
     "uglifyjs-webpack-plugin": "^1.x.x",
