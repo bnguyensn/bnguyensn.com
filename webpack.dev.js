@@ -5,11 +5,11 @@ const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
+// Constants
+const imgLoaderSizeLimit = 1024 * 10;  // 10kb
+
 // The main config
 module.exports = () => {
-    // Loader constants
-    const imgLoaderSizeLimit = 1024 * 10;  // 10kb
-
     // Main config
     return merge(common, {
 
@@ -61,17 +61,6 @@ module.exports = () => {
         },
 
         plugins: [
-            // Define environment
-            // webpack 4.0: now has mode. Environment variables are defaulted with mode as well
-            /*new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify('development')  // Different from prod config
-            }),*/
-
-            // Webpack caching. This is needed to cache the manifest file correctly
-            // For production builds, we use HashedModuleIdsPlugin instead
-            // === webpack 4.0 -> this is optimization.namedModules (on by default in development mode
-            //new webpack.NamedModulesPlugin(),
-
             // Hot Module Replacement
             new webpack.HotModuleReplacementPlugin(),
         ],

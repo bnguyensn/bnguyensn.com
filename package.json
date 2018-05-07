@@ -1,14 +1,13 @@
 {
   "name": "bnguyensn.com",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "build:d": "webpack-dev-server --config webpack.dev.js --progress",
-    "build:p": "rimraf ./dist && webpack --config webpack.prod.js --progress"
+    "build:d": "yarn run flow && webpack-dev-server --config webpack.dev.js --progress",
+    "build:p": "yarn run flow && rimraf ./dist && webpack --config webpack.prod.js --progress"
   },
   "dependencies": {
-    "bcrypt": "^2.x.x",
     "body-parser": "~1.x.x",
     "classnames": "^2.x.x",
     "cookie-parser": "~1.x.x",
@@ -17,12 +16,9 @@
     "express": "~4.x.x",
     "helmet": "^3.x.x",
     "morgan": "~1.x.x",
-    "mysql": "^2.x.x",
-    "pug": "2.x.x",
     "react": "^16.x.x",
     "react-dom": "^16.x.x",
-    "serve-favicon": "~2.x.x",
-    "socket.io": "^2.x.x"
+    "serve-favicon": "~2.x.x"
   },
   "devDependencies": {
     "autoprefixer": "^8.x.x",
@@ -32,10 +28,12 @@
     "babel-plugin-syntax-dynamic-import": "^6.x.x",
     "babel-preset-env": "^1.x.x",
     "babel-preset-es2015": "^6.x.x",
+    "babel-preset-flow": "^6.x.x",
     "babel-preset-react": "^6.x.x",
     "css-loader": "^0.x.x",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "file-loader": "^1.x.x",
+    "flow-bin": "^0.71.0",
     "html-webpack-plugin": "^3.x.x",
     "image-webpack-loader": "^4.x.x",
     "json-loader": "^0.x.x",

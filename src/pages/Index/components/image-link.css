@@ -1,0 +1,18 @@
+.img-link-container {
+    display: flex;
+    justify-content: center;
+}
+
+.img-link-container a {
+    display: block;
+}
+
+.img-link-container img {
+    display: block;
+}
+
+.img-link-container img.small { width: 2em; height: 2em; }
+.img-link-container img.medium { width: 4em; height: 4em; }
+.img-link-container img.large { width: 6em; height: 6em; }
+
+.img-link-container img.round { border-radius: 50%; }

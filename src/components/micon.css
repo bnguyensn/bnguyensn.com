@@ -1,0 +1,28 @@
+/* ********** MATERIAL ICONS ********** */
+
+/* ***** Container ***** */
+
+.micon-container { display: flex; align-items: center; }
+
+/* ***** svg icons ***** */
+
+/* Sizes */
+.micon-container svg.small { width: 1em; height: 1em; }
+.micon-container svg.medium { width: 2em; height: 2em; }
+.micon-container svg.large { width: 4em; height: 4em; }
+
+/* Colors */
+
+/* ***** Google's icons ***** */
+
+/* Sizes */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Colors */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }

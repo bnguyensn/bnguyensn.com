@@ -1,0 +1,57 @@
+/* ********** INDEX (LANDING) PAGE ********** */
+
+#index-container {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+
+    min-height: 100vh;
+}
+
+/* ********** HEADER COMPONENT ********** */
+
+#index-header {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+
+    padding: 2em;
+
+    background-color: #212121;  /* Grey 900 */
+}
+
+#index-header h1 {
+    margin: .5em 0 0 0;
+    font-size: 2em;
+    text-align: center;
+    color: #fafafa;  /* Grey 50 */
+}
+
+/* ********** BODY COMPONENT ********** */
+
+#index-body {
+    flex-grow: 1;
+
+    display: flex;
+    flex-flow: column;
+
+    background-color: #EEEEEE;  /* Grey 200 */
+}
+
+#index-body > * {
+    padding: 2em;
+}
+
+/* ********** BODY COMPONENT - CONTACT ROW ********** */
+
+#contact-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+#contact-row > * {
+    margin: 1em;
+}
