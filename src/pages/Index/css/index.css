@@ -35,16 +35,25 @@
     display: flex;
     flex-flow: column;
 
+    padding: 2em 0 2em 0;
+
     background-color: #EEEEEE;  /* Grey 200 */
 }
 
 #index-body > * {
-    padding: 2em;
+    padding: .5em;
 }
 
-/* ********** BODY COMPONENT - CONTACT ROW ********** */
+/* ********** BODY COMPONENT - DIVIDER ROW ********** */
 
-#contact-row {
+.divider-row {
+    text-align: center;
+    user-select: none;
+}
+
+/* ********** BODY COMPONENT - ICON ROW ********** */
+
+.icon-row {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -52,6 +61,6 @@
     align-content: flex-start;
 }
 
-#contact-row > * {
+.icon-row > * {
     margin: 1em;
 }

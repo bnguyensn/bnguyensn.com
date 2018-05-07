@@ -5,7 +5,7 @@ import React from 'react';
 
 import './micon.css';
 
-/** GOOGLE'S MATERIAL ICON **/
+/** ********** GOOGLE'S MATERIAL ICON ********** **/
 
 export function MIcon(props: {icon: string}) {
     return (
@@ -15,14 +15,23 @@ export function MIcon(props: {icon: string}) {
     )
 }
 
-/** SVG MATERIAL ICON **/
+/** ********** SVG MATERIAL ICON ********** **/
 
-export function MIconSVG(props: {svgSize?: string, svgD: string, svgFill: string}) {
+export function MIconSVG(props: {svgSize?: string, svgD: string | string[], svgFill: string}) {
     const size = props.svgSize ? props.svgSize : 'medium';
+    let pathElement;
+    if (Array.isArray(props.svgD)) {
+        pathElement = props.svgD.map((d) =>
+            <path key={d.slice(5)} d={d} fill={props.svgFill} />
+        );
+    } else {
+        pathElement = <path d={props.svgD} fill={props.svgFill} />;
+    }
+
     return (
         <span className='micon-container'>
             <svg className={size} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d={props.svgD} fill={props.svgFill} />
+                {pathElement}
             </svg>
         </span>
     )

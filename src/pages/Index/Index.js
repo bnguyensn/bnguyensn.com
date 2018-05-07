@@ -4,14 +4,15 @@
 import React, {Component} from 'react';
 
 import ImageLink from './components/ImageLink';
-import {MIconSVGLink} from '../../components/MIcon';
+import {MIconSVG, MIconSVGLink} from '../../components/MIcon';
 
 import profileImg from './img/bnguyensn.jpg';
-import socialMediaInfo from './img/ico/social-media-info.json';
+import socialMediaInfo from './json/social-media-info.json';
+import programmingLangInfo from './json/programming-language-info';
 
 import './css/index.css';
 
-/** HEADER COMPONENT **/
+/** ********** HEADER COMPONENT ********** **/
 
 function Header(props) {
     return (
@@ -24,7 +25,19 @@ function Header(props) {
     )
 }
 
-/** BODY COMPONENT **/
+/** ********** BODY COMPONENT ********** **/
+
+/** ***** DIVIDER ***** **/
+
+function DividerRow(props) {
+    return (
+        <div className='divider-row'>
+            {'✦ ✦ ✦'}
+        </div>
+    )
+}
+
+/** ***** CONTACT ROW ***** **/
 
 function ContactRow(props) {
     const socialMediaList = Object.keys(socialMediaInfo);
@@ -36,21 +49,52 @@ function ContactRow(props) {
     );
 
     return (
-        <div id='contact-row'>
+        <div className='icon-row'>
             {socialMediaIconList}
         </div>
     )
 }
 
-function Body(props) {
+/** ***** SKILL ROW ***** **/
+
+function ProgrammingLangRow(props) {
+    const programmingLangList = Object.keys(programmingLangInfo);
+    const programmingLangIconList = programmingLangList.map((programmingLang) =>
+        <MIconSVG key={programmingLang}
+                  svgD={programmingLangInfo[programmingLang].d}
+                  svgFill={programmingLangInfo[programmingLang].fill} />
+    );
+
     return (
-        <div id='index-body'>
-            <ContactRow />
+        <div className='icon-row'>
+            {programmingLangIconList}
         </div>
     )
 }
 
-/** INDEX (LANDING) PAGE **/
+/** ***** TERMINAL ***** **/
+
+function Terminal(props) {
+    return (
+        <div id='terminal'>
+
+        </div>
+    )
+}
+
+/** ***** BODY ***** **/
+
+function Body(props) {
+    return (
+        <div id='index-body'>
+            <ContactRow />
+            <DividerRow />
+            <ProgrammingLangRow />
+        </div>
+    )
+}
+
+/** ********** INDEX (LANDING) PAGE ********** **/
 
 class Index extends Component<{}> {
     render() {
