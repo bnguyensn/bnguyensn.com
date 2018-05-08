@@ -1,7 +1,7 @@
 // @flow
 'use strict';
 
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 
 import ImageLink from './components/ImageLink';
 import {MIconSVG, MIconSVGLink} from '../../components/MIcon';
@@ -74,10 +74,21 @@ function ProgrammingLangRow(props) {
 
 /** ***** TERMINAL ***** **/
 
+class TerminalInput extends PureComponent<{}> {
+    render() {
+        return (
+            <input id='terminal-input' type='text'
+                   placeholder='Ask me anything...' />
+        )
+    }
+}
+
 function Terminal(props) {
     return (
         <div id='terminal'>
-
+            <div id='terminal-input-wrapper'>
+                <TerminalInput />
+            </div>
         </div>
     )
 }
@@ -88,15 +99,14 @@ function Body(props) {
     return (
         <div id='index-body'>
             <ContactRow />
-            <DividerRow />
-            <ProgrammingLangRow />
+            <Terminal />
         </div>
     )
 }
 
 /** ********** INDEX (LANDING) PAGE ********** **/
 
-class Index extends Component<{}> {
+class Index extends PureComponent<{}> {
     render() {
         return (
             <div id='index-container'>

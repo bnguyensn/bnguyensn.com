@@ -40,8 +40,8 @@
     background-color: #EEEEEE;  /* Grey 200 */
 }
 
-#index-body > * {
-    padding: .5em;
+#index-body > * {  /* Apply to all body components */
+    padding: .75em;
 }
 
 /* ********** BODY COMPONENT - DIVIDER ROW ********** */
@@ -63,4 +63,23 @@
 
 .icon-row > * {
     margin: 1em;
+}
+
+/* ********** BODY COMPONENT - TERMINAL ********** */
+
+#terminal {
+    display: flex;
+    justify-content: center;
+}
+
+#terminal-input-wrapper {
+    flex-grow: 1;
+    max-width: 768px;
+}
+
+#terminal-input {
+    width: 100%;
+    padding: .25em;
+    font-family: 'Open Sans', sans-serif;
+    font-size: inherit;
 }
