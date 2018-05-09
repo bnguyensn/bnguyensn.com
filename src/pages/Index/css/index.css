@@ -35,13 +35,20 @@
     display: flex;
     flex-flow: column;
 
-    padding: 2em 0 2em 0;
+    padding: 1em 0 1em 0;
 
     background-color: #EEEEEE;  /* Grey 200 */
 }
 
 #index-body > * {  /* Apply to all body components */
-    padding: .75em;
+    margin: 1em 0 1em 0;
+    padding: .5em;
+}
+
+.index-body-wrapper {  /* Limits components to 768px wide. To center please put under a flex container */
+    flex-grow: 1;
+    max-width: 768px;
+    text-align: center;
 }
 
 /* ********** BODY COMPONENT - DIVIDER ROW ********** */
@@ -61,7 +68,7 @@
     align-content: flex-start;
 }
 
-.icon-row > * {
+.icon-row > * {  /* Apply to the <a> tags that surround the actual icons */
     margin: 1em;
 }
 
@@ -70,16 +77,31 @@
 #terminal {
     display: flex;
     justify-content: center;
-}
 
-#terminal-input-wrapper {
-    flex-grow: 1;
-    max-width: 768px;
+    padding: 0 1em 0 1em;
 }
 
 #terminal-input {
+    border: 1px solid #9E9E9E;  /* Grey 500 */
+
     width: 100%;
-    padding: .25em;
+    padding: .4em;
+
     font-family: 'Open Sans', sans-serif;
     font-size: inherit;
+
+    box-shadow: 0 5px 7px #BDBDBD;  /* Grey 400 */
+
+    transition: box-shadow .15s;
+}
+
+#terminal-input:hover {
+    box-shadow: 0 10px 14px #BDBDBD;  /* Grey 400 */
+}
+
+/* ********** BODY COMPONENT - CREDITS ********** */
+
+#credits {
+    display: flex;
+    justify-content: center;
 }

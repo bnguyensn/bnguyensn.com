@@ -5,6 +5,7 @@ import React, {Component, PureComponent} from 'react';
 
 import ImageLink from './components/ImageLink';
 import {MIconSVG, MIconSVGLink} from '../../components/MIcon';
+import Link from '../../components/Link';
 
 import profileImg from './img/bnguyensn.jpg';
 import socialMediaInfo from './json/social-media-info.json';
@@ -86,8 +87,24 @@ class TerminalInput extends PureComponent<{}> {
 function Terminal(props) {
     return (
         <div id='terminal'>
-            <div id='terminal-input-wrapper'>
+            <div className='index-body-wrapper'>
                 <TerminalInput />
+            </div>
+        </div>
+    )
+}
+
+/** ***** CREDITS ***** **/
+
+function Credits(props) {
+    return (
+        <div id='credits'>
+            <div className='index-body-wrapper'>
+                <span id='credits-text'>
+                    Site powered by <Link href='https://expressjs.com' text='express' />
+                    , <Link href='https://reactjs.org' text='React' />
+                    , and <Link href='https://webpack.js.org' text='webpack' />.
+                </span>
             </div>
         </div>
     )
@@ -99,7 +116,7 @@ function Body(props) {
     return (
         <div id='index-body'>
             <ContactRow />
-            <Terminal />
+            <Credits />
         </div>
     )
 }

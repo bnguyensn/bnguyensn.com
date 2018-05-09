@@ -48,6 +48,11 @@ h1 {
     min-width: 280px;
 }
 
+.wrapper {
+    /* The wrapper class limits its children to 768px wide */
+    max-width: 768px;
+}
+
 /* Texts won't go smaller than 16px */
 @media only screen and (max-width: 512px) {
     body {
