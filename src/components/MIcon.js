@@ -37,9 +37,9 @@ export function MIconSVG(props: {svgSize?: string, svgD: string | string[], svgF
     )
 }
 
-export function MIconSVGLink(props: {href: string, svgD: string, svgFill: string}) {
+export function MIconSVGLink(props: {extraClsNme: string, href: string, svgD: string, svgFill: string}) {
     return (
-        <a href={props.href} target='_blank'>
+        <a className={props.extraClsNme} href={props.href} target='_blank'>
             <MIconSVG svgD={props.svgD} svgFill={props.svgFill} />
         </a>
     )

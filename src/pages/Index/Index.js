@@ -44,6 +44,7 @@ function ContactRow(props) {
     const socialMediaList = Object.keys(socialMediaInfo);
     const socialMediaIconList = socialMediaList.map((socialMedia) =>
         <MIconSVGLink key={socialMedia}
+                      extraClsNme={socialMedia}
                       href={socialMediaInfo[socialMedia].href}
                       svgD={socialMediaInfo[socialMedia].d}
                       svgFill={socialMediaInfo[socialMedia].fill} />

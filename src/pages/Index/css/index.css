@@ -70,7 +70,17 @@
 
 .icon-row > * {  /* Apply to the <a> tags that surround the actual icons */
     margin: 1em;
+    border: .1em solid rgba(0, 0, 0, 0);
+    padding-bottom: .5em;
+    transition: border-bottom-color .15s;
 }
+
+/* These show color-coded underlines for the icon links */
+/* Currently hard-coded for efficiency */
+.icon-row > .twitter:hover { border-bottom-color: #1DA1F2 }
+.icon-row > .github:hover { border-bottom-color: #181717 }
+.icon-row > .instagram:hover { border-bottom-color: #E4405F }
+.icon-row > .facebook:hover { border-bottom-color: #3B5998 }
 
 /* ********** BODY COMPONENT - TERMINAL ********** */
 
