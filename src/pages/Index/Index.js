@@ -15,15 +15,17 @@ import './css/index.css';
 
 /** ********** HEADER COMPONENT ********** **/
 
-function Header(props) {
-    return (
-        <div id='index-header'>
-            <ImageLink src={profileImg} alt='Profile image'
-                       shape='round' size='large'
-                       href='/'/>
-            <h1>Binh Nguyen</h1>
-        </div>
-    )
+class Header extends PureComponent<{}> {
+    render() {
+        return (
+            <div id='index-header'>
+                <ImageLink src={profileImg} alt='Profile image'
+                           shape='round' size='large'
+                           href='/'/>
+                <h1>Binh Nguyen</h1>
+            </div>
+        )
+    }
 }
 
 /** ********** BODY COMPONENT ********** **/
