@@ -1,6 +1,8 @@
 // @flow
 'use strict';
 
+import React, {PureComponent} from 'react';
+
 const SHUFFLE_CHAR_CODE_START = 33;
 const SHUFFLE_CHAR_CODE_END = 126;
 
@@ -12,55 +14,101 @@ function getRandomInt(min, max) {
 }
 
 /**
- * @param {string} resultChr - Final result character
- * @param {number} shuffleInterval - ms Interval between each shuffle
- * @param {number} maxShuffle - s Maximum time the shuffles will play out
- * @param {number} [minShuffle=0] - s Minimum time the shuffles will play out
+ * Shuffle a given string
+ * @param {string} string - The string to be shuffled
+ * @param {Array} ignoredChars - An array of characters that will be ignored when shuffling
+ * @return {string} - The shuffled string
  * */
-function shuffleChar(resultChr: string, shuffleInterval: number, maxShuffle: number, minShuffle?: number = 0) {
-    const startingChar = getRandomInt(SHUFFLE_CHAR_CODE_START, SHUFFLE_CHAR_CODE_END);
+function shuffleString(string: string, ignoredChars?: string[] = [' ']): string {
+    const tempStrArr = string.split('');
+    for (let i = 0; i < tempStrArr.length; i++) {
+        if (ignoredChars.indexOf(tempStrArr[i]) === -1) {
+            tempStrArr[i] = String.fromCharCode(getRandomInt(SHUFFLE_CHAR_CODE_START, SHUFFLE_CHAR_CODE_END));
+        }
+    }
+    return tempStrArr.join('')
 }
 
-function breakDownString(Str: string) {
-
-}
-
-
+/** ********** REACT COMPONENT ********** **/
 
 type ShufflingStringProps = {
     resultStr: string,
-    shuffleInterval: number,
-    maxShuffleTime: number,
-    minShuffleTime: number,
-    ignoredChars?: string[]
+    shuffleInterval: number,  // ms
+    maxShuffleTime: number,  // ms
+    ignoredChars?: string[],  // Default to [' ']
 }
 
-class ShufflingString extends PureComponent<ShufflingStringProps> {
-    constructor(props) {
+type ShufflingStringState = {
+    currentStr: string
+}
+
+type TimerId = TimerId;
+
+class ShufflingString extends PureComponent<ShufflingStringProps, ShufflingStringState> {
+    ignoredChars: string[];
+    maxShuffleTime: number;
+    intervalId: TimerId;
+    timeoutId: TimerId;
+
+    constructor(props: ShufflingStringProps) {
         super(props);
         this.ignoredChars = this.props.ignoredChars ? this.props.ignoredChars : [' '];
+        this.maxShuffleTime = this.props.maxShuffleTime >= this.props.shuffleInterval ? this.props.maxShuffleTime : this.props.shuffleInterval;
         this.state = {
-            currentStr: this.props.resultStr
+            currentStr: shuffleString(this.props.resultStr, this.ignoredChars)
         };
     }
 
-    shuffleString() {
-        const tempStrArr = this.props.resultStr.split('');
-        for (let i = 0; i < tempStrArr.length; i++) {
-            if (this.ignoredChars.indexOf(tempStrArr[i]) === -1) {
-                tempStrArr[i] = String.fromCharCode(getRandomInt(SHUFFLE_CHAR_CODE_START, SHUFFLE_CHAR_CODE_END));
-            }
-        }
-        this.setState({
-            currentStr: tempStrArr.join('')
-        });
+    componentDidMount() {
+        this.start();
     }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
+        clearTimeout(this.timeoutId);
+    }
+
+    start = () => {
+        this.intervalId = setInterval(
+            () => this.shuffle(),
+            this.props.shuffleInterval
+        );
+        this.timeoutId = setTimeout(
+            () => this.stop(),
+            this.maxShuffleTime
+        );
+    };
+
+    shuffle = () => {
+        this.setState((prevState, props) => {
+            return {currentStr: shuffleString(prevState.currentStr, this.ignoredChars)}
+        });
+    };
+
+    stop = () => {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+        this.timeoutId = null;
+        this.setState({
+            currentStr: this.props.resultStr
+        });
+    };
+
+    handleClick = () => {
+        if (!this.intervalId && !this.timeoutId) {
+            this.start();
+        } else {
+            console.log('Timer is still running!');
+        }
+    };
 
     render() {
         return (
-            <div className='shuffling-string'>
+            <span className='shuffling-string' onClick={this.handleClick}>
                 {this.state.currentStr}
-            </div>
+            </span>
         )
     }
 }
+
+export default ShufflingString

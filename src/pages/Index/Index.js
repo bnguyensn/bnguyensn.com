@@ -6,6 +6,7 @@ import React, {Component, PureComponent} from 'react';
 import ImageLink from './components/ImageLink';
 import {MIconSVG, MIconSVGLink} from '../../components/MIcon';
 import Link from '../../components/Link';
+import ShufflingString from './components/ShufflingString';
 
 import profileImg from './img/bnguyensn.jpg';
 import socialMediaInfo from './json/social-media-info.json';
@@ -22,7 +23,11 @@ class Header extends PureComponent<{}> {
                 <ImageLink src={profileImg} alt='Profile image'
                            shape='round' size='large'
                            href='/'/>
-                <h1>Binh Nguyen</h1>
+                <h1>
+                    <ShufflingString resultStr='Binh Nguyen'
+                                     shuffleInterval={75}
+                                     maxShuffleTime={500} />
+                </h1>
             </div>
         )
     }
