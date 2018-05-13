@@ -143,8 +143,6 @@ class ShufflingString extends PureComponent<ShufflingStringProps, ShufflingStrin
     handleClick = () => {
         if (!this.intervalId && !this.timeoutId) {
             this.start();
-        } else {
-            console.log('Timer is still running!');
         }
     };
 

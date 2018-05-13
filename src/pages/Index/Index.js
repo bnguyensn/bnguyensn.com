@@ -26,7 +26,7 @@ class Header extends PureComponent<{}> {
                 <h1>
                     <ShufflingString resultStr='Binh Nguyen'
                                      shuffleInterval={50}
-                                     maxShuffleTime={3000} />
+                                     maxShuffleTime={1500} />
                 </h1>
             </div>
         )
