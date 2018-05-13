@@ -7,27 +7,16 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');  // Needed to access POST requests' data
 const helmet = require('helmet');  // Production security package
 
-const mysql_setup = require('./server/db/setup');  // MySQL setup
-
 // Load router modules (always have /index)
 const index = require('./server/routes/index');
-const login = require('./server/routes/login');
-const chat = require('./server/routes/chat');
 
 const app = express();  // Create the express app
-
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /src
 //app.use(favicon(path.join(__dirname, 'src', 'favicon.ico')));
 
 // Set up the port
 app.set('port', process.env.PORT || 63343);
-
-// Set up MySQL
-app.locals.db_connection_pool = mysql_setup.createConnectionPool();  //  This creates the MySQL connection pool and saves it in an app.local
 
 /** ********** LOAD MIDDLEWARES ********** **/
 
@@ -49,12 +38,6 @@ app.use(helmet.contentSecurityPolicy({
     }
 }));
 
-// The first middleware
-app.use((req, res, next) => {
-    //console.log(`Received ${req.method} request`);
-    next();
-});
-
 // The folder where generated production client files are
 app.use(express.static(path.join(__dirname, 'dist'), {
     maxAge: 31536000
@@ -63,8 +46,6 @@ app.use(express.static(path.join(__dirname, 'dist'), {
 // After loading the router modules above, we attach website paths to them
 // This is just like loading a middleware
 app.use('/', index);
-app.use('/login', login);
-app.use('/chat', chat);
 
 /** ********** ERROR HANDLING ********** **/
 

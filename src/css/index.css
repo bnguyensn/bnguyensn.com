@@ -8,11 +8,8 @@
 body {
     margin: 0;
 
-    /*background-color: #f5f5f5;*/
-    background: url('../img/ricepaper2.png');
-
-    font: 24px 'Open Sans', sans-serif;
-    /*font: 18px 'Gentium Basic', serif;*/
+    /*font: 24px 'Open Sans', sans-serif;*/
+    font: 24px 'Gentium Basic', serif;
 }
 
 a {
@@ -21,7 +18,7 @@ a {
 }
 
 h1 {
-    font-size: 1.25em;
+    font-size: 2em;
 }
 
 /* ********** HELPERS ********** */
@@ -44,22 +41,6 @@ h1 {
 .width-100p { width: 100%; }
 .min-width-100p { min-width: 100%; }
 
-.micon-container { display: flex; align-items: center; }
-
-/* ********** FONT STYLING ********** */
-
-.text-bold { font-weight: bold; }
-
-/* ********** COLOURS ********** */
-
-.red { background-color: #ef5350; }  /* Red 400 */
-.orange { background-color: #FFA726; }  /* Orange 400 */
-.yellow { background-color: #FFEE58; }  /* Yellow 400 */
-.blue { background-color: #42A5F5; }  /* Blue 400 */
-.green { background-color: #66BB6A; }  /* Green 400 */
-.indigo { background-color: #7986CB; }  /* Indigo 400 */
-.purple { background-color: #BA68C8; }  /* Purple 400 */
-
 /* ********** RESPONSIVE WEB DESIGN ********** */
 
 #root {
@@ -67,16 +48,9 @@ h1 {
     min-width: 280px;
 }
 
-.wrapper {  /* Center content horizontally when the screen is large */
-    max-width: 768px; /* Breakpoint is 768px */
-    margin: 0 auto; /* This center the class horizontally */
-}
-
-/* Resize texts when window is resized */
-@media only screen and (max-width: 768px) and (min-width: 513px) {
-    body {
-        font-size: 3.125vw;  /* 3.125% = 24px (body font size) / 768px (limit width) */
-    }
+.wrapper {
+    /* The wrapper class limits its children to 768px wide */
+    max-width: 768px;
 }
 
 /* Texts won't go smaller than 16px */
@@ -86,37 +60,9 @@ h1 {
     }
 }
 
-/* ********** EXTERNAL SNIPPETS ********** */
-
-/* ***** Google's material icon guidelines ***** */
-
-/* Rules for sizing the icon */
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
-
-/* ***** My custom sizing rules ***** */
-svg.msvg-24 { width: 24px; height: 24px; }
-svg.msvg-36 { width: 36px; height: 36px; }
-
-/* Rules for using icons as black on a light background */
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
-
-/* Rules for using icons as white on a dark background */
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
-
-/* ***** My custom colouring rules ***** */
-path.msvg-grey { fill: #BDBDBD; }  /* Grey 400 */
-
-.material-icons.md-green { color: rgba(102, 187, 106, 1); }  /* Green 400 */
-.material-icons.md-green.inactive { color: rgba(102, 187, 106, 0.3); }
-.material-icons.md-red { color: rgba(239, 83, 80, 1); }  /* Red 400 */
-.material-icons.md-red.inactive { color: rgba(239, 83, 80, 0.3); }
-.material-icons.md-yellow { color: rgba(255,202,40 ,1); }  /* Amber 400 */
-.material-icons.md-yellow.inactive { color: rgba(255,202,40 ,0.3); }
-
-/* ***** My other rules ***** */
-.micon-container { display: flex; align-items: center; }
+/* Texts won't go larger than body font size */
+@media only screen and (max-width: 768px) and (min-width: 513px) {
+    body {
+        font-size: 3.125vw;  /* 3.125% = 24px (body font size) / 768px (limit width) */
+    }
+}

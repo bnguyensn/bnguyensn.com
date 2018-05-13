@@ -122,32 +122,10 @@ module.exports = () => {
                 chunks: ['index', 'vendors', 'runtime~index'],
                 filename: '../index.html'
             }),
-            new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'src/html/t_login.html'),
-                //inject: true,
-                chunks: ['login', 'vendors', 'runtime~login'],
-                filename: '../login.html'
-            }),
-            new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'src/html/t_chat.html'),
-                //inject: true,
-                chunks: ['chat', 'vendors', 'runtime~chat'],
-                filename: '../chat.html'
-            }),
 
             // Webpack caching. This is needed to cache the manifest file correctly
             // For development builds, we use NamedModulesPlugin instead
             new webpack.HashedModuleIdsPlugin(),
-
-            /* Concatenate modules together (a.k.a. "module hoisting"). This improves browser execution time, but
-             * decrease build speed. This also does not work with Hot Module Replacement and thus should be enabled
-             * in production only.
-             * ===
-             * webpack 4.0 --> this is in their default config
-             * optimization.concatenateModules  // on by default in production mode
-             */
-            //new webpack.optimize.ModuleConcatenationPlugin(),
-
         ],
 
         //devtool: 'source-map',

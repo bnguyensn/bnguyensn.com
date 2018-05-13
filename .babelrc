@@ -1,9 +1,4 @@
 {
-  "presets": [
-    ["env", {
-      "modules": false
-    }],
-    "react"
-  ],
-  "plugins": ["react-hot-loader/babel", "syntax-dynamic-import"]
+  "presets": ["env", "react", "flow"],
+  "plugins": ["react-hot-loader/babel", "syntax-dynamic-import", "transform-class-properties"]
 }
