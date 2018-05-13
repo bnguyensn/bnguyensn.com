@@ -9,7 +9,7 @@ const path = require('path');
  * Note that 'index.html' is served by default for the '/' route as part of our express.static configuration in app.js.
  * However, it won't be served for any other routes, hence we need to tell express to send 'index.html' here.
  * */
-router.get(/about|archive|projects|contact/, (req, res, next) => {
+router.get('/', (req, res, next) => {
     res.sendFile('index.html', {
         root: path.join(__dirname, '../../dist'),
         maxAge: 31536000

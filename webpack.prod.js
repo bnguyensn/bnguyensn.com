@@ -117,7 +117,7 @@ module.exports = () => {
 
             // HTML creation
             new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'src/html/t_index.html'),
+                template: path.resolve(__dirname, 'src/t_index.html'),
                 //inject: true,
                 chunks: ['index', 'vendors', 'runtime~index'],
                 filename: '../index.html'
