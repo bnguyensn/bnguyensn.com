@@ -3,8 +3,12 @@
 
 import React, {PureComponent} from 'react';
 
-const SHUFFLE_CHAR_CODE_START = 33;
-const SHUFFLE_CHAR_CODE_END = 126;
+/** ********** CONSTANTS ********** **/
+
+const SHUFFLE_CHAR_CODE_START = 65;
+const SHUFFLE_CHAR_CODE_END = 122;
+
+/** ********** UTILITY FUNCTIONS ********** **/
 
 function getRandomInt(min, max) {
     //The maximum is exclusive and the minimum is inclusive
@@ -12,6 +16,8 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+/** ********** SHUFFLE FUNCTIONS ********** **/
 
 /**
  * Shuffle a given string
@@ -27,6 +33,26 @@ function shuffleString(string: string, ignoredChars?: string[] = [' ']): string 
         }
     }
     return tempStrArr.join('')
+}
+
+/**
+ * Shuffle a given string until all characters became the original string
+ * This function directly mutate the parameter arrays
+ * @param {Array} charListOG - An array depicting the original string, with each element being a character in the original string
+ * @param {Array} charListCurr - An array starting out as depicting the original string, but will be modified to show the shuffled string
+ * @param {Array} charToBeModIndices - An array of character indices that will be modified
+ * */
+function shuffleString2(charListOG: string[], charListCurr: string[], charToBeModIndices: number[]) {
+    for (let i = 0; i < charToBeModIndices.length; i++) {
+        // Modify the current character list
+        charListCurr[charToBeModIndices[i]] = String.fromCharCode(getRandomInt(SHUFFLE_CHAR_CODE_START, SHUFFLE_CHAR_CODE_END));
+
+        // If the new character is the same as the original character
+        // -> remove the index of this character from the char-to-be-modified list
+        if (charListCurr[charToBeModIndices[i]] === charListOG[charToBeModIndices[i]]) {
+            charToBeModIndices.splice(i, 1);
+        }
+    }
 }
 
 /** ********** REACT COMPONENT ********** **/
@@ -49,11 +75,15 @@ class ShufflingString extends PureComponent<ShufflingStringProps, ShufflingStrin
     maxShuffleTime: number;
     intervalId: TimerId;
     timeoutId: TimerId;
+    charListOG: string[];
+    charListCurr: string[];
+    charToBeModIndices: number[];
 
     constructor(props: ShufflingStringProps) {
         super(props);
         this.ignoredChars = this.props.ignoredChars ? this.props.ignoredChars : [' '];
         this.maxShuffleTime = this.props.maxShuffleTime >= this.props.shuffleInterval ? this.props.maxShuffleTime : this.props.shuffleInterval;
+        this.charListOG = this.props.resultStr.split('');
         this.state = {
             currentStr: shuffleString(this.props.resultStr, this.ignoredChars)
         };
@@ -69,24 +99,40 @@ class ShufflingString extends PureComponent<ShufflingStringProps, ShufflingStrin
     }
 
     start = () => {
+        this.charListCurr = this.charListOG.slice();
+        this.charToBeModIndices = [];
+        for (let i = 0; i < this.charListOG.length; i++) {
+            if (this.ignoredChars.indexOf(this.charListOG[i]) === -1) {
+                this.charToBeModIndices.push(i);
+            }
+        }
+
         this.intervalId = setInterval(
             () => this.shuffle(),
             this.props.shuffleInterval
         );
         this.timeoutId = setTimeout(
-            () => this.stop(),
+            () => {
+                this.stop();
+            },
             this.maxShuffleTime
         );
     };
 
     shuffle = () => {
-        this.setState((prevState, props) => {
-            return {currentStr: shuffleString(prevState.currentStr, this.ignoredChars)}
-        });
+        if (this.charToBeModIndices.length > 0) {
+            shuffleString2(this.charListOG, this.charListCurr, this.charToBeModIndices);
+            this.setState((prevState, props) => {
+                return {currentStr: this.charListCurr.join('')}
+            });
+        } else {
+            this.stop();
+        }
     };
 
     stop = () => {
         clearInterval(this.intervalId);
+        clearTimeout(this.timeoutId);
         this.intervalId = null;
         this.timeoutId = null;
         this.setState({
