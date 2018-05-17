@@ -13,9 +13,10 @@ const fs = require('fs');
 // [...] - Or
 // * - One or more
 // [\s\S]* - Match any character that is not whitespace or whitespace, multiple times
+// [^"]* - Match everything but "
 // g tag - Global search
 
-const attrRegex = /(\S*)="([\s\S]*)"/gm;
+const attrRegex = /(\S*)="([^"]*)"\s*/g;
 
 /** ********** PARSING FUNCTIONS ********** **/
 
@@ -39,7 +40,7 @@ function parseSVG(inputPath, outputPath, tags) {
             }
         }
 
-        fs.writeFile('output.json', JSON.stringify(svgObj), (err) => {
+        fs.writeFile('output.json', JSON.stringify(svgObj, null, '\t'), (err) => {
             if (err) throw err;
             console.log('File saved successfully');
         });
