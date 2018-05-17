@@ -1,24 +1,49 @@
-// @flow
 'use strict';
 
-/** ********** PARSE SVG **********
- *
- * This parses a .svg file and returns a .json file containing the .svg's characteristics
- *
- * ***************************** */
+/** parse-svg =====================================
+ * This parses a .svg file and returns a .json file
+ * containing the .svg's characteristics
+ * */
 
 const fs = require('fs');
 
+/** ********** REGEX ********** **/
+
+// (...) - Capture group
+// [...] - Or
+// * - One or more
+// [\s\S]* - Match any character that is not whitespace or whitespace, multiple times
+// g tag - Global search
+
+const attrRegex = /(\S*)="([\s\S]*)"/gm;
+
+/** ********** PARSING FUNCTIONS ********** **/
+
 /**
  * @param {string} inputPath - Path to the .svg in question
- * @param {string} outputPath - Path where the resulting .json will be saved=
+ * @param {string} outputPath - Path where the resulting .json will be saved
+ * @param {array} [tags] - Array of svg tags to look for when parsing, if null -> parse everything
  * */
-export function parseSVG(inputPath: string, outputPath: string) {
-    let resultStr;
+function parseSVG(inputPath, outputPath, tags) {
     fs.readFile(inputPath, 'utf8', (err, data) => {
         if (err) throw err;
-        resultStr = data;
+
+        let svgObj = {};
+
+        if (tags) {
+            // TODO: limit parse to only passed tags
+        } else {
+            let regexArray;
+            while ((regexArray = attrRegex.exec(data)) !== null) {
+                svgObj[regexArray[1]] = regexArray[2];
+            }
+        }
+
+        fs.writeFile('output.json', JSON.stringify(svgObj), (err) => {
+            if (err) throw err;
+            console.log('File saved successfully');
+        });
     });
 }
 
-parseSVG('../../src/widgets/world-travel-map/img/world2.svg','./');
+parseSVG('src/widgets/world-travel-map/img/world2.svg','./');
