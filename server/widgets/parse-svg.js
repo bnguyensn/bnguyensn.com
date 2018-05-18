@@ -12,11 +12,15 @@ const fs = require('fs');
 // (...) - Capture group
 // [...] - Or
 // * - One or more
-// [\s\S]* - Match any character that is not whitespace or whitespace, multiple times
+// \D - Match non-digits
+// [\s\S]* - Match any character that is whitespace or not whitespace, multiple times
 // [^"]* - Match everything but "
 // g tag - Global search
 
-const attrRegex = /(\S*)="([^"]*)"\s*/g;
+const tagRegex = /<(\D*)\s[^>]*>/g;
+const attrRegex = /(\S*)="([^"]*)"\s/g;
+
+// TODO: need a <tag/> regex to determine different levels of matching
 
 /** ********** PARSING FUNCTIONS ********** **/
 
