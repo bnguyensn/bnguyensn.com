@@ -17,10 +17,9 @@ const fs = require('fs');
 // [^"]* - Match everything but "
 // g tag - Global search
 
-const tagRegex = /<(\D*)\s[^>]*>/g;
-const attrRegex = /(\S*)="([^"]*)"\s/g;
+const regexEmptyTag = /<(\S*)\s*(\S[^\/]*)\/>/g;  // Regex for empty XML tags
 
-// TODO: need a <tag/> regex to determine different levels of matching
+const regexAttr = /(\S*)="([^"]*)"\s*/g;  // Regex for attributes
 
 /** ********** PARSING FUNCTIONS ********** **/
 
@@ -38,9 +37,24 @@ function parseSVG(inputPath, outputPath, tags) {
         if (tags) {
             // TODO: limit parse to only passed tags
         } else {
-            let regexArray;
-            while ((regexArray = attrRegex.exec(data)) !== null) {
-                svgObj[regexArray[1]] = regexArray[2];
+            let regexTagArray;
+            let count = 0;
+            while ((regexTagArray = regexEmptyTag.exec(data)) !== null) {
+                // XML tag layer
+                const tagName = `${regexTagArray[1]}_${count}`;
+                const attrStr = regexTagArray[2];
+
+                // XML tag's attributes layer
+                let regexAttrArray;
+                let tagAttrs = {};
+                while ((regexAttrArray = regexAttr.exec(attrStr)) !== null) {
+                    tagAttrs[regexAttrArray[1]] = regexAttrArray[2];
+                }
+                regexAttr.lastIndex = 0;
+
+                // XML tag layer
+                svgObj[tagName] = tagAttrs;
+                count += 1;
             }
         }
 
