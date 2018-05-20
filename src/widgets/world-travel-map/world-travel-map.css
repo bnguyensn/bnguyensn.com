@@ -1,3 +1,8 @@
-#world-travel-map > * {
-    width: 1000px; height: 500px;
+#world-travel-map {
+    display: flex;
+    justify-content: center;
+}
+
+#world-travel-map > svg {
+    height: 30em;
 }
