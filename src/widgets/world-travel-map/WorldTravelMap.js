@@ -23,7 +23,7 @@ class WorldTravelMap extends PureComponent<{}> {
     render() {
         return (
             <div id='world-travel-map'>
-                <svg role="img" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg">
+                <svg role="img" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
                     {this.countryPathElements}
                 </svg>
             </div>
