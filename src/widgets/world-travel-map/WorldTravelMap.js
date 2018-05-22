@@ -20,6 +20,14 @@ class WorldTravelMap extends PureComponent<{}> {
         );
     }
 
+    panMap = () => {
+
+    };
+
+    zoomMap = () => {
+
+    };
+
     render() {
         return (
             <div id='world-travel-map'>
