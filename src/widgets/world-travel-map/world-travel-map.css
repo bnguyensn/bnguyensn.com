@@ -6,3 +6,8 @@
 #world-travel-map > svg {
     height: 720px;
 }
+
+#world-travel-map-test {
+    position: fixed;
+    user-select: none;
+}

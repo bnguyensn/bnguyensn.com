@@ -8,7 +8,13 @@ import worldMapData from './img/world2';
 
 import './world-travel-map.css';
 
-class WorldTravelMap extends PureComponent<{}> {
+type WorldTravelMapState = {
+    mouseDown: boolean,
+    mouseX: number,
+    mouseY: number
+}
+
+class WorldTravelMap extends PureComponent<{}, WorldTravelMapState> {
     countryIds: string[];
     countryPathElements: Node;
 
@@ -18,14 +24,66 @@ class WorldTravelMap extends PureComponent<{}> {
         this.countryPathElements = this.countryIds.map((countryId) =>
             <path key={countryId} d={worldMapData[countryId].d} fill={'#81C784'} />
         );
+        this.state = {
+            mouseDown: false,
+            mouseX: 0,
+            mouseY: 0
+        }
     }
 
-    clickMap = () => {
+    /** REACT LIFECYCLE METHODS **/
+
+    shouldComponentUpdate = (nextProps: {}, nextState: WorldTravelMapState): boolean => {
+        // Only re-render if the mouse is held down
+        return this.state.mouseDown
+    };
+
+    /** MOUSE EVENT METHODS **/
+
+    handleUserClick = (e: SyntheticMouseEvent<HTMLElement>) => {
+        // console.log(`clientX: ${e.clientX}; clientY: ${e.clientY}`);
+    };
+
+    handleUserDragStart = (e: SyntheticMouseEvent<HTMLElement>): boolean => {
+        // Prevent default dragging behaviour.
+        // Note that setting the draggable attribute to false does not work in older browsers.
+        e.preventDefault();
+        return false
+    };
+
+    handleUserMouseEnter = () => {
 
     };
 
-    panMap = (startPoint, direction, speed) => {
-        
+    handleUserMouseLeave = () => {
+        this.setState({
+            mouseDown: false
+        });
+    };
+
+    handleUserMouseDown = () => {
+        this.setState({
+            mouseDown: true
+        });
+    };
+
+    handleUserMouseUp = () => {
+        this.setState({
+            mouseDown: false
+        });
+    };
+
+    handleUserMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
+        this.setState({
+            mouseX: e.clientX,
+            mouseY: e.clientY
+        });
+    };
+
+    /** MAP MOVEMENT METHODS **/
+
+    panMap = (startPoint: {}, endPoint: {}) => {
+
     };
 
     zoomMap = () => {
@@ -35,8 +93,15 @@ class WorldTravelMap extends PureComponent<{}> {
     render() {
         return (
             <div id='world-travel-map'>
+                <span id='world-travel-map-test'>
+                    {`${this.state.mouseX} | ${this.state.mouseY}`}
+                </span>
                 <svg role="img" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg"
-                     onClick={this.clickMap}>
+                     onDragStart={this.handleUserDragStart}
+                     onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
+                     onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}
+                     onMouseMove={this.handleUserMouseMove}
+                     onClick={this.handleUserClick}>
                     {this.countryPathElements}
                 </svg>
             </div>
