@@ -1,7 +1,7 @@
 // @flow
 'use strict';
 
-import React, {PureComponent} from 'react';
+import React, {Component, PureComponent} from 'react';
 import type {Node} from 'react';
 
 import worldMapData from './img/world2';
@@ -11,10 +11,12 @@ import './world-travel-map.css';
 type WorldTravelMapState = {
     mouseDown: boolean,
     mouseX: number,
-    mouseY: number
+    mouseY: number,
+    mapViewBoxMinX: number,
+    mapViewBoxMinY: number
 }
 
-class WorldTravelMap extends PureComponent<{}, WorldTravelMapState> {
+class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     countryIds: string[];
     countryPathElements: Node;
 
@@ -27,15 +29,17 @@ class WorldTravelMap extends PureComponent<{}, WorldTravelMapState> {
         this.state = {
             mouseDown: false,
             mouseX: 0,
-            mouseY: 0
+            mouseY: 0,
+            mapViewBoxMinX: 0,
+            mapViewBoxMinY: 0
         }
     }
 
     /** REACT LIFECYCLE METHODS **/
 
     shouldComponentUpdate = (nextProps: {}, nextState: WorldTravelMapState): boolean => {
-        // Only re-render if the mouse is held down
-        return this.state.mouseDown
+        // Only re-render if the mouse is held down and the cursor is within the map
+        return this.state.mouseDown && this.state.mouseDown === nextState.mouseDown
     };
 
     /** MOUSE EVENT METHODS **/
@@ -61,22 +65,39 @@ class WorldTravelMap extends PureComponent<{}, WorldTravelMapState> {
         });
     };
 
-    handleUserMouseDown = () => {
+    handleUserMouseDown = (e: SyntheticMouseEvent<HTMLElement>) => {
         this.setState({
-            mouseDown: true
+            mouseDown: true,
+            mouseX: e.clientX,
+            mouseY: e.clientY,
         });
+
     };
 
-    handleUserMouseUp = () => {
+    handleUserMouseUp = (e: SyntheticMouseEvent<HTMLElement>) => {
         this.setState({
-            mouseDown: false
+            mouseDown: false,
+            mouseX: e.clientX,
+            mouseY: e.clientY,
         });
     };
 
     handleUserMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
-        this.setState({
-            mouseX: e.clientX,
-            mouseY: e.clientY
+        e.persist();  // Needed for React's Synthetic Events to fire continuously
+        this.setState((prevState: WorldTravelMapState, props: {}): {} => {
+            let xMvmt = 0;
+            let yMvmt = 0;
+            if (prevState.mouseDown) {
+                xMvmt = e.clientX - prevState.mouseX;
+                yMvmt = e.clientY - prevState.mouseY;
+            }
+
+            return {
+                mouseX: e.clientX,
+                mouseY: e.clientY,
+                mapViewBoxMinX: prevState.mapViewBoxMinX - xMvmt,
+                mapViewBoxMinY: prevState.mapViewBoxMinY - yMvmt,
+            }
         });
     };
 
@@ -96,7 +117,8 @@ class WorldTravelMap extends PureComponent<{}, WorldTravelMapState> {
                 <span id='world-travel-map-test'>
                     {`${this.state.mouseX} | ${this.state.mouseY}`}
                 </span>
-                <svg role="img" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg"
+                <svg role="img" xmlns="http://www.w3.org/2000/svg"
+                     viewBox={`${this.state.mapViewBoxMinX} ${this.state.mapViewBoxMinY} 1000 500`}
                      onDragStart={this.handleUserDragStart}
                      onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
                      onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}

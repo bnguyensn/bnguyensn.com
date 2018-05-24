@@ -4,6 +4,7 @@
 }
 
 #world-travel-map > svg {
+    border: 1px solid #212121;
     height: 720px;
 }
 
