@@ -40,7 +40,7 @@
     background-color: #EEEEEE;  /* Grey 200 */
 }
 
-#index-body > * {  /* Apply to all body components */
+#index-body > * {  /* Apply to all direct body components */
     margin: 1em 0 1em 0;
     padding: .5em;
 }

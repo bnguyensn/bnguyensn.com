@@ -1,11 +1,12 @@
 #world-travel-map {
     display: flex;
     justify-content: center;
+    background-color: #B3E5FC;  /* Light Blue 100 */
 }
 
 #world-travel-map > svg {
     border: 1px solid #212121;
-    height: 720px;
+    height: 90vh;
 }
 
 #world-travel-map-test {
