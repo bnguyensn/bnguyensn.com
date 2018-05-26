@@ -2,9 +2,11 @@
     display: flex;
     justify-content: center;
     background-color: #B3E5FC;  /* Light Blue 100 */
+    overflow: hidden;
 }
 
 #world-travel-map > svg {
+    position: relative;
     border: 1px solid #212121;
     height: 90vh;
 }

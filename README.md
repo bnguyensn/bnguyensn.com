@@ -6,6 +6,10 @@ This repo contains the source code for my personal website at [bnguyensn.com](ht
  
  The site is continuously developed. It serves as my code playground as well as a platform for me to explore new ideas. 
  
- I hope you find something useful or learn a thing or two here. I'm available on [Twitter](https://twitter.com/bnguyensn) if you have questions!
+ I do hope you find something useful or learn a thing or two here. I'm available on [Twitter](https://twitter.com/bnguyensn) if you have questions!
  
- All the best
+ Keep on hacking!
+ 
+ Yours truly,
+ 
+ Binh Nguyen

@@ -11,10 +11,13 @@ import './world-travel-map.css';
 function isInRange(n: number, min: number, max: number): boolean {
     return (n >= min && n <= max)
 }
+
 type WorldTravelMapState = {
     mouseDown: boolean,
     mouseX: number,
     mouseY: number,
+    mapPosX: number,
+    mapPosY: number,
     mapViewBoxMinX: number,
     mapViewBoxMinY: number,
     mapViewBoxX: number,
@@ -27,7 +30,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     countryIds: string[];
     countryPathElements: Node;
     zoomData: {
-        amtX: number, amtY: number, maxAmtX: number, maxAmtY: number, minAmtX: number, minAmtY: number
+        amtX: number, amtY: number, maxAmtX: number, maxAmtY: number, minAmtX: number, minAmtY: number,
     };
 
     constructor() {
@@ -50,6 +53,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             scrollUpdate: false,
             mouseX: 0,
             mouseY: 0,
+            mapPosX: 0,
+            mapPosY: 0,
             mapViewBoxMinX: 0,
             mapViewBoxMinY: 0,
             mapViewBoxX: this.zoomData.maxAmtX,
@@ -61,11 +66,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
 
     /** REACT LIFECYCLE METHODS **/
 
-    shouldComponentUpdate = (nextProps: {}, nextState: WorldTravelMapState): boolean => {
-        // Only re-render if the mouse is held down and the cursor is within the map
-        // return (this.state.mouseDown && this.state.mouseDown === nextState.mouseDown)
-        return true
-    };
+    // Not yet needed
 
     /** MOUSE EVENT METHODS **/
 
@@ -113,7 +114,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         if (this.state.mouseDown) {
             // Pan the map
             this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-                const newMapViewBoxMinX = prevState.mapViewBoxMinX - (e.clientX - prevState.mouseX);
+                /*const newMapViewBoxMinX = prevState.mapViewBoxMinX - (e.clientX - prevState.mouseX);
                 const newMapViewBoxMinY = prevState.mapViewBoxMinY - (e.clientY - prevState.mouseY);
                 if (isInRange(newMapViewBoxMinX, -prevState.panMaxX, prevState.panMaxX)
                     && isInRange(newMapViewBoxMinY, -prevState.panMaxY, prevState.panMaxY)) {
@@ -123,7 +124,20 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
                         mapViewBoxMinX: newMapViewBoxMinX,
                         mapViewBoxMinY: newMapViewBoxMinY
                     }
+                }*/
+                const newMapPosX = prevState.mapPosX + (e.clientX - prevState.mouseX);
+                const newMapPosY = prevState.mapPosY + (e.clientY - prevState.mouseY);
+
+                if (isInRange(newMapPosX, -prevState.panMaxX, prevState.panMaxX)
+                    && isInRange(newMapPosY, -prevState.panMaxY, prevState.panMaxY)) {
+                    return {
+                        mouseX: e.clientX,
+                        mouseY: e.clientY,
+                        mapPosX: newMapPosX,
+                        mapPosY: newMapPosY
+                    }
                 }
+
                 return {
                     mouseX: e.clientX,
                     mouseY: e.clientY
@@ -183,7 +197,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
                     {/*{`${this.state.mouseX} | ${this.state.mouseY}`}*/}
                 {/*</span>*/}
                 <svg role="img" xmlns="http://www.w3.org/2000/svg"
-                     viewBox={`${this.state.mapViewBoxMinX} ${this.state.mapViewBoxMinY} ${this.state.mapViewBoxX} ${this.state.mapViewBoxY}`}
+                     viewBox={`0 0 ${this.state.mapViewBoxX} ${this.state.mapViewBoxY}`}
+                     style={{transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)`}}
                      onDragStart={this.handleUserDragStart}
                      onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
                      onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}
