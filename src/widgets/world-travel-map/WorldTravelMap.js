@@ -18,6 +18,9 @@ type WorldTravelMapState = {
     mouseY: number,
     mapPosX: number,
     mapPosY: number,
+    mapScale: number,
+    mapW: number,
+    mapH: number,
     mapViewBoxMinX: number,
     mapViewBoxMinY: number,
     mapViewBoxX: number,
@@ -30,6 +33,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     countryIds: string[];
     countryPathElements: Node;
     zoomData: {
+        scaleAmt: number, scaleAmtMin: number, scaleAmtMax: number,
         amtX: number, amtY: number, maxAmtX: number, maxAmtY: number, minAmtX: number, minAmtY: number,
     };
 
@@ -40,6 +44,11 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             <path key={countryId} d={worldMapData[countryId].d} fill={'#81C784'} />
         );
         this.zoomData = {
+            scaleAmt: .1,
+            scaleAmtMax: 4,
+            scaleAmtMin: .75,
+
+            // TODO: delete the below (and change type definition)
             amtX: 100,
             amtY: 50,
             // A bit counter intuitive here, but the larger the number, the smaller the svg image
@@ -55,6 +64,9 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             mouseY: 0,
             mapPosX: 0,
             mapPosY: 0,
+            mapScale: 1,
+            mapW: 2000,
+            mapH: 1000,
             mapViewBoxMinX: 0,
             mapViewBoxMinY: 0,
             mapViewBoxX: this.zoomData.maxAmtX,
@@ -150,34 +162,35 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         e.preventDefault();
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
-        // Zoom the map
-        // Scroll up = negative Y
-        // The smaller mapViewBox is, the larger the size of the svg
-        this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-            const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (to zoom in)
+        // Zoom the map using transform scale
+        /*const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
+        const newMapScale = this.state.mapScale - (this.zoomData.scaleAmt * d);
+        if (isInRange(newMapScale, this.zoomData.scaleAmtMin, this.zoomData.scaleAmtMax)) {
+            this.setState((prevState: WorldTravelMapState, props: {}): {} => {
 
-            const newMapViewBoxX = prevState.mapViewBoxX + (this.zoomData.amtX * d);
-            if (isInRange(newMapViewBoxX, this.zoomData.minAmtX, this.zoomData.maxAmtX)) {
-                const newMapViewBoxY = prevState.mapViewBoxY + (this.zoomData.amtY * d);
-
-                // Snap the map back to new limit if necessary
-                const newPanMaxX = newMapViewBoxX / 2;
-                const newPanMaxY = newMapViewBoxY / 2;
-                const newMapViewBoxMinX = (isInRange(prevState.mapViewBoxMinX, -newPanMaxX, newPanMaxX)) ? prevState.mapViewBoxMinX : newPanMaxX * Math.sign(prevState.mapViewBoxMinX);
-                const newMapViewBoxMinY = (isInRange(prevState.mapViewBoxMinY, -newPanMaxY, newPanMaxY)) ? prevState.mapViewBoxMinY : newPanMaxY * Math.sign(prevState.mapViewBoxMinY);
+                // TODO: Snap the map back to new limit if necessary
 
                 return {
-                    mapViewBoxX: newMapViewBoxX,
-                    mapViewBoxY: newMapViewBoxY,
-                    panMaxX: newPanMaxX,
-                    panMaxY: newPanMaxY,
-                    mapViewBoxMinX: newMapViewBoxMinX,
-                    mapViewBoxMinY: newMapViewBoxMinY
+                    mapScale: newMapScale
                 }
-            }
+            });
+        }*/
 
-            return {}
-        });
+        // Zoom the map using width / height
+        const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
+        const newMapW = this.state.mapW - (this.state.mapW * this.zoomData.scaleAmt * d);
+        // TODO: Add zoom limit
+        if (true) {
+            this.setState((prevState: WorldTravelMapState, props: {}): {} => {
+
+                // TODO: Snap the map back to new limit if necessary
+
+                return {
+                    mapW: newMapW,
+                    mapH: this.state.mapH - (this.state.mapH * this.zoomData.scaleAmt * d)
+                }
+            });
+        }
     };
 
     /** MAP MOVEMENT METHODS **/
@@ -193,12 +206,13 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     render() {
         return (
             <div id='world-travel-map'>
-                {/*<span id='world-travel-map-test'>*/}
-                    {/*{`${this.state.mouseX} | ${this.state.mouseY}`}*/}
-                {/*</span>*/}
                 <svg role="img" xmlns="http://www.w3.org/2000/svg"
                      viewBox={`0 0 ${this.state.mapViewBoxX} ${this.state.mapViewBoxY}`}
-                     style={{transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)`}}
+                     style={{
+                         width: `${this.state.mapW}px`, height: `${this.state.mapH}px`,
+                         transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)
+                                     scale(${this.state.mapScale})`
+                     }}
                      onDragStart={this.handleUserDragStart}
                      onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
                      onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}

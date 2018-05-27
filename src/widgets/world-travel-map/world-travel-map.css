@@ -1,14 +1,16 @@
 #world-travel-map {
+    position: relative;
     display: flex;
     justify-content: center;
+    height: 90vh;
     background-color: #B3E5FC;  /* Light Blue 100 */
     overflow: hidden;
 }
 
 #world-travel-map > svg {
-    position: relative;
+    position: absolute;
     border: 1px solid #212121;
-    height: 90vh;
+    /*height: 90vh;*/
 }
 
 #world-travel-map-test {
