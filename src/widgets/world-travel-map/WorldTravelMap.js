@@ -45,8 +45,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         );
         this.zoomData = {
             scaleAmt: .1,
-            scaleAmtMax: 4,
-            scaleAmtMin: .75,
+            scaleAmtMax: 13,
+            scaleAmtMin: 1,
 
             // TODO: delete the below (and change type definition)
             amtX: 100,
@@ -64,7 +64,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             mouseY: 0,
             mapPosX: 0,
             mapPosY: 0,
-            mapScale: 1,
+            mapScale: 3,
             mapW: 2000,
             mapH: 1000,
             mapViewBoxMinX: 0,
@@ -178,16 +178,14 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
 
         // Zoom the map using width / height
         const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
-        const newMapW = this.state.mapW - (this.state.mapW * this.zoomData.scaleAmt * d);
-        // TODO: Add zoom limit
-        if (true) {
+        const newMapScale = this.state.mapScale - d;
+        if (isInRange(newMapScale, this.zoomData.scaleAmtMin, this.zoomData.scaleAmtMax)) {
             this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-
                 // TODO: Snap the map back to new limit if necessary
-
                 return {
-                    mapW: newMapW,
-                    mapH: this.state.mapH - (this.state.mapH * this.zoomData.scaleAmt * d)
+                    mapW: this.state.mapW - (this.state.mapW * this.zoomData.scaleAmt * d),
+                    mapH: this.state.mapH - (this.state.mapH * this.zoomData.scaleAmt * d),
+                    mapScale: newMapScale
                 }
             });
         }
@@ -210,8 +208,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
                      viewBox={`0 0 ${this.state.mapViewBoxX} ${this.state.mapViewBoxY}`}
                      style={{
                          width: `${this.state.mapW}px`, height: `${this.state.mapH}px`,
-                         transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)
-                                     scale(${this.state.mapScale})`
+                         transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)`
                      }}
                      onDragStart={this.handleUserDragStart}
                      onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
