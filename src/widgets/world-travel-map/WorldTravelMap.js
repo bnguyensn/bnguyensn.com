@@ -83,7 +83,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     /** MOUSE EVENT METHODS **/
 
     handleUserClick = (e: SyntheticMouseEvent<HTMLElement>) => {
-        // console.log(`clientX: ${e.clientX}; clientY: ${e.clientY}`);
+
     };
 
     handleUserDragStart = (e: SyntheticMouseEvent<HTMLElement>): boolean => {
@@ -124,57 +124,24 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
         if (this.state.mouseDown) {
-            // Pan the map
-            this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-                /*const newMapViewBoxMinX = prevState.mapViewBoxMinX - (e.clientX - prevState.mouseX);
-                const newMapViewBoxMinY = prevState.mapViewBoxMinY - (e.clientY - prevState.mouseY);
-                if (isInRange(newMapViewBoxMinX, -prevState.panMaxX, prevState.panMaxX)
-                    && isInRange(newMapViewBoxMinY, -prevState.panMaxY, prevState.panMaxY)) {
-                    return {
-                        mouseX: e.clientX,
-                        mouseY: e.clientY,
-                        mapViewBoxMinX: newMapViewBoxMinX,
-                        mapViewBoxMinY: newMapViewBoxMinY
-                    }
-                }*/
-                const newMapPosX = prevState.mapPosX + (e.clientX - prevState.mouseX);
-                const newMapPosY = prevState.mapPosY + (e.clientY - prevState.mouseY);
-
-                if (isInRange(newMapPosX, -prevState.panMaxX, prevState.panMaxX)
-                    && isInRange(newMapPosY, -prevState.panMaxY, prevState.panMaxY)) {
-                    return {
-                        mouseX: e.clientX,
-                        mouseY: e.clientY,
-                        mapPosX: newMapPosX,
-                        mapPosY: newMapPosY
-                    }
-                }
-
-                return {
+            // Pan the map, but only within limit
+            const newMapPosX = this.state.mapPosX + (e.clientX - this.state.mouseX);
+            const newMapPosY = this.state.mapPosY + (e.clientY - this.state.mouseY);
+            if (isInRange(newMapPosX, -this.state.panMaxX, this.state.panMaxX)
+                && isInRange(newMapPosY, -this.state.panMaxY, this.state.panMaxY)) {
+                this.setState({
                     mouseX: e.clientX,
-                    mouseY: e.clientY
-                }
-            });
+                    mouseY: e.clientY,
+                    mapPosX: newMapPosX,
+                    mapPosY: newMapPosY
+                });
+            }
         }
     };
 
     handleUserWheel = (e: SyntheticWheelEvent<HTMLElement>) => {
         e.preventDefault();
         e.persist();  // Needed for React's Synthetic Events to fire continuously
-
-        // Zoom the map using transform scale
-        /*const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
-        const newMapScale = this.state.mapScale - (this.zoomData.scaleAmt * d);
-        if (isInRange(newMapScale, this.zoomData.scaleAmtMin, this.zoomData.scaleAmtMax)) {
-            this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-
-                // TODO: Snap the map back to new limit if necessary
-
-                return {
-                    mapScale: newMapScale
-                }
-            });
-        }*/
 
         // Zoom the map using width / height
         const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
@@ -183,9 +150,12 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             this.setState((prevState: WorldTravelMapState, props: {}): {} => {
                 // TODO: Snap the map back to new limit if necessary
                 return {
-                    mapW: this.state.mapW - (this.state.mapW * this.zoomData.scaleAmt * d),
-                    mapH: this.state.mapH - (this.state.mapH * this.zoomData.scaleAmt * d),
-                    mapScale: newMapScale
+                    mapW: prevState.mapW - (prevState.mapW * this.zoomData.scaleAmt * d),
+                    mapH: prevState.mapH - (prevState.mapH * this.zoomData.scaleAmt * d),
+                    mapScale: newMapScale,
+
+                    // TODO: this adjustment should be pro-rated with user's cursor to expand map from current center
+                    mapPosY: prevState.mapPosY + (prevState.mapH * this.zoomData.scaleAmt * d) / 2  // This makes the map expand from its center
                 }
             });
         }
