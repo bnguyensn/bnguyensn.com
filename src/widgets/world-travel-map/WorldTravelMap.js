@@ -45,16 +45,15 @@ function objSubtract(obj1: {}, obj2: {}): {} {
 /** DOM UTILITIES **/
 
 /**
- * Return an [x, y] array that represents an element's center coordinates
  * @param {HTMLElement | DOMRect | ClientRect} element - If HTMLElement is passed, a getBoundingClientRect() is performed first
- * @return {Array} - [x, y] array that represents the passed element's center coordinates
+ * @return {Array} - [x, y] array that represents the passed element's center coordinates relative to the viewport
  * */
-function getCenterCoords(element: HTMLElement | DOMRect | ClientRect): number[] {
+function getCenterCoords(element: HTMLElement | DOMRect | ClientRect): {x: number, y: number} {
     if (element instanceof HTMLElement) {
         const elRect = element.getBoundingClientRect();
-        return [elRect.left + elRect.width, elRect.top + elRect.height]
+        return {x: elRect.left + elRect.width / 2, y: elRect.top + elRect.height / 2}
     } else if (element instanceof DOMRect || element instanceof ClientRect) {
-        return [element.left + element.width, element.top + element.height]
+        return {x: element.left + element.width / 2, y: element.top + element.height / 2}
     }
     throw new TypeError('Passed variable is not an HTMLElement or a DOMRect');
 }
@@ -260,19 +259,15 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     handleUserMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
-        if (false) {
+        const newState = {};
+        newState.mouseX = e.clientX;
+        newState.mouseY = e.clientY;
+        if (this.state.mouseDown) {
             // Pan the map, but only within limit
-            const newMapPosX = this.state.mapPosX + (e.clientX - this.state.mouseX);
-            const newMapPosY = this.state.mapPosY + (e.clientY - this.state.mouseY);
-            if (true) {
-                this.setState({
-                    mouseX: e.clientX,
-                    mouseY: e.clientY,
-                    mapPosX: newMapPosX,
-                    mapPosY: newMapPosY,
-                });
-            }
+            // const newMapPosX = this.state.mapPosX + (e.clientX - this.state.mouseX);
+            // const newMapPosY = this.state.mapPosY + (e.clientY - this.state.mouseY);
         }
+        this.setState(newState);
     };
 
     /**
@@ -282,39 +277,46 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         e.preventDefault();
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
-        const mapRect = this.getMapRect();
-        const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
-        const mapGrowthW = this.state.mapW * this.zoomData.scaleAmt;
-        const newMapW = forceInRange(this.state.mapW - mapGrowthW * d, this.state.boundaryRect.width, this.state.boundaryRect.width * this.zoomData.scaleAmtMax);
-        const newMapH = newMapW / this.state.mapXYAspectRatio;
-        const newScaleAmtCur = newMapW !== this.state.mapW ? this.state.scaleAmtCur - d * this.zoomData.scaleAmt : this.state.scaleAmtCur;
+        const currentMapRect = this.getMapRect();
+        if (currentMapRect) {
+            const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
+            const newMapW = forceInRange(this.state.mapW * (1 - this.zoomData.scaleAmt * d), this.state.boundaryRect.width * this.zoomData.scaleAmtMin, this.state.boundaryRect.width * this.zoomData.scaleAmtMax);
+            const mapGrowthW = newMapW - this.state.mapW;
+            if (mapGrowthW !== 0) {
+                // New dimensions are within limit
+                const newMapH = newMapW / this.state.mapXYAspectRatio;
+                const newScaleAmtCur = this.state.scaleAmtCur - d * this.zoomData.scaleAmt;
 
+                // Adjustment so that the map expands from user's mouse position
+                // If left as default, width will grow from center, while height will grow from bottom
+                const mapCenter = getCenterCoords(currentMapRect);
+                const mDistFromCenter = this.state.mouseX - mapCenter.x;
+
+                // Adjust the x-axis
+                const offsetAdjX = - (mapGrowthW / 2) * (mDistFromCenter / (this.state.mapW / 2));
+                const newMapPosX = (mDistFromCenter) >= 0 ?
+                    forceInRange(this.state.mapPosX + offsetAdjX, this.state.boundaryRect.width - newMapW, 0) :
+                    forceInRange(this.state.mapPosX + offsetAdjX, 0, newMapW - this.state.boundaryRect.width);
+
+                // TODO: Adjust the y-axis
+                // const dFromCenterY = (this.state.mouseY - mapCenter[1]) / (this.state.mapH / 2);  // As %
+                // const offsetAdjXLimit = this.state.boundaryRect.width
+                // const offsetAdjY = (mapGrowthH / 2) * (dFromCenterY + .5);
+
+                this.setState((prevState: WorldTravelMapState, props: {}): {} => {
+                    return {
+                        scaleAmtCur: newScaleAmtCur,
+                        mapW: newMapW,
+                        mapH: newMapH,
+                        mapPosX: newMapPosX,
+                        // mapPosY: prevState.mapPosY + offsetAdjY
+                    }
+                });
+            }
+        }
 
         // console.log(`newMapW: ${newMapW}; newMapH: ${newMapH}`);
         // console.log(`boundaryRect width: ${this.state.boundaryRect.width}; boundaryRect height: ${this.state.boundaryRect.height}`);
-
-        if (mapRect) {
-
-
-
-            // Adjustment so that the map expands from user's mouse position
-            // If left as default, width will grow from center, while height will grow from bottom
-            const mapCenterCoords = getCenterCoords(mapRect);
-            const dFromCenterX = (this.state.mouseX - mapCenterCoords[0]) / (this.state.mapW / 2);  // As %
-            const dFromCenterY = (this.state.mouseY - mapCenterCoords[1]) / (this.state.mapH / 2);  // As %
-            // const offsetAdjX = (mapGrowthW / 2) * dFromCenterX;
-            // const offsetAdjY = (mapGrowthH / 2) * (dFromCenterY + .5);
-
-            this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-                return {
-                    scaleAmtCur: newScaleAmtCur,
-                    mapW: newMapW,
-                    mapH: newMapH,
-                    mapPosX: prevState.mapPosX,
-                    // mapPosY: prevState.mapPosY + offsetAdjY
-                }
-            });
-        }
     };
 
     /** WINDOW EVENTS METHODS **/
@@ -342,7 +344,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     /** RENDER **/
 
     render() {
-        const testStr = this.state.mapRect ? `T: ${this.state.mapRect.top}; R: ${this.state.mapRect.right}; B: ${this.state.mapRect.bottom}; L: ${this.state.mapRect.left}` : ``;
+        const testStr = this.state.mapRect ? `T: ${this.state.mapRect.top}; R: ${this.state.mapRect.right}; B: ${this.state.mapRect.bottom}; L: ${this.state.mapRect.left};
+         mouseX: ${this.state.mouseX}; mouseY: ${this.state.mouseY}` : ``;
 
         return (
             <div style={{backgroundColor: '#552122'}}>
