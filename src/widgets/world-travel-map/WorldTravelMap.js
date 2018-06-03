@@ -11,12 +11,17 @@ import './world-travel-map.css';
 /** UTILITIES **/
 
 function isInRange(n: number, min: number, max: number): boolean {
-    return (n >= min && n <= max)
+    return n >= min && n <= max
+}
+
+function forceInRange(n: number, min: number, max: number): number {
+    return n < min ? min : n > max ? max : n
 }
 
 function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n)
 }
+
 
 /**
  * Subtract obj2 from obj1.
@@ -39,9 +44,19 @@ function objSubtract(obj1: {}, obj2: {}): {} {
 
 /** DOM UTILITIES **/
 
-function getCenterCoords(element: HTMLElement): number[] {
-    const elRect = element.getBoundingClientRect();
-    return [elRect.left + elRect.width, elRect.top + elRect.height]
+/**
+ * Return an [x, y] array that represents an element's center coordinates
+ * @param {HTMLElement | DOMRect | ClientRect} element - If HTMLElement is passed, a getBoundingClientRect() is performed first
+ * @return {Array} - [x, y] array that represents the passed element's center coordinates
+ * */
+function getCenterCoords(element: HTMLElement | DOMRect | ClientRect): number[] {
+    if (element instanceof HTMLElement) {
+        const elRect = element.getBoundingClientRect();
+        return [elRect.left + elRect.width, elRect.top + elRect.height]
+    } else if (element instanceof DOMRect || element instanceof ClientRect) {
+        return [element.left + element.width, element.top + element.height]
+    }
+    throw new TypeError('Passed variable is not an HTMLElement or a DOMRect');
 }
 
 /** REACT COMPONENT **/
@@ -52,13 +67,14 @@ type WorldTravelMapState = {
     mouseY: number,
     mapPosX: number,
     mapPosY: number,
-    mapScale: number,
+    scaleAmtCur: number,
     mapW: number,
     mapH: number,
     mapViewBoxX: number,
     mapViewBoxY: number,
-    boundaryRect: DOMRect
-    mapRect: DOMRect
+    mapXYAspectRatio: number,
+    boundaryRect: DOMRect | ClientRect,
+    mapRect: DOMRect | ClientRect
 }
 
 class WorldTravelMap extends Component<{}, WorldTravelMapState> {
@@ -101,12 +117,13 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             mapPosX: 0,
             mapPosY: 0,
             scaleAmtCur: 1,
-            mapW: 2000,
-            mapH: 1000,
-            mapViewBoxX: this.zoomData.maxAmtX,
-            mapViewBoxY: this.zoomData.maxAmtY,
-            boundaryRect: { top: 0, right: 0, bottom: 0, left: 0, x: 0, y: 0, width: 0, height: 0 },
-            mapRect: { top: 0, right: 0, bottom: 0, left: 0, x: 0, y: 0, width: 0, height: 0 }
+            mapW: 0,
+            mapH: 0,
+            mapViewBoxX: 2000,
+            mapViewBoxY: 1000,
+            mapXYAspectRatio: 2,  // X:Y
+            boundaryRect: new DOMRect(0, 0, 0, 0),
+            mapRect: new DOMRect(0, 0, 0, 0)
         };
 
         // Window events
@@ -117,13 +134,41 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
 
     componentDidMount = () => {
         // Record the initial boundary rect. This triggers an extra render. No other alternatives for now.
-        this.setState({
-            boundaryRect: this.getBoundaryRect()
-        })
+        const boundaryRect = this.getBoundaryRect();
+        if (boundaryRect) {
+            const newMapW = boundaryRect.width;
+            const newMapH = newMapW / this.state.mapXYAspectRatio;
+            const newMapPosY = (boundaryRect.height - newMapH) / 2;
+            this.setState((prevState: WorldTravelMapState, props: {}) => {
+                return {
+                    mapW: newMapW,
+                    mapH: newMapH,
+                    mapPosY: newMapPosY,
+                    boundaryRect: boundaryRect
+                }
+            });
+        }
     };
 
     /** BOUNDING AREA METHODS **/
 
+    getBoundaryRect = (): ?DOMRect | ?ClientRect => {
+        const containerEl = document.getElementById(this.containerElId);
+        if (containerEl) {
+            return containerEl.getBoundingClientRect();
+        }
+        return null
+    };
+
+    getMapRect = (): ?DOMRect | ?ClientRect => {
+        const mapEL = document.getElementById(this.mapElId);
+        if (mapEL) {
+            return mapEL.getBoundingClientRect();
+        }
+        return null
+    };
+
+/*
     checkBoundingArea = (container: ?HTMLElement, child: ?HTMLElement): boolean => {
         if (container && child) {
             const containerR = container.getBoundingClientRect();
@@ -139,14 +184,6 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         }
         console.log('neither container nor child exists');
         return false
-    };
-
-    getBoundaryRect = (): ?{} => {
-        return document.getElementById(this.containerElId).getBoundingClientRect();
-    };
-
-    getMapRect = (): ?{} => {
-        return document.getElementById(this.mapElId).getBoundingClientRect();
     };
 
     snapToBoundary = (containerEl: HTMLElement, childEl: HTMLElement): ElementRect => {
@@ -177,6 +214,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
             });
         }
     };
+*/
 
     /** MOUSE EVENT METHODS **/
 
@@ -222,7 +260,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     handleUserMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
-        if (this.state.mouseDown) {
+        if (false) {
             // Pan the map, but only within limit
             const newMapPosX = this.state.mapPosX + (e.clientX - this.state.mouseX);
             const newMapPosY = this.state.mapPosY + (e.clientY - this.state.mouseY);
@@ -232,7 +270,6 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
                     mouseY: e.clientY,
                     mapPosX: newMapPosX,
                     mapPosY: newMapPosY,
-                    mapRect: this.getRect()
                 });
             }
         }
@@ -245,29 +282,36 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         e.preventDefault();
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
+        const mapRect = this.getMapRect();
         const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
+        const mapGrowthW = this.state.mapW * this.zoomData.scaleAmt;
+        const newMapW = forceInRange(this.state.mapW - mapGrowthW * d, this.state.boundaryRect.width, this.state.boundaryRect.width * this.zoomData.scaleAmtMax);
+        const newMapH = newMapW / this.state.mapXYAspectRatio;
+        const newScaleAmtCur = newMapW !== this.state.mapW ? this.state.scaleAmtCur - d * this.zoomData.scaleAmt : this.state.scaleAmtCur;
 
-        const newScaleAmtCur = this.state.scaleAmtCur - d * this.zoomData.scaleAmt;
-        if (isInRange(newScaleAmtCur, this.zoomData.scaleAmtMin, this.zoomData.scaleAmtMax)) {
-            // New scale is within allowed range
-            const newMapW = this.state.mapW - (this.state.mapW * this.zoomData.scaleAmt * d);
-            const newMapH = this.state.mapH - (this.state.mapH * this.zoomData.scaleAmt * d);
+
+        // console.log(`newMapW: ${newMapW}; newMapH: ${newMapH}`);
+        // console.log(`boundaryRect width: ${this.state.boundaryRect.width}; boundaryRect height: ${this.state.boundaryRect.height}`);
+
+        if (mapRect) {
+
+
+
+            // Adjustment so that the map expands from user's mouse position
+            // If left as default, width will grow from center, while height will grow from bottom
+            const mapCenterCoords = getCenterCoords(mapRect);
+            const dFromCenterX = (this.state.mouseX - mapCenterCoords[0]) / (this.state.mapW / 2);  // As %
+            const dFromCenterY = (this.state.mouseY - mapCenterCoords[1]) / (this.state.mapH / 2);  // As %
+            // const offsetAdjX = (mapGrowthW / 2) * dFromCenterX;
+            // const offsetAdjY = (mapGrowthH / 2) * (dFromCenterY + .5);
 
             this.setState((prevState: WorldTravelMapState, props: {}): {} => {
-
-
-                // Snap map to boundary
-                this.snapToBoundary(document.getElementById(this.containerElId), document.getElementById(this.mapElId));
-
                 return {
-                    mapW: prevState.mapW - (prevState.mapW * this.zoomData.scaleAmt * d),
-                    mapH: prevState.mapH - (prevState.mapH * this.zoomData.scaleAmt * d),
                     scaleAmtCur: newScaleAmtCur,
-
-                    mapRect: this.getRect(),
-
-                    // TODO: this adjustment should be pro-rated with user's cursor to expand map from current center
-                    mapPosY: prevState.mapPosY + (prevState.mapH * this.zoomData.scaleAmt * d) / 2  // This makes the map expand from its center
+                    mapW: newMapW,
+                    mapH: newMapH,
+                    mapPosX: prevState.mapPosX,
+                    // mapPosY: prevState.mapPosY + offsetAdjY
                 }
             });
         }
@@ -276,20 +320,19 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     /** WINDOW EVENTS METHODS **/
 
     /**
-     * A window resize will change the boundary size
+     * A window resize will change the boundary size, as well as the map size
      * */
     handleWindowResize = (e: Event) => {
-        e.persist();  // Needed for React's Synthetic Events to fire continuously
-
         // Change map size with boundary. Map growth is dependant on boundary's width because the map is wide
         const boundaryRect = this.getBoundaryRect();
         if (boundaryRect) {
-            const mapGrowth = boundaryRect.width / this.state.boundaryRect.width;
+            const newMapW = boundaryRect.width * this.state.scaleAmtCur;
+            const newMapH = newMapW / this.state.mapXYAspectRatio;
             this.setState((prevState: WorldTravelMapState, props: {}) => {
                 return {
-                    mapW: prevState.mapW * mapGrowth,
-                    mapH: prevState.mapH * mapGrowth,
-                    mapPosY: prevState.mapPosY - prevState.mapH * (mapGrowth - 1) / 2,  // Re-center
+                    mapW: newMapW,
+                    mapH: newMapH,
+                    mapPosY: prevState.mapPosY - ((newMapH - prevState.mapH) / 2) + ((boundaryRect.height - prevState.boundaryRect.height) / 2),  // Re-center
                     boundaryRect: boundaryRect
                 }
             });
@@ -302,26 +345,29 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         const testStr = this.state.mapRect ? `T: ${this.state.mapRect.top}; R: ${this.state.mapRect.right}; B: ${this.state.mapRect.bottom}; L: ${this.state.mapRect.left}` : ``;
 
         return (
-            <div id='world-travel-map'>
-                <div id='world-travel-map-test'>
-                    {testStr}
+            <div style={{backgroundColor: '#552122'}}>
+                <div id='world-travel-map'>
+                    <div id='world-travel-map-test'>
+                        {testStr}
+                    </div>
+                    <svg id='world-travel-map-map'
+                         role="img" xmlns="http://www.w3.org/2000/svg"
+                         viewBox={`0 0 ${this.state.mapViewBoxX} ${this.state.mapViewBoxY}`}
+                         style={{
+                             width: `${this.state.mapW}px`, height: `${this.state.mapH}px`,
+                             transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)`
+                         }}
+                         onDragStart={this.handleUserDragStart}
+                         onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
+                         onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}
+                         onMouseMove={this.handleUserMouseMove}
+                         onWheel={this.handleUserWheel}
+                         onClick={this.handleUserClick}>
+                        {this.countryPathElements}
+                    </svg>
                 </div>
-                <svg id='world-travel-map-map'
-                     role="img" xmlns="http://www.w3.org/2000/svg"
-                     viewBox={`0 0 ${this.state.mapViewBoxX} ${this.state.mapViewBoxY}`}
-                     style={{
-                         width: `${this.state.mapW}px`, height: `${this.state.mapH}px`,
-                         transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)`
-                     }}
-                     onDragStart={this.handleUserDragStart}
-                     onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
-                     onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}
-                     onMouseMove={this.handleUserMouseMove}
-                     onWheel={this.handleUserWheel}
-                     onClick={this.handleUserClick}>
-                    {this.countryPathElements}
-                </svg>
             </div>
+
         )
     }
 }
