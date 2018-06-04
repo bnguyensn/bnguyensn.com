@@ -95,7 +95,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         this.containerElId = 'world-travel-map';
         this.mapElId = 'world-travel-map-map';
         this.zoomData = {
-            scaleAmt: .1,
+            scaleAmt: .2,
             scaleAmtMax: 3,  // Max zoom = 3x
             scaleAmtMin: 1,  // Min zoom = 1x
 
@@ -279,29 +279,31 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
 
         const currentMapRect = this.getMapRect();
         if (currentMapRect) {
+            // Save the state of the mouse
+            const mX = this.state.mouseX;
+            const mY = this.state.mouseY;
+
             const d = Math.sign(e.deltaY);  // Direction: negative = scrolled up (i.e. zooming in)
             const newMapW = forceInRange(this.state.mapW * (1 - this.zoomData.scaleAmt * d), this.state.boundaryRect.width * this.zoomData.scaleAmtMin, this.state.boundaryRect.width * this.zoomData.scaleAmtMax);
             const mapGrowthW = newMapW - this.state.mapW;
             if (mapGrowthW !== 0) {
                 // New dimensions are within limit
                 const newMapH = newMapW / this.state.mapXYAspectRatio;
+                const mapGrowthH = newMapH - this.state.mapH;
                 const newScaleAmtCur = this.state.scaleAmtCur - d * this.zoomData.scaleAmt;
 
                 // Adjustment so that the map expands from user's mouse position
                 // If left as default, width will grow from center, while height will grow from bottom
                 const mapCenter = getCenterCoords(currentMapRect);
-                const mDistFromCenter = this.state.mouseX - mapCenter.x;
+                const mXDistFromCenter = mX - mapCenter.x;
 
                 // Adjust the x-axis
-                const offsetAdjX = - (mapGrowthW / 2) * (mDistFromCenter / (this.state.mapW / 2));
-                const newMapPosX = (mDistFromCenter) >= 0 ?
-                    forceInRange(this.state.mapPosX + offsetAdjX, this.state.boundaryRect.width - newMapW, 0) :
-                    forceInRange(this.state.mapPosX + offsetAdjX, 0, newMapW - this.state.boundaryRect.width);
+                const offsetAdjX = - (mapGrowthW / 2) * (mXDistFromCenter / (this.state.mapW / 2));
+                const newMapPosX = this.state.mapPosX + offsetAdjX;
 
-                // TODO: Adjust the y-axis
-                // const dFromCenterY = (this.state.mouseY - mapCenter[1]) / (this.state.mapH / 2);  // As %
-                // const offsetAdjXLimit = this.state.boundaryRect.width
-                // const offsetAdjY = (mapGrowthH / 2) * (dFromCenterY + .5);
+                // Adjust the y-axis
+                const offsetAdjY = - mapGrowthH * ((mY - currentMapRect.top) / this.state.mapH);
+                const newMapPosY = this.state.mapPosY + offsetAdjY;
 
                 this.setState((prevState: WorldTravelMapState, props: {}): {} => {
                     return {
@@ -309,14 +311,11 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
                         mapW: newMapW,
                         mapH: newMapH,
                         mapPosX: newMapPosX,
-                        // mapPosY: prevState.mapPosY + offsetAdjY
+                        mapPosY: newMapPosY
                     }
                 });
             }
         }
-
-        // console.log(`newMapW: ${newMapW}; newMapH: ${newMapH}`);
-        // console.log(`boundaryRect width: ${this.state.boundaryRect.width}; boundaryRect height: ${this.state.boundaryRect.height}`);
     };
 
     /** WINDOW EVENTS METHODS **/
