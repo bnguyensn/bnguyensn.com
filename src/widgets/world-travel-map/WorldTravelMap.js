@@ -255,7 +255,6 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         });
     };
 
-    // TODO: Fix pan
     handleUserMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
@@ -263,9 +262,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         newState.mouseX = e.clientX;
         newState.mouseY = e.clientY;
         if (this.state.mouseDown) {
-            // Pan the map, but only within limit
-            // const newMapPosX = this.state.mapPosX + (e.clientX - this.state.mouseX);
-            // const newMapPosY = this.state.mapPosY + (e.clientY - this.state.mouseY);
+           newState.mapPosX = this.state.mapPosX + (e.clientX - this.state.mouseX);
+           newState.mapPosY = this.state.mapPosY + (e.clientY - this.state.mouseY);
         }
         this.setState(newState);
     };
