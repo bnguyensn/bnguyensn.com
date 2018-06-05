@@ -1,7 +1,7 @@
 'use strict';
 
 /** parse-svg =====================================
- * This parses a .svg file and returns a .json file
+ * Parses a .svg file and returns a .json file
  * containing the .svg's characteristics
  * */
 
