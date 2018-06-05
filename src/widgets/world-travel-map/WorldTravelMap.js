@@ -147,17 +147,17 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
 
     handleUserMouseEnter = () => {
         // Not yet needed
-        console.log('mouse enter');
     };
 
     handleUserMouseLeave = () => {
-        console.log('mouse leave');
         this.setState({
             mouseDown: false
         });
     };
 
     handleUserMouseDown = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.preventDefault();  // Needed else handleUserMouseLeave won't trigger
+
         this.setState({
             mouseDown: true,
             mouseX: e.clientX,
