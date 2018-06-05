@@ -9,10 +9,9 @@
 
 #world-travel-map > svg {
     position: absolute;
-    border: 1px solid #212121;
 }
 
-/* TO DELETE */
+/* TESTING UNIT - TO DELETE */
 
 #world-travel-map-test {
     position: fixed;

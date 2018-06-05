@@ -1,9 +1,8 @@
-'use strict';
-
-/** parse-svg =====================================
- * Parses a .svg file and returns a .json file
- * containing the .svg's characteristics
+/** parse-svg,js
+ * Parse an .svg file and return a .json file
  * */
+
+'use strict';
 
 const fs = require('fs');
 
