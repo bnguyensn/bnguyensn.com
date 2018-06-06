@@ -1,54 +1,15 @@
-# bnguyensn.com
+### Hello, world!
 
-### Underlying Technologies
-
-* Node.js
-* Express
-* Webpack
-* React
-
-### Boilerplate parts
-
-###### Essential generic files for any new projects that employ the same technologies
-
-First, you should have these global packages:
-
-```
-yarn
-```
-
-Then the files you want are:
-
-```
-.babelrc
-.env  /* NOTE: this file should NOT be committed to version control i.e. put it in your .gitignore. See the 'dotenv' package for details.
-.gitignore
-package.json
-postcss.config.js
-README.md
-webpack.common.js
-webpack.dev.js
-webpack.prod.js
-```
-
-Having the `package.json`, do a `yarn install` :coffee:.
-
-### Specific parts
-
-The items below vary heavily between projects. But the most important ones are:
-
-```
-server/
-    db/
-    routes/
-    views/
-src/
-    css/
-    html/
-    img/
-    js/
-    json/
-    index.html
-    index.js
-app.js
-```
+This repo contains the source code for my personal website at [bnguyensn.com](https://bnguyensn.com). Everything is public except for the .env file which is not shared ([see why](https://github.com/motdotla/dotenv#should-i-commit-my-env-file)).
+ 
+ The site is built using [Express](https://expressjs.com/) for backend and [React](https://reactjs.org/) for frontend. [Webpack](https://webpack.js.org/) is the bundler.
+ 
+ The site is continuously developed. It serves as my code playground as well as a platform for me to explore new ideas. 
+ 
+ I do hope you find something useful or learn a thing or two here. I'm available on [Twitter](https://twitter.com/bnguyensn) if you have questions!
+ 
+ Keep on hacking!
+ 
+ Yours truly,
+ 
+ Binh Nguyen

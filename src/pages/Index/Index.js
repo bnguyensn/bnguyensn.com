@@ -7,6 +7,7 @@ import ImageLink from './components/ImageLink';
 import {MIconSVG, MIconSVGLink} from '../../components/MIcon';
 import Link from '../../components/Link';
 import ShufflingString from './components/ShufflingString';
+import WorldTravelMap from '../../widgets/world-travel-map/WorldTravelMap';
 
 import profileImg from './img/bnguyensn.jpg';
 import socialMediaInfo from './json/social-media-info.json';
@@ -124,6 +125,7 @@ function Body(props) {
     return (
         <div id='index-body'>
             <ContactRow />
+            <WorldTravelMap />
             <Credits />
         </div>
     )
