@@ -125,7 +125,7 @@ function Body(props) {
     return (
         <div id='index-body'>
             <ContactRow />
-            <WorldTravelMap />
+            
             <Credits />
         </div>
     )
