@@ -2,13 +2,17 @@
     position: relative;
     display: flex;
     justify-content: center;
-    height: 30em;
+    height: 20em;
     background-color: #B3E5FC;  /* Light Blue 100 */
     overflow: hidden;
 }
 
 #world-travel-map > svg {
     position: absolute;
+}
+
+#world-travel-map > svg > path:hover {
+    fill: #E4405F;
 }
 
 /* TESTING UNIT - TO DELETE */

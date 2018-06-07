@@ -74,7 +74,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         // Create the map
         this.countryIds = Object.keys(worldMapData);
         this.countryPathElements = this.countryIds.map((countryId) =>
-            <path key={countryId} d={worldMapData[countryId].d} fill={'#81C784'} />
+            <path key={countryId} d={worldMapData[countryId].d}
+                  fill={'#E0E0E0'} stroke={'#212121'} />
         );
 
         // Set up zoom data
@@ -139,6 +140,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     };
 
     handleUserDragStart = (e: SyntheticMouseEvent<HTMLElement>): boolean => {
+        e.stopPropagation();
+
         // Prevent default dragging behaviour.
         // Note that setting the draggable attribute to false does not work in older browsers.
         e.preventDefault();
@@ -156,6 +159,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     };
 
     handleUserMouseDown = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.stopPropagation();
         e.preventDefault();  // Needed else handleUserMouseLeave won't trigger
 
         this.setState({
@@ -167,6 +171,8 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     };
 
     handleUserMouseUp = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+
         this.setState({
             mouseDown: false,
             mouseX: e.clientX,
@@ -175,6 +181,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     };
 
     handleUserMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.stopPropagation();
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
         const newState = {};
@@ -192,6 +199,7 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
     };
 
     handleUserWheel = (e: SyntheticWheelEvent<HTMLElement>) => {
+        e.stopPropagation();
         e.preventDefault();
         e.persist();  // Needed for React's Synthetic Events to fire continuously
 
@@ -271,7 +279,10 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
         return (
             <div>
                 <div id='world-travel-map'
-                     onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}>
+                     onMouseEnter={this.handleUserMouseEnter} onMouseLeave={this.handleUserMouseLeave}
+                     onDragStart={this.handleUserDragStart}
+                     onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}
+                     onMouseMove={this.handleUserMouseMove}>
                     <svg role="img" xmlns="http://www.w3.org/2000/svg"
                          viewBox={`0 0 2000 1000`}
                          style={{
@@ -279,7 +290,6 @@ class WorldTravelMap extends Component<{}, WorldTravelMapState> {
                              transform: `translate(${this.state.mapPosX}px, ${this.state.mapPosY}px)`
                          }}
                          onDragStart={this.handleUserDragStart}
-
                          onMouseDown={this.handleUserMouseDown} onMouseUp={this.handleUserMouseUp}
                          onMouseMove={this.handleUserMouseMove}
                          onWheel={this.handleUserWheel}
