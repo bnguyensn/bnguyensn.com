@@ -59,6 +59,7 @@
     "sass-loader": "^7.x.x",
     "style-loader": "^0.x.x",
     "svg-url-loader": "^2.x.x",
+    "ts-loader": "^4.x.x",
     "uglifyjs-webpack-plugin": "^1.x.x",
     "url-loader": "^1.x.x",
     "webpack": "^4.x.x",

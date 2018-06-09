@@ -1,0 +1,21 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "jsx": "react-native",
+    "noImplicitAny": true,
+    "module": "ES6",
+    "strict": true,
+    "target": "ESNext"
+  },
+  "include": [
+    "server",
+    "src",
+    "tests"
+  ],
+  "exclude": [
+    "node_modules",
+    "bower_components",
+    "jspm_packages",
+    "dist"
+  ]
+}
