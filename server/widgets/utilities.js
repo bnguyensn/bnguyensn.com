@@ -12,15 +12,15 @@
  * @return {Object}
  */
 function objSubtract(obj1: {}, obj2: {}): {} {
-    let objR = {};
+    const objR = {};
     for (const key in obj1) {
         if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
-            isNumber(obj1[key]) && isNumber(obj2[key]) ?
-                objR[key] = parseFloat(obj1[key]) - parseFloat(obj2[key]) :
-                objR[key] = obj1[key];
+            isNumber(obj1[key]) && isNumber(obj2[key])
+                ? (objR[key] = parseFloat(obj1[key]) - parseFloat(obj2[key]))
+                : (objR[key] = obj1[key]);
         }
     }
-    return objR
+    return objR;
 }
 
 /**
@@ -29,5 +29,10 @@ function objSubtract(obj1: {}, obj2: {}): {} {
  * @return {boolean}
  * */
 function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n)
+    return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
 }
+
+module.exports = {
+    objSubtract,
+    isNumber,
+};

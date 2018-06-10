@@ -25,15 +25,20 @@
         "trace"
       ]
     },
-    "quotemark": {
-      "severity": "warning",
-      "options": [
-        "single",
-        "jsx-double",
-        "avoid-template",
-        "avoid-escape"
-      ]
-    }
+    "no-trailing-whitespace": [
+      false
+    ],
+    "object-literal-sort-keys": [
+      true,
+      "match-declaration-order"
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double",
+      "avoid-template",
+      "avoid-escape"
+    ]
   },
   "jsRules": {
     "max-line-length": {

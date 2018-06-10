@@ -9,7 +9,7 @@ ReactDOM.render(
     <div id="root-canvas">
         <Index />
     </div>,
-    document.getElementById('root')
+    document.getElementById('root'),
 );
 
 // Hot Module Replacement

@@ -56,3 +56,4 @@ stats.json
 
 # misc.
 webpack.config.js
+tests/no-commit
