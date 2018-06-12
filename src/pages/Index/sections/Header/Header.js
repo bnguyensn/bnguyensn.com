@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import NavBar from './NavBar';
 import ImageLink from '../../components/ImageLink';
-import ShufflingString from '../../components/ShufflingString';
+import ShufflingString from '../../../../lib/components/ShufflingString';
 
-import profileImg from '../../img/bnguyensn.jpg';
+import profileImg from './img/bnguyensn.jpg';
 
 import './css/header.css';
 
