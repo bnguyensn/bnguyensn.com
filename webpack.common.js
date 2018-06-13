@@ -15,7 +15,7 @@ const imgLoaderSizeLimit = 1024 * 10;  // 10kb
 // The main config
 module.exports = {
     entry: {
-        index: './src/index.js'
+        index: './src/homepage/index.js'
     },
 
     output: {

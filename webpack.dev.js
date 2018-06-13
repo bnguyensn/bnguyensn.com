@@ -69,7 +69,7 @@ module.exports = () => {
 
         devServer: {
             // The location of the "index.html" for webpack-dev-server:
-            contentBase: path.join(__dirname, 'src'),
+            contentBase: path.join(__dirname, 'src/homepage/html-templates'),
 
             compress: true,
             port: 8080,
