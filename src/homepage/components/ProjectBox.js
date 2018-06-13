@@ -1,6 +1,17 @@
+/**
+ * ProjectBox
+ *
+ * This is created for /projects.
+ *
+ * ProjectBox normally shows the minified content, but can be expanded to show
+ * the full content on click / tap.
+ * */
+
 // @flow
 
 import * as React from 'react';
+
+import './css/project-box.css';
 
 type Props = {
     href: string,
@@ -11,7 +22,7 @@ type State = {
     clicked: boolean
 }
 
-class BoxLink extends React.PureComponent<Props, State> {
+class ProjectBox extends React.PureComponent<Props, State> {
     constructor(props) {
         super(props);
         this.bkgColorData = {
@@ -25,11 +36,11 @@ class BoxLink extends React.PureComponent<Props, State> {
             7: '#4FC3F7',
             8: '#4DD0E1',
             9: '#4DB6AC',
-            10: '#4DB6AC',
+            10: '#81C784',
         };
         this.state = {
             clicked: false,
-            bkgColor:
+            bkgColor: this.bkgColorData[0],
         }
     }
 
@@ -41,13 +52,16 @@ class BoxLink extends React.PureComponent<Props, State> {
 
     render() {
         return (
-            <a className='box-link' href={this.props.href}>
-                <div className='box-link-box'>
+            <div className='project-box-container'>
+                <div className='project-box'
+                     style={{
+                         backgroundColor: {this.state.bkgColor}
+                     }}>
                     {this.props.content}
                 </div>
-            </a>
+            </div>
         )
     }
 }
 
-export default BoxLink
+export default ProjectBox
