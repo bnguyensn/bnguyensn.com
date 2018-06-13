@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import NavBar from './NavBar';
-import ImageLink from '../../components/ImageLink';
+import ImageLink from '../../lib/components/ImageLink';
 import ShufflingString from '../../../../lib/components/ShufflingString';
 
 import profileImg from './img/bnguyensn.jpg';

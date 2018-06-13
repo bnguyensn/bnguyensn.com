@@ -1,5 +1,4 @@
 // @flow
-'use strict';
 
 import React, {PureComponent} from 'react';
 
@@ -10,11 +9,9 @@ const SHUFFLE_CHAR_CODE_END = 122;
 
 /** ********** UTILITY FUNCTIONS ********** **/
 
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number) {
     //The maximum is exclusive and the minimum is inclusive
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min);
 }
 
 /** ********** SHUFFLE FUNCTIONS ********** **/
@@ -36,7 +33,7 @@ function shuffleString(string: string, ignoredChars?: string[] = [' ']): string 
 }
 
 /**
- * Shuffle a given string until all characters became the original string
+ * Shuffle a given string until all characters become the original string
  * This function directly mutate the parameter arrays
  * @param {Array} charListOG - An array depicting the original string, with each element being a character in the original string
  * @param {Array} charListCurr - An array starting out as depicting the original string, but will be modified to show the shuffled string

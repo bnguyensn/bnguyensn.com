@@ -1,7 +1,9 @@
+/* eslint global-require: 0 */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Index from './pages/Index/Index';
+import Index from './Index/Index';
 
 import './css/index.css';
 
