@@ -15,7 +15,8 @@
     "mongo": true
   },
   "plugins": [
-    "flowtype"
+    "flowtype",
+    "jsx-a11y"
   ],
   "globals": {
     //        "Raven": true,
@@ -23,6 +24,14 @@
     //        "$PropertyType": true
   },
   "rules": {
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "aspects": [
+          "invalidHref"
+        ]
+      }
+    ],
     "linebreak-style": 0,
     "no-unused-vars": 0,
     "spaced-comment": 0,
@@ -33,6 +42,12 @@
           "log",
           "error"
         ]
+      }
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
       }
     ],
     "react/jsx-filename-extension": 0
