@@ -8,6 +8,7 @@
     "build:p": "yarn run flow && rimraf ./dist && webpack --config webpack.prod.js --progress"
   },
   "dependencies": {
+    "@reach/router": "^1.x.x",
     "body-parser": "~1.x.x",
     "classnames": "^2.x.x",
     "cookie-parser": "~1.x.x",
