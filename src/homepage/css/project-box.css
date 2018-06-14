@@ -1,8 +1,8 @@
-.project-box {
+.pb {
 
 }
 
-.project-box-container {
+.pb-container {
     display: flex;
     justify-content: center;
     align-items: center;

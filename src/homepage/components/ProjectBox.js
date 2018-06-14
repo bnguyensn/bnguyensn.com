@@ -5,17 +5,29 @@
  *
  * ProjectBox normally shows the minified content, but can be expanded to show
  * the full content on click / tap.
+ *
+ * Contents are saved in JSON schema
  * */
 
 // @flow
 
 import * as React from 'react';
 
-import './css/project-box.css';
+import getRandNumBtw from '../lib/utils/getRandNumBtw';
+
+import '../css/project-box.css';
 
 type Props = {
-    href: string,
-    content: string,
+    content: {
+        key: string,  // This is the alphabet character that identifies the
+                      // ProjectBox
+        title: string,
+        logo: {
+            src: string,
+            alt?: string
+        },
+        description: string
+    },
 }
 
 type State = {
@@ -23,20 +35,30 @@ type State = {
 }
 
 class ProjectBox extends React.PureComponent<Props, State> {
+    static defaultProps = {
+        content: {
+            logo: {
+                alt: ''
+            }
+        }
+    };
+
     constructor(props) {
         super(props);
         this.bkgColorData = {
-            0: '#E0E0E0',
-            1: '#e57373',
-            2: '#F06292',
-            3: '#BA68C8',
-            4: '#9575CD',
-            5: '#7986CB',
-            6: '#64B5F6',
-            7: '#4FC3F7',
-            8: '#4DD0E1',
-            9: '#4DB6AC',
-            10: '#81C784',
+            init: '#E0E0E0',
+            range: [
+                '#e57373',
+                '#F06292',
+                '#BA68C8',
+                '#9575CD',
+                '#7986CB',
+                '#64B5F6',
+                '#4FC3F7',
+                '#4DD0E1',
+                '#4DB6AC',
+                '#81C784',
+            ]
         };
         this.state = {
             clicked: false,
@@ -46,18 +68,33 @@ class ProjectBox extends React.PureComponent<Props, State> {
 
     handleClick = () => {
         this.setState((prevState, props) => ({
-            clicked: !prevState.clicked
+            clicked: !prevState.clicked,
+            bkgColor: !prevState.clicked ?
+                      this.bkgColorData.init :
+                      this.bkgColorData.range[Math.floor(getRandNumBtw(0, this.bkgColorData.range.length))]
         }));
+    };
+
+    handleKeyPress = (e: SyntheticKeyboardEvent) => {
+        if (e.keyCode === 13) {
+            this.handleClick();
+        }
     };
 
     render() {
         return (
-            <div className='project-box-container'>
-                <div className='project-box'
+            <div className="pb">
+                <div className="pb-container"
                      style={{
-                         backgroundColor: {this.state.bkgColor}
-                     }}>
-                    {this.props.content}
+                         backgroundColor: this.state.bkgColor
+                     }}
+                     onClick={this.handleClick}
+                     onKeyPress={this.handleKeyPress}
+                     role="button"
+                     tabIndex={0}>
+
+                    <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
+
                 </div>
             </div>
         )
