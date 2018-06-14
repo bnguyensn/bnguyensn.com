@@ -55,5 +55,5 @@ stats.json
 /server/db/mysql-cfg.json
 
 # misc.
-webpack.config.js
 tests/no-commit
+server/tests/no-commit
