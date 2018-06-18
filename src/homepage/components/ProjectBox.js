@@ -18,15 +18,18 @@ import getRandNumBtw from '../lib/utils/getRandNumBtw';
 import '../css/project-box.css';
 
 type Props = {
+    letter: string,  // This is the alphabet character that identifies the
+                     // ProjectBox
     content: {
-        key: string,  // This is the alphabet character that identifies the
-                      // ProjectBox
         title: string,
+        emCharPos: number,  // This is the character position of the letter that
+                            // represents the ProjectBox
         logo: {
             src: string,
             alt?: string
         },
-        description: string
+        description: string,
+        link: string
     },
 }
 
@@ -93,7 +96,16 @@ class ProjectBox extends React.PureComponent<Props, State> {
                      role="button"
                      tabIndex={0}>
 
-                    <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
+                    <div className="pb-content-min">
+                        <span className="pb-min-letter">{this.props.letter}</span>
+                    </div>
+
+                    <div className="pb-content">
+                        <span className="pb-title">{this.props.content.title}</span>
+                        <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
+                        <p className="pb-description">{this.props.content.description}</p>
+                        <span className="pb-link">{this.props.content.link}</span>
+                    </div>
 
                 </div>
             </div>
