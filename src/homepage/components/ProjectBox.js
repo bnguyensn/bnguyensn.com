@@ -14,20 +14,19 @@
 import * as React from 'react';
 
 import getRandNumBtw from '../lib/utils/getRandNumBtw';
-import isObjEmpty from '../lib/utils/isObjEmpty';
 
 import '../css/project-box.css';
 
 type Props = {
     letter: string,  // This is the alphabet character that identifies the
                      // ProjectBox
-    content: {
+    content?: {
         title: string,
         emCharPos: number,  // This is the character position of the letter that
                             // represents the ProjectBox
         logo: {
             src: string,
-            alt?: string
+            alt: string,
         },
         description: string,
         link: string
@@ -36,17 +35,17 @@ type Props = {
 
 type State = {
     clicked: boolean,
-    bkgColor: string
+    bkgColor: string,
 }
 
 class ProjectBox extends React.PureComponent<Props, State> {
     bkgColorData: {
         init: string,
-        range: string[]
+        range: string[],
     };
 
     static defaultProps = {
-        content: {}
+        content: undefined,
     };
 
     constructor(props: Props) {
@@ -73,44 +72,46 @@ class ProjectBox extends React.PureComponent<Props, State> {
     }
 
     handleClick = () => {
-        this.setState((prevState, props) => ({
-            clicked: !prevState.clicked,
-            bkgColor: !prevState.clicked ?
-                      this.bkgColorData.init :
-                      this.bkgColorData.range[Math.floor(getRandNumBtw(0, this.bkgColorData.range.length))]
-        }));
+        if (this.props.content !== undefined) {
+            this.setState((prevState, props) => ({
+                clicked: !prevState.clicked,
+                bkgColor: !prevState.clicked ?
+                          this.bkgColorData.init :
+                          this.bkgColorData.range[Math.floor(getRandNumBtw(0, this.bkgColorData.range.length))],
+            }));
+        }
     };
 
     handleKeyPress = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 && this.props.content !== undefined) {
             this.handleClick();
         }
     };
 
     render() {
-        const hasContent = isObjEmpty(this.props.content);
-
         return (
             <div className="pb">
-                <div className="pb-container"
+                <div className={`pb-container ${this.props.content !== undefined ? '' : 'no-content'}`}
                      style={{
-                         backgroundColor: this.state.bkgColor
+                         backgroundColor: this.state.bkgColor,
                      }}
                      onClick={this.handleClick}
                      onKeyPress={this.handleKeyPress}
                      role="button"
                      tabIndex={0}>
 
-                    <div className="pb-content-min">
+                    <div className="pb-content collapsed">
                         <span className="pb-min-letter">{this.props.letter}</span>
                     </div>
 
-                    <div className="pb-content">
+                    {this.props.content !== undefined &&
+                    <div className="pb-content expanded">
                         <span className="pb-title">{this.props.content.title}</span>
                         <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
                         <p className="pb-description">{this.props.content.description}</p>
                         <span className="pb-link">{this.props.content.link}</span>
                     </div>
+                    }
 
                 </div>
             </div>
