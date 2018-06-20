@@ -8,11 +8,10 @@
     {
       "title": "Fizz Buzz",
       "anchorPos": 0,
-      "logo":
-        {
-          "src": "",
-          "alt": ""
-        },
+      "logo": {
+        "src": "",
+        "alt": ""
+      },
       "description": "A basic programming exercise that helps people learn about loops.",
       "link": "https://fizzbuzz.bnguyensn.com"
     }
@@ -33,14 +32,19 @@
   "T": [],
   "U": [],
   "V": [],
-  "W": "https://worldtravelmap.bnguyensn.com",
+  "W": [],
   "X": [],
   "Y": [],
-  "Z": {
-    "title": "What's Your Chinese Zodiac Animal?",
-    "anchorPos": 21,
-    "logo": "",
-    "description": "Calculates your Chinese Zodiac animal based on your birthday.",
-    "link": "https://whatsyourchinesezodiacanimal.com"
-  }
+  "Z": [
+    {
+      "title": "What's Your Chinese Zodiac Animal?",
+      "anchorPos": 21,
+      "logo": {
+        "src": "",
+        "alt": ""
+      },
+      "description": "Calculates your Chinese Zodiac animal based on your birthday.",
+      "link": "https://whatsyourchinesezodiacanimal.com"
+    }
+  ]
 }

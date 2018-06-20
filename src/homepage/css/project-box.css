@@ -1,5 +1,5 @@
 .pb {
-
+    margin: 1em;
 }
 
 .pb-container {
@@ -7,13 +7,24 @@
     justify-content: center;
     align-items: center;
 
+    min-height: 10em; min-width: 10em;
+    padding: 1em;
+
+    border-radius: 5px;
+
+    user-select: none;
     cursor: pointer;
 }
 
 .pb-container.no-content {
+    color: #BDBDBD;
     cursor: not-allowed;
 }
 
 .pb-content-min {
+    font-size: 3em;
+}
 
+.pb-content-min.active {
+    font-size: 3em;
 }

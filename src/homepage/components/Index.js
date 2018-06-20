@@ -12,7 +12,7 @@ import '../css/index.css';
 
 class Index extends React.PureComponent<{}> {
     placeholder = () => {
-
+        return false
     };
 
     render() {

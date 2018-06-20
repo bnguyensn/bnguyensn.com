@@ -67,25 +67,29 @@ class ProjectBox extends React.PureComponent<Props, State> {
         };
         this.state = {
             clicked: false,
-            bkgColor: this.bkgColorData[0],
+            bkgColor: this.bkgColorData.init,
         };
     }
 
     handleClick = () => {
         if (this.props.content !== undefined) {
-            this.setState((prevState, props) => ({
-                clicked: !prevState.clicked,
-                bkgColor: !prevState.clicked ?
-                          this.bkgColorData.init :
-                          this.bkgColorData.range[Math.floor(getRandNumBtw(0, this.bkgColorData.range.length))],
-            }));
+            this.expandBox();
         }
     };
 
     handleKeyPress = (e: SyntheticKeyboardEvent<HTMLElement>) => {
         if (e.keyCode === 13 && this.props.content !== undefined) {
-            this.handleClick();
+            this.expandBox();
         }
+    };
+
+    expandBox = () => {
+        this.setState((prevState, props) => ({
+            clicked: !prevState.clicked,
+            bkgColor: prevState.clicked ?
+                      this.bkgColorData.init :
+                      this.bkgColorData.range[Math.floor(getRandNumBtw(0, this.bkgColorData.range.length))],
+        }));
     };
 
     render() {
@@ -100,12 +104,12 @@ class ProjectBox extends React.PureComponent<Props, State> {
                      role="button"
                      tabIndex={0}>
 
-                    <div className="pb-content collapsed">
+                    <div className={`pb-content-min ${this.state.clicked ? 'hidden' : ''}`}>
                         <span className="pb-min-letter">{this.props.letter}</span>
                     </div>
 
                     {this.props.content !== undefined &&
-                    <div className="pb-content expanded">
+                    <div className={`pb-content ${this.state.clicked ? '' : 'hidden'}`}>
                         <span className="pb-title">{this.props.content.title}</span>
                         <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
                         <p className="pb-description">{this.props.content.description}</p>
