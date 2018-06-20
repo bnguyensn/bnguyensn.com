@@ -4,7 +4,7 @@ import * as React from 'react';
 
 type Props = {
     str: string,  // The string to be expanded
-    emCharPos: number  // The position of the character that the string
+    anchorPos: number  // The position of the character that the string
                        // collapses into
 }
 
@@ -13,14 +13,17 @@ type State = {
 }
 
 class ExpandingString extends React.PureComponent<Props, State> {
-    constructor(props) {
+    anchorPos: number;
+    letterSpans: React.Node[];
+
+    constructor(props: Props) {
         super(props);
-        this.emCharPos = this.props.emCharPos >= letters.length ? 0 : this.props.emCharPos;  // Sanitise emCharPos
 
         // Set up letter spans
         const letters = this.props.str.split('');
+        this.anchorPos = this.props.anchorPos >= letters.length ? 0 : this.props.anchorPos;  // Sanitise anchorPos
         this.letterSpans = letters.map((letter, i) => (
-            i === this.emCharPos ? <span className="expanding-str-em-char">{letter}</span> : <span>{letter}</span>
+            i === this.anchorPos ? <span className="expanding-str-anchor">{letter}</span> : <span>{letter}</span>
         ));
 
         this.state = {
@@ -28,11 +31,22 @@ class ExpandingString extends React.PureComponent<Props, State> {
         };
     }
 
-    expand = () => {
+    componentDidMount = () => {
+
+    };
+
+    expand = (e: SyntheticEvent<HTMLElement>) => {
         // We reverse out the CSS style classes applied in collapse() here
 
-        for (let i = 0; i < this.letterSpans.length; i++) {
-            this.letterSpans[i].className = '';
+        const stringE = e.currentTarget;
+        const stringLetterEs = stringE.children;
+
+        for (let i = 0; i < stringLetterEs.length; i++) {
+            if (i !== this.anchorPos) {
+                stringLetterEs[i].className = '';
+                stringLetterEs[i].style.top = '0';
+                stringLetterEs[i].style.left = '0';
+            }
         }
 
         this.setState({
@@ -40,13 +54,23 @@ class ExpandingString extends React.PureComponent<Props, State> {
         });
     };
 
-    collapse = () => {
+    collapse = (e: SyntheticEvent<HTMLElement>) => {
         // Two things should happen simultaneously:
         // - All non-anchor letters should move to the anchor
         // - All non-anchor letters should be faded to 0 opacity
 
-        for (let i = 0; i < this.letterSpans.length; i++) {
-            this.letterSpans[i].className += ` collapsed ${i === this.emCharPos ? '' : 'faded'}`;
+        const stringE = e.currentTarget;
+        const stringLetterEs = stringE.children;
+
+        const anchorOffsetTop = stringLetterEs[this.anchorPos].offsetTop;
+        const anchorOffsetLeft = stringLetterEs[this.anchorPos].offsetLeft;
+
+        for (let i = 0; i < stringLetterEs.length; i++) {
+            if (i !== this.anchorPos) {
+                stringLetterEs[i].className += ` collapsed ${i === this.anchorPos ? '' : 'faded'}`;
+                stringLetterEs[i].style.top = `${anchorOffsetTop}px`;
+                stringLetterEs[i].style.left = `${anchorOffsetLeft}px`;
+            }
         }
 
         this.setState({

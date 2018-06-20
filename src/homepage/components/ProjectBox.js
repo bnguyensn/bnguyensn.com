@@ -34,10 +34,16 @@ type Props = {
 }
 
 type State = {
-    clicked: boolean
+    clicked: boolean,
+    bkgColor: string
 }
 
 class ProjectBox extends React.PureComponent<Props, State> {
+    bkgColorData: {
+        init: string,
+        range: string[]
+    };
+
     static defaultProps = {
         content: {
             logo: {
@@ -46,7 +52,7 @@ class ProjectBox extends React.PureComponent<Props, State> {
         }
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.bkgColorData = {
             init: '#E0E0E0',
@@ -61,12 +67,12 @@ class ProjectBox extends React.PureComponent<Props, State> {
                 '#4DD0E1',
                 '#4DB6AC',
                 '#81C784',
-            ]
+            ],
         };
         this.state = {
             clicked: false,
             bkgColor: this.bkgColorData[0],
-        }
+        };
     }
 
     handleClick = () => {
@@ -78,7 +84,7 @@ class ProjectBox extends React.PureComponent<Props, State> {
         }));
     };
 
-    handleKeyPress = (e: SyntheticKeyboardEvent) => {
+    handleKeyPress = (e: SyntheticKeyboardEvent<HTMLElement>) => {
         if (e.keyCode === 13) {
             this.handleClick();
         }

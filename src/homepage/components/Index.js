@@ -2,11 +2,13 @@
 
 import * as React from 'react';
 
-import Header from './components/Header/Header';
-import Body from './components/Body/Body';
-import Footer from './components/Footer/Footer';
+import Header from './Header';
+import Body from './Body';
+import Footer from './Footer';
 
 import '../css/index.css';
+
+/** ********** MAIN EXPORT ********** **/
 
 class Index extends React.PureComponent<{}> {
     placeholder = () => {
@@ -24,4 +26,4 @@ class Index extends React.PureComponent<{}> {
     }
 }
 
-export default Index;
+export default Index

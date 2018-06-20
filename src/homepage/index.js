@@ -3,9 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Index from './Index/Index';
+import Index from './components/Index';
 
-import './css/index.css';
+import './css/global.css';
 
 ReactDOM.render(
     <div id="root-canvas">
@@ -16,9 +16,9 @@ ReactDOM.render(
 
 // Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./pages/Index/Index', () => {
+    module.hot.accept('./components/Index', () => {
         console.log('Accepting the updated module.');
-        const Next = require('./pages/Index/Index');
+        const Next = require('./components/Index');
         ReactDOM.render(<Next />, document.getElementById('root'));
     });
 }
