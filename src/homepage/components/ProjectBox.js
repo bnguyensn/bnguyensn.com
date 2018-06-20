@@ -14,6 +14,7 @@
 import * as React from 'react';
 
 import getRandNumBtw from '../lib/utils/getRandNumBtw';
+import isObjEmpty from '../lib/utils/isObjEmpty';
 
 import '../css/project-box.css';
 
@@ -45,11 +46,7 @@ class ProjectBox extends React.PureComponent<Props, State> {
     };
 
     static defaultProps = {
-        content: {
-            logo: {
-                alt: ''
-            }
-        }
+        content: {}
     };
 
     constructor(props: Props) {
@@ -91,6 +88,8 @@ class ProjectBox extends React.PureComponent<Props, State> {
     };
 
     render() {
+        const hasContent = isObjEmpty(this.props.content);
+
         return (
             <div className="pb">
                 <div className="pb-container"
