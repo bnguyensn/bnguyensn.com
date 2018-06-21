@@ -21,10 +21,41 @@
     cursor: not-allowed;
 }
 
+/* Inside container */
+
+.pb-content, .pb-content-min {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+
+    transition: .2s;
+}
+
 .pb-content-min {
     font-size: 3em;
 }
 
 .pb-content-min.active {
+
+}
+
+.pb-content > * {
+    margin: .5em 0 .5em 0;
+    text-align: center;
+}
+
+/* Inside content */
+
+.pb-title {
+
+}
+
+.pb-title-text {
     font-size: 3em;
 }
+
+.pb-description {
+
+}
+

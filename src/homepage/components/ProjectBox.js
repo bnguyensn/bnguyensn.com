@@ -110,7 +110,7 @@ class ProjectBox extends React.PureComponent<Props, State> {
 
                     {this.props.content !== undefined &&
                     <div className={`pb-content ${this.state.clicked ? '' : 'hidden'}`}>
-                        <span className="pb-title">{this.props.content.title}</span>
+                        <span className="pb-title"><span className="pb-title-text">{this.props.content.title}</span></span>
                         <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
                         <p className="pb-description">{this.props.content.description}</p>
                         <span className="pb-link">{this.props.content.link}</span>
