@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {Link} from '@reach/router';
 
-import './css/nav-bar.css';
+import '../css/nav-bar.css';
 
 /** ********** SUPPORT COMPONENTS ********** **/
 

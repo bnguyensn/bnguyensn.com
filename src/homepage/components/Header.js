@@ -3,12 +3,12 @@
 import * as React from 'react';
 
 import NavBar from './NavBar';
-import ImageLink from '../../lib/components/ImageLink';
-import ShufflingString from '../../../../lib/components/ShufflingString';
+import ImageLink from '../lib/components/ImageLink';
+import ShufflingString from '../lib/components/ShufflingString';
 
-import profileImg from './img/bnguyensn.jpg';
+import profileImg from '../img/profile_256x256.jpg';
 
-import './css/header.css';
+import '../css/header.css';
 
 /** ********** SUPPORT COMPONENTS ********** **/
 
@@ -35,13 +35,13 @@ function Header() {
                     size="large"
                     href="/"
                 />
-                <h1>
+                <section id="header-title">
                     <ShufflingString
                         resultStr="Binh Nguyen"
                         maxShuffleTime={1500}
                         shuffleInterval={100}
                     />
-                </h1>
+                </section>
             </Cover>
             <NavBar />
         </section>

@@ -2,8 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding: 2em;
 }
 
 /* Nav is laid out as a column when screen is small */

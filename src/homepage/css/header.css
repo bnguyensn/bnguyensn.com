@@ -5,13 +5,17 @@
     justify-content: center;
     flex-flow: column;
 
-    padding: 2em;
+    padding: 1em;
 
     background-color: #212121;  /* Grey 900 */
 }
 
-#index-header h1 {
-    margin: .5em 0 0 0;
+#index-header > * {
+    margin: 1em 0 1em 0;
+}
+
+#header-title > * {
+    display: block;
     font-size: 2em;
     text-align: center;
     color: #fafafa;  /* Grey 50 */
