@@ -3,10 +3,18 @@
  *
  * This is created for /projects.
  *
- * ProjectBox normally shows the minified content, but can be expanded to show
- * the full content on click / tap.
+ * Each <ProjectBox /> is a rectangle that represents an available project in
+ * the portfolio.
  *
- * Contents are saved in JSON schema
+ * By default, <ProjectBox /> shows a minified content in the form of a single,
+ * large letter.
+ *
+ * <ProjectBox /> can be expanded to show the full content via user interaction
+ * (mouse click). An expanded <ProjectBox /> shows details of the project in
+ * question.
+ *
+ * Contents are pulled from an object, which could be a JSON file, or from a
+ * database.
  * */
 
 // @flow
@@ -20,22 +28,34 @@ import '../css/project-box.css';
 type Props = {
     letter: string,  // This is the alphabet character that identifies the
                      // ProjectBox
-    content?: {
-        title: string,
+
+    content?: {  // The content object defaults to undefined
+                 // On render, this will be a grey-out box that which user
+                 // can't interact with
+
+        title: string,  // Title of the project
+
         emCharPos: number,  // This is the character position of the letter that
-                            // represents the ProjectBox
-        logo: {
+                            // represents the ProjectBox. This is needed for the
+                            // <ExpandableString /> that accompanies each
+                            // <ProjectBox />.
+        logo: {  // Information for the <img /> element that displays the
+                 // project's logo
             src: string,
             alt: string,
         },
-        description: string,
-        link: string
+
+        description: string,  // Should not be too long - use Twitter's 140 rule
+
+        link: string  // Please have https
     },
 }
 
 type State = {
-    clicked: boolean,
-    bkgColor: string,
+    clicked: boolean,  // To control collapsed / expanded state
+
+    bkgColor: string,  // Styling purpose - Change the background colour on
+                       // expansion
 }
 
 class ProjectBox extends React.PureComponent<Props, State> {

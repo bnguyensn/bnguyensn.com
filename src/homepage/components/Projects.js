@@ -10,7 +10,6 @@ import projectData from '../json/project-data.json';
 
 function Projects() {
     const projectBoxes = Object.keys(projectData).map((letter) => {
-        // console.log(`Checking letter ${letter}`);
         return <ProjectBox key={letter}
                            letter={letter}
                            content={
