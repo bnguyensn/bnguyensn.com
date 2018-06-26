@@ -39,6 +39,7 @@ type Props = {
                             // represents the ProjectBox. This is needed for the
                             // <ExpandableString /> that accompanies each
                             // <ProjectBox />.
+
         logo: {  // Information for the <img /> element that displays the
                  // project's logo
             src: string,
@@ -91,7 +92,12 @@ class ProjectBox extends React.PureComponent<Props, State> {
         };
     }
 
-    handleClick = () => {
+    stopPropagationOnClick = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+    };
+
+    handleClick = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.stopPropagation();
         if (this.props.content !== undefined) {
             this.expandBox();
         }
@@ -116,24 +122,31 @@ class ProjectBox extends React.PureComponent<Props, State> {
         return (
             <div className="pb">
                 <div className={`pb-container ${this.props.content !== undefined ? '' : 'no-content'}`}
-                     style={{
-                         backgroundColor: this.state.bkgColor,
-                     }}
                      onClick={this.handleClick}
                      onKeyPress={this.handleKeyPress}
                      role="button"
                      tabIndex={0}>
 
-                    <div className={`pb-content-min ${this.state.clicked ? 'hidden' : ''}`}>
-                        <span className="pb-min-letter">{this.props.letter}</span>
+                    <div className="pb-content-min">
+                        <span className="pb-content-min-letter">{this.props.letter}</span>
                     </div>
 
                     {this.props.content !== undefined &&
-                    <div className={`pb-content ${this.state.clicked ? '' : 'hidden'}`}>
-                        <span className="pb-title"><span className="pb-title-text">{this.props.content.title}</span></span>
-                        <img className="pb-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
-                        <p className="pb-description">{this.props.content.description}</p>
-                        <span className="pb-link">{this.props.content.link}</span>
+                    <div className={`pb-lightbox-container ${this.state.clicked ? '' : 'hidden'}`}
+                         onClick={this.handleClick}
+                         role="presentation">
+
+                        <div className="pb-lightbox"
+                             style={{
+                                 backgroundColor: this.state.bkgColor,
+                             }}
+                             onClick={this.stopPropagationOnClick}>
+                            <span className="pb-lightbox-title"><span className="pb-lightbox-title-text">{this.props.content.title}</span></span>
+                            <img className="pb-lightbox-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
+                            <p className="pb-lightbox-description">{this.props.content.description}</p>
+                            <span className="pb-lightbox-link">{this.props.content.link}</span>
+                        </div>
+
                     </div>
                     }
 
