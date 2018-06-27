@@ -122,6 +122,9 @@ class ProjectBox extends React.PureComponent<Props, State> {
         return (
             <div className="pb">
                 <div className={`pb-container ${this.props.content !== undefined ? '' : 'no-content'}`}
+                     style={{
+                         backgroundColor: this.state.bkgColor
+                     }}
                      onClick={this.handleClick}
                      onKeyPress={this.handleKeyPress}
                      role="button"
@@ -140,7 +143,8 @@ class ProjectBox extends React.PureComponent<Props, State> {
                              style={{
                                  backgroundColor: this.state.bkgColor,
                              }}
-                             onClick={this.stopPropagationOnClick}>
+                             onClick={this.stopPropagationOnClick}
+                             role="presentation">
                             <span className="pb-lightbox-title"><span className="pb-lightbox-title-text">{this.props.content.title}</span></span>
                             <img className="pb-lightbox-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
                             <p className="pb-lightbox-description">{this.props.content.description}</p>
