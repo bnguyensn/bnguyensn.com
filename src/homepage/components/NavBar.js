@@ -14,9 +14,11 @@ type NavLinkProps = {
 
 function NavLink(props: NavLinkProps) {
     return (
-        <Link to={props.href}>
-            {props.text}
-        </Link>
+        <div className="nav-link">
+            <Link to={props.href}>
+                {props.text}
+            </Link>
+        </div>
     )
 }
 

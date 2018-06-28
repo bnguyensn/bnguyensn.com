@@ -3,6 +3,7 @@
 #index-header {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-flow: column;
 
     padding: 1em;
@@ -11,7 +12,7 @@
 }
 
 #index-header > * {
-    margin: 1em 0 1em 0;
+    margin: .5em 0 .5em 0;
 }
 
 #header-title > * {
