@@ -1,5 +1,12 @@
+/**
+ * MaterialIcon
+ *
+ * A wrapper created to use Google's material icon.
+ *
+ * Usage: <MIcon icon="..." />
+ * */
+
 // @flow
-'use strict';
 
 import React from 'react';
 
@@ -17,8 +24,9 @@ export function MIcon(props: {icon: string}) {
 
 /** ********** SVG MATERIAL ICON ********** **/
 
+/** Non-link version **/
+
 export function MIconSVG(props: {svgSize?: string, svgD: string | string[], svgFill: string}) {
-    const size = props.svgSize ? props.svgSize : 'medium';
     let pathElement;
     if (Array.isArray(props.svgD)) {
         pathElement = props.svgD.map((d) =>
@@ -30,16 +38,23 @@ export function MIconSVG(props: {svgSize?: string, svgD: string | string[], svgF
 
     return (
         <span className='micon-container'>
-            <svg className={size} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className={props.svgSize} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {pathElement}
             </svg>
         </span>
     )
 }
 
+MIconSVG.defaultProps = {
+    svgSize: 'medium'
+};
+
+/** Link version **/
+
 export function MIconSVGLink(props: {extraClsNme: string, href: string, svgD: string, svgFill: string}) {
     return (
-        <a className={props.extraClsNme} href={props.href} target='_blank'>
+        <a className={props.extraClsNme} href={props.href}
+           target="_blank" rel="noopener noreferrer">
             <MIconSVG svgD={props.svgD} svgFill={props.svgFill} />
         </a>
     )
