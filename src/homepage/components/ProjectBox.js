@@ -24,6 +24,7 @@ import * as React from 'react';
 import getRandNumBtw from '../lib/utils/getRandNumBtw';
 
 import '../css/project-box.css';
+import {MIcon} from '../lib/components/MIcon';
 
 type Props = {
     letter: string,  // This is the alphabet character that identifies the
@@ -74,16 +75,22 @@ class ProjectBox extends React.PureComponent<Props, State> {
         this.bkgColorData = {
             init: '#E0E0E0',
             range: [
-                '#e57373',
-                '#F06292',
-                '#BA68C8',
-                '#9575CD',
-                '#7986CB',
-                '#64B5F6',
-                '#4FC3F7',
-                '#4DD0E1',
-                '#4DB6AC',
-                '#81C784',
+                '#ef9a9a',
+                '#F48FB1',
+                '#CE93D8',
+                '#B39DDB',
+                '#9FA8DA',
+                '#90CAF9',
+                '#81D4FA',
+                '#80DEEA',
+                '#80CBC4',
+                '#A5D6A7',
+                '#C5E1A5',
+                '#E6EE9C',
+                '#FFE082',
+                '#FFCC80',
+                '#FFAB91',
+                '#B0BEC5',
             ],
         };
         this.state = {
@@ -138,19 +145,26 @@ class ProjectBox extends React.PureComponent<Props, State> {
                     <div className={`pb-lightbox-container ${this.state.clicked ? '' : 'hidden'}`}
                          onClick={this.handleClick}
                          role="presentation">
-
                         <div className="pb-lightbox"
                              style={{
                                  backgroundColor: this.state.bkgColor,
                              }}
                              onClick={this.stopPropagationOnClick}
                              role="presentation">
+                            <div className="pb-lightbox-close-btn"
+                                 onClick={this.expandBox}
+                                 onKeyPress={this.handleKeyPress}
+                                 role="button"
+                                 tabIndex={0}>
+                                <MIcon icon="clear" />
+                            </div>
                             <span className="pb-lightbox-title"><span className="pb-lightbox-title-text">{this.props.content.title}</span></span>
                             <img className="pb-lightbox-logo" src={this.props.content.logo.src} alt={this.props.content.logo.alt} />
                             <p className="pb-lightbox-description">{this.props.content.description}</p>
-                            <span className="pb-lightbox-link">{this.props.content.link}</span>
+                            <a className="pb-lightbox-link" href={this.props.content.link}>
+                                <div>{this.props.content.link}</div>
+                            </a>
                         </div>
-
                     </div>
                     }
 

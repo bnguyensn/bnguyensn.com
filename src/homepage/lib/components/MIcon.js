@@ -16,8 +16,8 @@ import './micon.css';
 
 export function MIcon(props: {icon: string}) {
     return (
-        <span className='micon-container'>
-            <i className='material-icons'>{props.icon}</i>
+        <span className="micon-container">
+            <i className="material-icons">{props.icon}</i>
         </span>
     )
 }
@@ -37,7 +37,7 @@ export function MIconSVG(props: {svgSize?: string, svgD: string | string[], svgF
     }
 
     return (
-        <span className='micon-container'>
+        <span className="micon-container">
             <svg className={props.svgSize} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {pathElement}
             </svg>

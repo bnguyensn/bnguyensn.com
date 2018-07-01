@@ -56,6 +56,8 @@
 
 /** ***** CONTENT - LIGHTBOX ***** **/
 
+/** Container = grey background area **/
+
 .pb-lightbox-container {
     position: fixed;
     top: 0; left: 0;
@@ -80,24 +82,66 @@
     }
 }
 
+/** Actual content box **/
+
 .pb-lightbox {
+    position: relative;
+
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column;
 
-    width: 25em; height: 25em;
+    max-width: 25em;
     padding: 1em;
 
     border-radius: 10px;
 }
 
 .pb-lightbox > * {
-    margin: .5em 0 .5em 0;
+    margin: .5em;
     text-align: center;
+}
 
+/** Close button **/
+
+.pb-lightbox-close-btn {
+    position: absolute;
+    top: 0; right: 0;
+    user-select: none;
+    cursor: pointer;
+}
+
+.pb-lightbox-close-btn * {
+    font-size: 1.5em;
+}
+
+/** Title **/
+
+.pb-lightbox-title {
+    margin-top: 2.5em;
 }
 
 .pb-lightbox-title-text {
     font-size: 2.5em;
+}
+
+/** Project link **/
+
+.pb-lightbox-link {
+    max-width: 100%;
+    padding: .5em;
+    border-radius: 5px;
+
+    background-color: #424242;
+
+    color: #fafafa;
+
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.pb-lightbox-link:hover {
+    background-color: #F5F5F5;
+    color: #212121;
 }
