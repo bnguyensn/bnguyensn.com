@@ -1,4 +1,4 @@
-/* ********** HEADER COMPONENT ********** */
+/** ********** HEADER COMPONENT ********** **/
 
 #index-header {
     display: flex;
@@ -15,7 +15,33 @@
     margin: .5em 0 .5em 0;
 }
 
-#header-title > * {
+@media only screen and (max-width: 800px) {
+    #index-header {
+        flex-flow: row;
+        padding: .5em;
+    }
+
+    #index-header > * {
+        margin: .25em 0 .25em 0;
+    }
+}
+
+/** ***** PROFILE PIC ***** **/
+
+.header-profile-pic {
+    width: 6em; height: 6em;
+    border-radius: 50%;
+}
+
+@media only screen and (max-width: 800px) {
+    .header-profile-pic {
+        width: 2em; height: 2em;
+    }
+}
+
+/** ***** TITLE ***** **/
+
+.header-title > * {
     display: block;
     font-size: 2em;
     text-align: center;

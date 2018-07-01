@@ -20,7 +20,7 @@
 
 .pb-container:not(.no-content) {
     box-shadow: 0 2px 5px #BDBDBD;
-    transition: box-shadow .25s;
+    transition: box-shadow .2s;
 }
 
 @media only screen and (max-width: 512px) {
@@ -100,10 +100,19 @@
     align-items: center;
     flex-flow: column;
 
-    max-width: 25em;
-    padding: 1em;
+    max-width: 30em;
+    padding: 2em;
 
     border-radius: 10px;
+
+    box-shadow: 0 10px 20px #303030;
+}
+
+@media only screen and (max-width: 512px) {
+    .pb-lightbox {
+        max-width: 100%;
+        padding: 1em;
+    }
 }
 
 .pb-lightbox > * {

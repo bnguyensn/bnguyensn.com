@@ -29,13 +29,12 @@ function Header() {
         <section id="index-header">
             <Cover>
                 <ImageLink
+                    className="header-profile-pic"
                     src={profileImg}
                     alt="Profile image"
-                    shape="round"
-                    size="large"
                     href="/"
                 />
-                <section id="header-title">
+                <section className="header-title">
                     <ShufflingString
                         resultStr="Binh Nguyen"
                         maxShuffleTime={1500}

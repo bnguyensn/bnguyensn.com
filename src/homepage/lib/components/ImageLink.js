@@ -1,5 +1,4 @@
 // @flow
-'use strict';
 
 import React, {PureComponent} from 'react';
 
@@ -7,28 +6,21 @@ import './image-link.css';
 
 /**
  * Things to define:
- * <img>: src, alt, shape, size
+ * <img>: src, alt
  * <a>: href
  * */
 type Props = {
     src: string,
-    alt?: string,
-    shape?: string,
-    size?: string,
+    alt: string,
     href: string,
 }
 
 class ImageLink extends PureComponent<Props> {
     render() {
-        const altText = this.props.alt ? this.props.alt : 'An image';
-        const imgShape = this.props.shape ? this.props.shape : '';
-        const imgSize = this.props.size ? this.props.size : 'medium';
-        const imgClass = `${imgSize} ${imgShape}`.trim();
-
         return (
             <div className='img-link-container'>
                 <a href={this.props.href}>
-                    <img className={imgClass} src={this.props.src} alt={altText} />
+                    <img src={this.props.src} alt={this.props.alt} {...this.props} />
                 </a>
             </div>
         )
