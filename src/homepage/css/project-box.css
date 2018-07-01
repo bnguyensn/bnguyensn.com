@@ -10,7 +10,6 @@
     align-items: center;
 
     width: 7.5em; height: 7.5em;
-
     padding: 1em;
 
     border-radius: 5px;
@@ -19,16 +18,25 @@
     cursor: pointer;
 }
 
-@media only screen and (max-width: 512px) {
-    .pb {
-        margin: .25em;
-    }
+.pb-container:not(.no-content) {
+    box-shadow: 0 2px 5px #BDBDBD;
+    transition: box-shadow .25s;
+}
 
+@media only screen and (max-width: 512px) {
     .pb-container {
         min-width: 5em; min-height: 5em;
         padding: .5em;
         border-radius: 2px;
     }
+}
+
+.pb-container:not(.no-content):hover {
+    box-shadow: 0 8px 10px #BDBDBD;
+}
+
+.pb-container:not(.no-content):active {
+    box-shadow: 0 1px 3px #BDBDBD;
 }
 
 .pb-container:focus {
