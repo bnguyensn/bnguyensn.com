@@ -5,44 +5,31 @@ import * as React from 'react';
 import NavBar from './NavBar';
 import ImageLink from '../lib/components/ImageLink';
 import ShufflingString from '../lib/components/ShufflingString';
+import {MIcon} from '../lib/components/MIcon';
 
 import profileImg from '../img/profile_256x256.jpg';
 
 import '../css/header.css';
-
-/** ********** SUPPORT COMPONENTS ********** **/
-
-function Cover(props: {children?: React.Node}) {
-    return (
-        <React.Fragment>
-            {props.children}
-        </React.Fragment>
-    )
-}
-
-Cover.defaultProps = {children: document.createTextNode('')};
 
 /** ********** MAIN EXPORT ********** **/
 
 function Header() {
     return (
         <section id="index-header">
-            <Cover>
-                <ImageLink
-                    className="header-profile-pic"
-                    src={profileImg}
-                    alt="Profile image"
-                    href="/"
-                />
-                <section className="header-title">
-                    <ShufflingString
-                        resultStr="Binh Nguyen"
-                        maxShuffleTime={1500}
-                        shuffleInterval={100}
-                    />
-                </section>
-            </Cover>
-            <NavBar />
+            <ImageLink className="header-profile-pic"
+                       src={profileImg}
+                       alt="Profile image"
+                       href="/" />
+            <section className="header-title">
+                <ShufflingString resultStr="Binh Nguyen"
+                                 maxShuffleTime={1500}
+                                 shuffleInterval={100} />
+            </section>
+            <div id="navbar-menu-btn"
+                 role="button"
+                 tabIndex={0}>
+                <MIcon icon="menu" />
+            </div>
         </section>
     );
 }
