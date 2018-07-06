@@ -33,37 +33,45 @@ function NavLink(props: NavLinkProps) {
 
 type HeaderStates = {
     sideNavbarShown: boolean,
-    rightOffset: number
+    sideNavbarRightOffset: number
 };
 
-class Header extends React.Component<{}, HeaderStates> {
+class Header extends React.PureComponent<{}, HeaderStates> {
     constructor(props: {}) {
         super(props);
         this.state = {
             sideNavbarShown: false,
-            rightOffset: 0
+            sideNavbarRightOffset: 0
         };
     }
 
     componentDidMount = () => {
-        const {sideNavbarShown} = this.state;
+        const sideNavbarW = this.getSideNavbarWidth();
 
-        window.addEventListener('resize', this.toggleSideNavbarDisplay);
+        this.setState({
+            sideNavbarRightOffset: -sideNavbarW
+        });
 
-        this.toggleSideNavbarDisplay(sideNavbarShown);
+        window.addEventListener('resize', this.handleWindowResize);
     };
 
     componentWillUnmount = () => {
-        window.removeEventListener('resize', this.toggleSideNavbarDisplay);
+        window.removeEventListener('resize', this.handleWindowResize);
+    };
+
+    handleWindowResize = () => {
+        const sideNavbarW = this.getSideNavbarWidth();
+        this.setState((prevState, props) => ({
+            sideNavbarRightOffset: prevState.sideNavbarShown ? 0 : -sideNavbarW
+        }));
     };
 
     handleNavMenuBtnClick = () => {
-        this.setState((prevState, props) => {
-            this.toggleSideNavbarDisplay(!prevState.sideNavbarShown);
-            return {
-                sideNavbarShown: !prevState.sideNavbarShown
-            }
-        });
+        const sideNavbarW = this.getSideNavbarWidth();
+        this.setState((prevState, props) => ({
+            sideNavbarShown: !prevState.sideNavbarShown,
+            sideNavbarRightOffset: !prevState.sideNavbarShown ? 0 : -sideNavbarW
+        }));
     };
 
     handleNavMenuBtnKeyboard = (e: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -72,17 +80,13 @@ class Header extends React.Component<{}, HeaderStates> {
         }
     };
 
-    toggleSideNavbarDisplay = (show: boolean) => {
+    getSideNavbarWidth = () => {
         const el = document.getElementById('header-navbar');
-        const elWidth = el ? el.getBoundingClientRect().width : 0;
-
-        this.setState({
-            rightOffset: show ? 0 : -elWidth
-        });
+        return el ? el.getBoundingClientRect().width : 0
     };
 
     render() {
-        const {sideNavbarShown, rightOffset} = this.state;
+        const {sideNavbarShown, sideNavbarRightOffset} = this.state;
 
         const menuBtnIcon = sideNavbarShown ? 'close' : 'menu';
 
@@ -106,7 +110,7 @@ class Header extends React.Component<{}, HeaderStates> {
                 </div>
                 <nav id="header-navbar"
                      style={{
-                         right: `${rightOffset}px`
+                         right: `${sideNavbarRightOffset}px`
                      }}>
                     <NavLink href="/about" text="ABOUT" />
                     <NavLink href="/blog" text="BLOG" />
