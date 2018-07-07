@@ -44,8 +44,8 @@ h1 {
 /* ********** RESPONSIVE WEB DESIGN ********** */
 
 #root {
-    /* Nothing will go below 280px wide */
-    min-width: 280px;
+    /* Nothing will go below 320px wide */
+    min-width: 320px;
 }
 
 .wrapper {

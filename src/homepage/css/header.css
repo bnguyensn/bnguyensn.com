@@ -1,7 +1,8 @@
 /** ********** HEADER ********** **/
 
 #index-header {
-    position: relative;
+    position: sticky;
+    top: -11.5em;
 
     display: flex;
     justify-content: center;
@@ -19,6 +20,11 @@
 
 @media only screen and (max-width: 1280px) {
     #index-header {
+        position: fixed;
+        top: 0; left: 0;
+
+        width: 100%;
+
         flex-flow: row;
         padding: .5em;
     }
@@ -71,38 +77,53 @@
     }
 }
 
-/** ***** NAV BAR / NAV SIDE BAR ***** **/
+/** ***** NAV BAR / SIDE NAV BAR ***** **/
 
 #header-navbar {
+    position: sticky;
+    top: 10px;
+
     display: flex;
     justify-content: center;
     align-items: center;
 
     padding: 1em;
-
-    background-color: inherit;
-    opacity: .95;
 }
 
 @media only screen and (max-width: 1280px) {
     #header-navbar {
-        position: absolute;
-        top: 0;
-
-        justify-content: flex-start;
-        align-items: flex-end;
-        flex-flow: column;
-
-        margin: 4em 0 0 0;
-        min-width: 50vw; height: 100vh;
-
-        transition: right .2s;
+        display: none;
     }
 }
 
 @media only screen and (min-width: 1281px) {
     #header-navbar {
         width: 1280px;
+    }
+}
+
+#header-side-navbar {
+    position: absolute;
+    top: 0;
+
+    display: none;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-flow: column;
+
+    margin: 4em 0 0 0;
+    min-width: 50vw; height: 100vh;
+    padding: 1em;
+
+    background-color: inherit;
+    opacity: .95;
+
+    transition: right .2s;
+}
+
+@media only screen and (max-width: 1280px) {
+    #header-side-navbar {
+        display: flex;
     }
 }
 

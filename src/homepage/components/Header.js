@@ -52,7 +52,7 @@ class Header extends React.PureComponent<{}, HeaderStates> {
             sideNavbarRightOffset: -sideNavbarW
         });
 
-        window.addEventListener('resize', this.handleWindowResize);
+        window.onresize = this.handleWindowResize;
     };
 
     componentWillUnmount = () => {
@@ -81,7 +81,7 @@ class Header extends React.PureComponent<{}, HeaderStates> {
     };
 
     getSideNavbarWidth = () => {
-        const el = document.getElementById('header-navbar');
+        const el = document.getElementById('header-side-navbar');
         return el ? el.getBoundingClientRect().width : 0
     };
 
@@ -108,7 +108,13 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                      onKeyPress={this.handleNavMenuBtnKeyboard}>
                     <MIcon icon={menuBtnIcon} />
                 </div>
-                <nav id="header-navbar"
+                <nav id="header-navbar">
+                    <NavLink href="/about" text="ABOUT" />
+                    <NavLink href="/blog" text="BLOG" />
+                    <NavLink href="/projects" text="PROJECTS" />
+                    <NavLink href="/contact" text="CONTACT" />
+                </nav>
+                <nav id="header-side-navbar"
                      style={{
                          right: `${sideNavbarRightOffset}px`
                      }}>

@@ -36,6 +36,7 @@
       }
     ],
     "linebreak-style": 0,
+    "lines-between-class-members": 0,
     "no-unused-vars": 0,
     "spaced-comment": 0,
     "no-console": [
