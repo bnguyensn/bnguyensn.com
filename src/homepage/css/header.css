@@ -71,7 +71,7 @@
     }
 }
 
-/** ***** NAV BAR ***** **/
+/** ***** NAV BAR / NAV SIDE BAR ***** **/
 
 #header-navbar {
     display: flex;
@@ -81,6 +81,7 @@
     padding: 1em;
 
     background-color: inherit;
+    opacity: .95;
 }
 
 @media only screen and (max-width: 1280px) {
@@ -88,27 +89,22 @@
         position: absolute;
         top: 0;
 
+        justify-content: flex-start;
         align-items: flex-end;
         flex-flow: column;
 
         margin: 4em 0 0 0;
-        height: 100vh;
+        min-width: 50vw; height: 100vh;
+
+        transition: right .2s;
     }
 }
 
-/*!* Nav bar's max width is 1280px *!
-@media only screen and (max-width: 1280px) {
-    #header-navbar {
-        width: 100%;
-    }
-}
-
-!* Nav bar's max width is 1280px *!
 @media only screen and (min-width: 1281px) {
     #header-navbar {
         width: 1280px;
     }
-}*/
+}
 
 /** ***** NAV LINKS ***** **/
 
@@ -117,11 +113,21 @@
     text-align: center;
 }
 
-#header-navbar a {
+@media only screen and (max-width: 1280px) {
+    .nav-link {
+        flex: 0 1 auto;
+        width: 100%;
+        margin: .5em 0 .5em 0;
+        text-align: right;
+    }
+}
+
+.nav-link a {
+    display: block;
     padding: .25em;
     font-size: 1.5em;
 }
 
-#header-navbar a:hover {
-    border-bottom: 2px solid #03A9F4;  /* Light Blue 500 */
+.nav-link:hover a {
+    text-decoration: underline;
 }
