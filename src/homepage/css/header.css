@@ -2,20 +2,21 @@
 
 #index-header {
     position: sticky;
-    top: -11.5em;
+    top: -10.5em;
 
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column;
 
-    padding: 1em;
-
-    background-color: #212121;  /* Grey 900 */
+    background-color: #212121;
 }
 
-#index-header > * {
-    margin: .5em;
+@keyframes bkgColorTransition {
+    0% {background-color: #1A237E}
+    33% {background-color: #311B92}
+    66% {background-color: #4A148C}
+    100% {background-color: #0D47A1}
 }
 
 @media only screen and (max-width: 1280px) {
@@ -30,9 +31,14 @@
     }
 }
 
+#index-header > * {
+    margin: .5em;
+}
+
 /** ***** PROFILE PIC ***** **/
 
 #header-profile-pic {
+
     width: 6em; height: 6em;
     border-radius: 50%;
 }
@@ -80,14 +86,11 @@
 /** ***** NAV BAR / SIDE NAV BAR ***** **/
 
 #header-navbar {
-    position: sticky;
-    top: 10px;
-
     display: flex;
     justify-content: center;
     align-items: center;
 
-    padding: 1em;
+    padding: .5em;
 }
 
 @media only screen and (max-width: 1280px) {

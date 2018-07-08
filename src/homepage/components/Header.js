@@ -33,7 +33,8 @@ function NavLink(props: NavLinkProps) {
 
 type HeaderStates = {
     sideNavbarShown: boolean,
-    sideNavbarRightOffset: number
+    sideNavbarRightOffset: number,
+    titleText: string
 };
 
 class Header extends React.PureComponent<{}, HeaderStates> {
@@ -41,7 +42,8 @@ class Header extends React.PureComponent<{}, HeaderStates> {
         super(props);
         this.state = {
             sideNavbarShown: false,
-            sideNavbarRightOffset: 0
+            sideNavbarRightOffset: 0,
+            titleText: "Binh Nguyen"
         };
     }
 
@@ -60,10 +62,21 @@ class Header extends React.PureComponent<{}, HeaderStates> {
     };
 
     handleWindowResize = () => {
+        const {sideNavbarShown, titleText} = this.state;
+
+        // Adjust side nav bar position
         const sideNavbarW = this.getSideNavbarWidth();
+        const newSideNavbarRightOffset = sideNavbarShown ? 0 : -sideNavbarW;
+
+        // Update title if screen too small
+        const newTitleText = window.innerWidth >= 400 ? "Binh Nguyen" : "B.N";
+
         this.setState((prevState, props) => ({
-            sideNavbarRightOffset: prevState.sideNavbarShown ? 0 : -sideNavbarW
+            sideNavbarRightOffset: newSideNavbarRightOffset,
+            titleText: newTitleText
         }));
+
+    //
     };
 
     handleNavMenuBtnClick = () => {
@@ -86,7 +99,7 @@ class Header extends React.PureComponent<{}, HeaderStates> {
     };
 
     render() {
-        const {sideNavbarShown, sideNavbarRightOffset} = this.state;
+        const {sideNavbarShown, sideNavbarRightOffset, titleText} = this.state;
 
         const menuBtnIcon = sideNavbarShown ? 'close' : 'menu';
 
@@ -97,9 +110,10 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                            alt="Profile image"
                            href="/" />
                 <section id="header-title">
-                    <ShufflingString resultStr="Binh Nguyen"
+                    <span>{titleText}</span>
+                    {/*<ShufflingString resultStr={titleText}
                                      maxShuffleTime={1500}
-                                     shuffleInterval={100} />
+                                     shuffleInterval={100} />*/}
                 </section>
                 <div id="header-navbar-menu-btn"
                      role="button"
