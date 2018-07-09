@@ -1,0 +1,13 @@
+#index-footer {
+    padding: .5em;
+
+    background-color: #212121;
+
+    font: .75em 'Open Sans', sans-serif;
+    color: #FAFAFA;
+    text-align: center;
+}
+
+#index-footer a:hover {
+    text-decoration: underline;
+}
