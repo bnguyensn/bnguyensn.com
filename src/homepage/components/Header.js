@@ -4,8 +4,9 @@ import * as React from 'react';
 import {Link} from '@reach/router';
 
 import ImageLink from '../lib/components/ImageLink';
-import ShufflingString from '../lib/components/ShufflingString';
 import {MIcon} from '../lib/components/MIcon';
+import ShufflingString from '../lib/components/ShufflingString';
+import getBodyFontSize from '../lib/utils/getBodyFontSize';
 
 import profileImg from '../img/profile_256x256.jpg';
 
@@ -15,7 +16,7 @@ import '../css/header.css';
 
 type NavLinkProps = {
     href: string,
-    text: string
+    text: string,
 }
 
 function NavLink(props: NavLinkProps) {
@@ -34,31 +35,37 @@ function NavLink(props: NavLinkProps) {
 type HeaderStates = {
     sideNavbarShown: boolean,
     sideNavbarRightOffset: number,
-    titleText: string
+    titleText: string,
+    profilePicSize: number,
 };
 
 class Header extends React.PureComponent<{}, HeaderStates> {
+    ogProfilePicSize: number;
+
     constructor(props: {}) {
         super(props);
+        this.ogProfilePicSize = 24 * 6;  // Body font size = 24px
         this.state = {
             sideNavbarShown: false,
             sideNavbarRightOffset: 0,
-            titleText: "Binh Nguyen"
+            titleText: "Binh Nguyen",
+            profilePicSize: this.ogProfilePicSize,
         };
     }
 
     componentDidMount = () => {
         const sideNavbarW = this.getSideNavbarWidth();
-
         this.setState({
-            sideNavbarRightOffset: -sideNavbarW
+            sideNavbarRightOffset: -sideNavbarW,
         });
 
         window.onresize = this.handleWindowResize;
+        window.onscroll = this.handleWindowScroll;
     };
 
     componentWillUnmount = () => {
         window.removeEventListener('resize', this.handleWindowResize);
+        window.removeEventListener('scroll', this.handleWindowScroll);
     };
 
     handleWindowResize = () => {
@@ -73,17 +80,32 @@ class Header extends React.PureComponent<{}, HeaderStates> {
 
         this.setState((prevState, props) => ({
             sideNavbarRightOffset: newSideNavbarRightOffset,
-            titleText: newTitleText
+            titleText: newTitleText,
         }));
+    };
 
-    //
+    handleWindowScroll = () => {
+        const {profilePicSize} = this.state;
+
+        // Adjust profile pic's size in response to scrolling
+        const targetProfilePicSize = 53;  // In px
+        const travelDist = 30;  // In px
+        if (window.pageYOffset >= 0 && window.pageYOffset < travelDist) {
+            this.setState({
+                profilePicSize: this.ogProfilePicSize - (window.pageYOffset / travelDist) * (this.ogProfilePicSize - targetProfilePicSize)
+            });
+        } else if (window.pageYOffset >= travelDist) {
+            this.setState({
+                profilePicSize: targetProfilePicSize
+            });
+        }
     };
 
     handleNavMenuBtnClick = () => {
         const sideNavbarW = this.getSideNavbarWidth();
         this.setState((prevState, props) => ({
             sideNavbarShown: !prevState.sideNavbarShown,
-            sideNavbarRightOffset: !prevState.sideNavbarShown ? 0 : -sideNavbarW
+            sideNavbarRightOffset: !prevState.sideNavbarShown ? 0 : -sideNavbarW,
         }));
     };
 
@@ -99,22 +121,35 @@ class Header extends React.PureComponent<{}, HeaderStates> {
     };
 
     render() {
-        const {sideNavbarShown, sideNavbarRightOffset, titleText} = this.state;
+        const {sideNavbarShown, sideNavbarRightOffset, titleText, profilePicSize} = this.state;
 
         const menuBtnIcon = sideNavbarShown ? 'close' : 'menu';
 
         return (
             <section id="index-header">
-                <ImageLink id="header-profile-pic"
-                           src={profileImg}
-                           alt="Profile image"
-                           href="/" />
-                <section id="header-title">
+
+                {/*<section id="header-title">
                     <span>{titleText}</span>
-                    {/*<ShufflingString resultStr={titleText}
+                    <ShufflingString resultStr={titleText}
                                      maxShuffleTime={1500}
-                                     shuffleInterval={100} />*/}
-                </section>
+                                     shuffleInterval={100} />
+                </section>*/}
+
+                <nav id="header-navbar">
+                    <NavLink href="/about" text="ABOUT" />
+                    <NavLink href="/blog" text="BLOG" />
+                    <ImageLink className="header-profile-pic"
+                               src={profileImg}
+                               alt="Profile image"
+                               href="/"
+                               style={{
+                                   width: `${profilePicSize}px`,
+                                   height: `${profilePicSize}px`,
+                               }} />
+                    <NavLink href="/projects" text="PROJECTS" />
+                    <NavLink href="/contact" text="CONTACT" />
+                </nav>
+
                 <div id="header-navbar-menu-btn"
                      role="button"
                      tabIndex={0}
@@ -122,12 +157,7 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                      onKeyPress={this.handleNavMenuBtnKeyboard}>
                     <MIcon icon={menuBtnIcon} />
                 </div>
-                <nav id="header-navbar">
-                    <NavLink href="/about" text="ABOUT" />
-                    <NavLink href="/blog" text="BLOG" />
-                    <NavLink href="/projects" text="PROJECTS" />
-                    <NavLink href="/contact" text="CONTACT" />
-                </nav>
+
                 <nav id="header-side-navbar"
                      style={{
                          right: `${sideNavbarRightOffset}px`
