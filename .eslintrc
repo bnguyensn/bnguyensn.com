@@ -54,6 +54,13 @@
         "allowForLoopAfterthoughts": true
       }
     ],
+    "one-var": [
+      "error",
+      {
+        "initialized": "never",
+        "uninitialized": "always"
+      }
+    ],
     "react/jsx-filename-extension": 0,
     "react/sort-comp": [
       1,

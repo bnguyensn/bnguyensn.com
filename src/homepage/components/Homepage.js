@@ -11,7 +11,7 @@ function Homepage() {
         <section id="body-homepage">
             {/*<span>Hi, I&apos;m Binh</span>
             <span>and this is my site</span>*/}
-            <RainbowString s="Hello!" d={.5} />
+            <RainbowString s="Hello!" d={1} r />
         </section>
     )
 }

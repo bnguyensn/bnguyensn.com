@@ -6,14 +6,15 @@ import RainbowLetter from './RainbowLetter';
 
 type PropTypes = {
     s: string,
-    d: number
+    d: number,
+    r: boolean
 }
 
 function RainbowString(props: PropTypes) {
-    const {s, d} = props;
+    const {s, d, r} = props;
     const letters = s.split('');
     const rainbowLetters = letters.map((letter, i) =>
-        <RainbowLetter key={i} s={letter} d={d} />,  // eslint-disable-line react/no-array-index-key
+        <RainbowLetter key={i} s={letter} d={d} r={r} />,  // eslint-disable-line react/no-array-index-key
     );
 
     return (
