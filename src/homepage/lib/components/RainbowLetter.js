@@ -8,33 +8,48 @@ import * as React from 'react';
 import styled, {keyframes} from 'styled-components';
 
 import shuffleKFY from '../utils/shuffleKFY';
+import rearrangeArray from '../utils/rearrangeArray';
 
 /** ********** HELPERS ********** **/
 
 const defaultColourRange = [
+    '#E91E63',
     '#f44336',
+    '#FF5722',
     '#FF9800',
+    '#FFC107',
     '#FFEB3B',
+    '#CDDC39',
+    '#8BC34A',
     '#4CAF50',
-    '#03A9F4',
+    '#009688',
+    '#00BCD4',
+    '#2196F3',
     '#3F51B5',
     '#673AB7',
+    '#9C27B0',
 ];
 
-function keyframeGenerator(colourRange: string[], randomise: boolean) {
+function keyframeGenerator(colourRange: string[], randomise: string) {
     if (colourRange.length < 1) {
-        return keyframeGenerator(defaultColourRange)
+        return keyframeGenerator(defaultColourRange, randomise)
     }
 
     if (colourRange.length === 1) {
         return `100% {color: ${colourRange[0]}}`
     }
 
-    let adjColourRange = colourRange.slice();
+    let adjColourRange;
     
-    // Randomise colour range, if needed
-    if (randomise) {
-        adjColourRange = shuffleKFY(adjColourRange);
+    // Randomise colour range, if specified
+    if (randomise === 'random') {
+        // Mode random = randomly shuffle the colour range
+        adjColourRange = shuffleKFY(colourRange.slice());
+    } else if (randomise === 'rearrange') {
+        // Mode rearrange = randomly select a first colour, but keep the ordering of colours
+        adjColourRange = rearrangeArray(colourRange.slice());
+    } else {
+        adjColourRange = colourRange.slice();
     }
     
     // To smooth out the animation, add an entry to make last colour === first colour
@@ -63,7 +78,7 @@ function keyframeGenerator(colourRange: string[], randomise: boolean) {
 type PropTypes = {
     s: string,
     d: number,
-    r: boolean,
+    r: string,
     colourRange?: string[]
 }
 

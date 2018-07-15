@@ -1,6 +1,6 @@
 // @flow
 
-export default function shuffleKFY(array) {
+export default function shuffleKFY<T>(array: T[]): T[] {
     const a = array.slice();
     let m = a.length;
     let t, i;

@@ -7,7 +7,7 @@ import RainbowLetter from './RainbowLetter';
 type PropTypes = {
     s: string,
     d: number,
-    r: boolean
+    r: string
 }
 
 function RainbowString(props: PropTypes) {

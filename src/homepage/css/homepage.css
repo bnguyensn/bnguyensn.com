@@ -1,4 +1,13 @@
 #body-homepage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Bungee Inline', cursive;;
     font-size: 5em;
     text-shadow: 1px 1px 2px #9E9E9E;
+}
+
+#body-homepage div {
+
 }
