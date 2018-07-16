@@ -1,33 +1,25 @@
+/** **************************** **/
 /** ********** HEADER ********** **/
+/** **************************** **/
 
 #index-header {
-    position: sticky;
-    top: 0;
+    /*position: sticky;
+    top: 0;*/
 
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-flow: column;
+    flex-flow: row;
+    flex-wrap: wrap;
+
+    height: 100vh;
 
     background-color: #212121;
 }
 
-@keyframes bkgColorTransition {
-    0% {background-color: #1A237E}
-    33% {background-color: #311B92}
-    66% {background-color: #4A148C}
-    100% {background-color: #0D47A1}
-}
-
 @media only screen and (max-width: 1280px) {
     #index-header {
-        position: fixed;
-        top: 0; left: 0;
-
-        width: 100%;
-
-        flex-flow: row;
-        padding: .5em;
+        flex-flow: column;
     }
 }
 
@@ -35,17 +27,86 @@
     margin: .5em;
 }
 
+/** ***************************** **/
+/** ********** NAV BAR ********** **/
+/** ***************************** **/
+
+#header-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row nowrap;
+
+    width: 1280px;
+
+    padding: .5em;
+}
+
+#header-navbar > * {
+    margin: .5em;
+}
+
+/*@media only screen and (max-width: 1280px) {
+    #header-navbar {
+        display: none;
+    }
+}*/
+
+@media only screen and (max-width: 1280px) {
+    #header-navbar {
+        flex-flow: column wrap;
+    }
+}
+
+/** ********************************** **/
+/** ********** SIDE NAV BAR ********** **/
+/** ********************************** **/
+
+#header-side-navbar {
+    position: absolute;
+    top: 0;
+
+    display: none;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-flow: column;
+
+    margin: 4em 0 0 0;
+    min-width: 50vw; height: 100vh;
+    padding: 1em;
+
+    background-color: inherit;
+    opacity: .95;
+
+    transition: right .2s;
+}
+
+/*@media only screen and (max-width: 1280px) {
+    #header-side-navbar {
+        display: flex;
+    }
+}*/
+
+/** ************************************** **/
+/** ********** OTHER COMPONENTS ********** **/
+/** ************************************** **/
+
 /** ***** PROFILE PIC ***** **/
 
 .header-profile-pic {
     width: 6em; height: 6em;
     border-radius: 50%;
+    box-shadow: 0 0 8px #F5F5F5;
+}
+
+.header-profile-pic:hover {
+    box-shadow: 0 0 11px #F5F5F5;
 }
 
 @media only screen and (max-width: 1280px) {
     .header-profile-pic {
-        flex-grow: 0;
-        width: 2em; height: 2em;
+        /*flex-grow: 0;*/
+        /*width: 2em; height: 2em;*/
     }
 }
 
@@ -75,59 +136,14 @@
     user-select: none;
 }
 
-@media only screen and (max-width: 1280px) {
+/*@media only screen and (max-width: 1280px) {
     #header-navbar-menu-btn {
         display: block;
         flex-grow: 0;
     }
-}
+}*/
 
-/** ***** NAV BAR / SIDE NAV BAR ***** **/
 
-#header-navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: .5em;
-}
-
-@media only screen and (max-width: 1280px) {
-    #header-navbar {
-        display: none;
-    }
-}
-
-@media only screen and (min-width: 1281px) {
-    #header-navbar {
-        width: 1280px;
-    }
-}
-
-#header-side-navbar {
-    position: absolute;
-    top: 0;
-
-    display: none;
-    justify-content: flex-start;
-    align-items: flex-end;
-    flex-flow: column;
-
-    margin: 4em 0 0 0;
-    min-width: 50vw; height: 100vh;
-    padding: 1em;
-
-    background-color: inherit;
-    opacity: .95;
-
-    transition: right .2s;
-}
-
-@media only screen and (max-width: 1280px) {
-    #header-side-navbar {
-        display: flex;
-    }
-}
 
 /** ***** NAV LINKS ***** **/
 
@@ -137,21 +153,23 @@
     text-align: center;
 }
 
-@media only screen and (max-width: 1280px) {
+/*@media only screen and (max-width: 1280px) {
     .nav-link {
         flex: 0 1 auto;
         width: 100%;
         margin: .5em 0 .5em 0;
         text-align: right;
     }
-}
+}*/
 
 .nav-link a {
     display: block;
     color: #fafafa;
-    font-size: 1.5em;
+    font-size: 2em;
+    text-shadow: 0 0 5px #F5F5F5;
 }
 
 .nav-link:hover a {
     text-decoration: underline;
+    text-shadow: 0 0 8px #F5F5F5;
 }

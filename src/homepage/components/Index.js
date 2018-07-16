@@ -19,7 +19,7 @@ class Index extends React.PureComponent<{}> {
         return (
             <div id="index-container">
                 <Header />
-                <Body />
+
                 <Footer />
             </div>
         );

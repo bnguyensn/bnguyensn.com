@@ -36,6 +36,7 @@ type HeaderStates = {
     sideNavbarShown: boolean,
     sideNavbarRightOffset: number,
     titleText: string,
+    scrollResize: boolean,
     profilePicSize: number,
 };
 
@@ -49,6 +50,7 @@ class Header extends React.PureComponent<{}, HeaderStates> {
             sideNavbarShown: false,
             sideNavbarRightOffset: 0,
             titleText: "Binh Nguyen",
+            scrollResize: false,
             profilePicSize: this.ogProfilePicSize,
         };
     }
@@ -59,8 +61,11 @@ class Header extends React.PureComponent<{}, HeaderStates> {
             sideNavbarRightOffset: -sideNavbarW,
         });
 
-        window.onresize = this.handleWindowResize;
-        window.onscroll = this.handleWindowScroll;
+
+        if (this.state.scrollResize) {
+            window.onscroll = this.handleWindowScroll;
+            window.onresize = this.handleWindowResize;
+        }
     };
 
     componentWillUnmount = () => {
@@ -142,10 +147,10 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                                src={profileImg}
                                alt="Profile image"
                                href="/"
-                               style={{
+                               /*style={{
                                    width: `${profilePicSize}px`,
                                    height: `${profilePicSize}px`,
-                               }} />
+                               }}*/ />
                     <NavLink href="/projects" text="PROJECTS" />
                     <NavLink href="/contact" text="CONTACT" />
                 </nav>

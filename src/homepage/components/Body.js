@@ -10,7 +10,7 @@ import '../css/body.css';
 function Body() {
     return (
         <section id="index-body">
-
+            
         </section>
     );
 }
