@@ -82,7 +82,7 @@ function createStarLayer(starLayerInfo: StarLayerType): HTMLCanvasElement {
 function animStep(mainCanvas: HTMLCanvasElement, mainCtx: CanvasRenderingContext2D,
                   starFields: HTMLImageElement[],
                   curOffset: number, offsetStep: number) {
-    const newOffset = curOffset + offsetStep;
+    const newOffset = curOffset + offsetStep > mainCanvas.width ? 0 : curOffset + offsetStep;
 
     // Clear and redraw the canvas with position-updated starfield images
     mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
@@ -100,41 +100,45 @@ function animStep(mainCanvas: HTMLCanvasElement, mainCtx: CanvasRenderingContext
 /** ********** REACT COMPONENT ********** **/
 
 export default class Starfield extends React.PureComponent<{}> {
-    starLayers: HTMLImageElement[];  // Contains an array of image-converted starfields
-    mainCanvas: HTMLCanvasElement;
+    starLayers: HTMLImageElement[];  // Contain image-converted star layers
+    mainCanvas: ?HTMLCanvasElement;
 
     constructor(props: {}) {
         super(props);
 
-        // Create a few star layers and convert them (canvas elements) to images
+        // Create a few star layers and convert them (as canvas elements) to image elements
         const starLayer1 = createStarLayer({
-            width: 2000,
-            height: 2000,
+            width: 500,
+            height: 500,
             starShadowBlur: 2,
             starShadowColour:'#BDBDBD',
             starColour: '#9E9E9E',
             starCount: 100,
-            starRadiusMin: 3,
-            starRadiusMax: 5,
+            starRadiusMin: 1,
+            starRadiusMax: 3,
         });
+        this.starLayers = [];
         this.starLayers[0] = document.createElement('img');
         this.starLayers[0].src = starLayer1.toDataURL();
-
-        // Create the main canvas
-        this.mainCanvas = document.createElement('canvas');
     }
 
     componentDidMount = () => {
-            window.requestAnimationFrame(() => {
-                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), this.starLayers, 0, 5);
-            });
+        window.requestAnimationFrame(() => {
+            if (this.mainCanvas) {
+                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), this.starLayers, 0, 1);
+            }
+        });
     };
 
     render() {
         return (
-            <div>
-
-            </div>
+            <canvas ref={canvas => {this.mainCanvas = canvas}}
+                    width={500} height={500}
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                    }}/>
         )
     }
 
