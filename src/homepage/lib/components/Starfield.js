@@ -2,6 +2,11 @@
  * STARFIELD
  * ---------
  * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/
+ *
+ * Things to improve:
+ * - Window resize: currently a check is performed every 60 frames (~1s). If
+ * the check shows that window is resized, a new starfield image is drawn. This
+ * creates stuttering on window resize.
   * */
 
 // @flow
@@ -77,63 +82,144 @@ function createStarLayer(starLayerInfo: StarLayerType): HTMLCanvasElement {
     return starCanvas
 }
 
+/** ********** STARFIELD ********** **/
+
+function createStarfield(): HTMLImageElement[] {
+    // A starfield is essentially an array of image-converted star layer canvases.
+    const starfield = [];
+    
+    // TODO: create multiple star layers
+    const starLayer1 = createStarLayer({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        starShadowBlur: 2,
+        starShadowColour:'#BDBDBD',
+        starColour: '#9E9E9E',
+
+        // Density of stars depends on the window area
+        starCount: Math.floor(((window.innerWidth / 100) * (window.innerHeight / 100)) / 2.0736),
+
+        starRadiusMin: 1,
+        starRadiusMax: 3,
+    });
+    starfield[0] = document.createElement('img');
+    starfield[0].src = starLayer1.toDataURL();
+
+    return starfield
+}
+
 /** ********** ANIMATION ********** **/
 
 function animStep(mainCanvas: HTMLCanvasElement, mainCtx: CanvasRenderingContext2D,
-                  starFields: HTMLImageElement[],
-                  curOffset: number, offsetStep: number) {
+                  starfield: HTMLImageElement[],
+                  curOffset: number, offsetStep: number,
+                  vpSizeCheckInterval: number,
+                  viewportSize: {
+                      width: number,
+                      height: number
+                  }) {
     const newOffset = curOffset + offsetStep > mainCanvas.width ? 0 : curOffset + offsetStep;
 
-    // Clear and redraw the canvas with position-updated starfield images
+    // Need to create a new starfield if window is resized
+    // Check viewport size every X frames
+    let newVpSizeInterval, newStarfield, newViewportSize;
+    if (vpSizeCheckInterval === 60) {
+        newViewportSize = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+        };
+
+        // If viewport size changed, draw a new starfield
+        newStarfield = viewportSize.width !== newViewportSize.width || viewportSize.height !== newViewportSize.height ?
+                       createStarfield() :
+                       starfield;
+
+        newVpSizeInterval = 0;
+    } else {
+        newViewportSize = viewportSize;
+        newStarfield = starfield;
+        newVpSizeInterval = vpSizeCheckInterval + 1;
+    }
+
+    // Clear and redraw the canvas with position-updated, viewport size-adjusted starfield images
     mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-    for (let i = 0; i < starFields.length; i++) {
-        mainCtx.drawImage(starFields[0], newOffset, 0);
-        mainCtx.drawImage(starFields[0], newOffset - mainCanvas.width, 0);
+    for (let i = 0; i < newStarfield.length; i++) {
+        mainCtx.drawImage(newStarfield[0], newOffset, 0);
+        mainCtx.drawImage(newStarfield[0], newOffset - mainCanvas.width, 0);
     }
 
     // Call next frame
     window.requestAnimationFrame(() => {
-        animStep(mainCanvas, mainCtx, starFields, newOffset, offsetStep);
+        animStep(mainCanvas, mainCtx, newStarfield, newOffset, offsetStep,
+                 newVpSizeInterval, newViewportSize);
     });
 }
 
 /** ********** REACT COMPONENT ********** **/
 
-export default class Starfield extends React.PureComponent<{}> {
-    starLayers: HTMLImageElement[];  // Contain image-converted star layers
+type StarfieldStateTypes = {
+    viewportSize: {
+        width: number,
+        height: number,
+    };
+}
+
+export default class Starfield extends React.PureComponent<{}, StarfieldStateTypes> {
     mainCanvas: ?HTMLCanvasElement;
 
     constructor(props: {}) {
         super(props);
 
-        // Create a few star layers and convert them (as canvas elements) to image elements
-        const starLayer1 = createStarLayer({
-            width: 500,
-            height: 500,
-            starShadowBlur: 2,
-            starShadowColour:'#BDBDBD',
-            starColour: '#9E9E9E',
-            starCount: 100,
-            starRadiusMin: 1,
-            starRadiusMax: 3,
-        });
-        this.starLayers = [];
-        this.starLayers[0] = document.createElement('img');
-        this.starLayers[0].src = starLayer1.toDataURL();
+        this.state = {
+            // Our canvas needs window's width and height information so it can resize itself when window resizes.
+            viewportSize: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
+        };
+
+        window.onresize = this.handleWindowResize;
     }
 
+    /** ***** LIFECYCLE METHODS ***** **/
+
     componentDidMount = () => {
+        const {viewportSize} = this.state;
+
+        // Canvas is mounted. Start the animation.
+        const starfield = createStarfield();
         window.requestAnimationFrame(() => {
             if (this.mainCanvas) {
-                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), this.starLayers, 0, 1);
+                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), starfield, 0, 3,
+                         0, viewportSize);
             }
         });
     };
 
+    componentWillUnmount = () => {
+        window.removeEventListener('resize', this.handleWindowResize);
+    };
+
+    /** ***** EVENT HANDLERS ***** **/
+
+    handleWindowResize = () => {
+        // Update window's width and height information so the canvas can resize along.
+        this.setState({
+            viewportSize: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
+        });
+    };
+
+    /** ***** RENDER ***** **/
+
     render() {
+        const {viewportSize} = this.state;
+
         return (
             <canvas ref={canvas => {this.mainCanvas = canvas}}
-                    width={500} height={500}
+                    width={viewportSize.width} height={viewportSize.height}
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -141,5 +227,4 @@ export default class Starfield extends React.PureComponent<{}> {
                     }}/>
         )
     }
-
 }
