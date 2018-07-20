@@ -5,8 +5,6 @@ import {Link} from '@reach/router';
 
 import ImageLink from '../lib/components/ImageLink';
 import {MIcon} from '../lib/components/MIcon';
-import ShufflingString from '../lib/components/ShufflingString';
-import getBodyFontSize from '../lib/utils/getBodyFontSize';
 
 import profileImg from '../img/profile_256x256.jpg';
 
@@ -33,84 +31,24 @@ function NavLink(props: NavLinkProps) {
 /** ********** MAIN EXPORT ********** **/
 
 type HeaderStates = {
+    headerCollapsed: boolean,
     sideNavbarShown: boolean,
-    sideNavbarRightOffset: number,
-    titleText: string,
-    scrollResize: boolean,
-    profilePicSize: number,
 };
 
 class Header extends React.PureComponent<{}, HeaderStates> {
-    ogProfilePicSize: number;
-
     constructor(props: {}) {
         super(props);
-        this.ogProfilePicSize = 24 * 6;  // Body font size = 24px
         this.state = {
+            headerCollapsed: false,
             sideNavbarShown: false,
-            sideNavbarRightOffset: 0,
-            titleText: "Binh Nguyen",
-            scrollResize: false,
-            profilePicSize: this.ogProfilePicSize,
         };
     }
 
-    componentDidMount = () => {
-        const sideNavbarW = this.getSideNavbarWidth();
-        this.setState({
-            sideNavbarRightOffset: -sideNavbarW,
-        });
-
-
-        if (this.state.scrollResize) {
-            window.onscroll = this.handleWindowScroll;
-            window.onresize = this.handleWindowResize;
-        }
-    };
-
-    componentWillUnmount = () => {
-        window.removeEventListener('resize', this.handleWindowResize);
-        window.removeEventListener('scroll', this.handleWindowScroll);
-    };
-
-    handleWindowResize = () => {
-        const {sideNavbarShown, titleText} = this.state;
-
-        // Adjust side nav bar position
-        const sideNavbarW = this.getSideNavbarWidth();
-        const newSideNavbarRightOffset = sideNavbarShown ? 0 : -sideNavbarW;
-
-        // Update title if screen too small
-        const newTitleText = window.innerWidth >= 400 ? "Binh Nguyen" : "B.N";
-
-        this.setState((prevState, props) => ({
-            sideNavbarRightOffset: newSideNavbarRightOffset,
-            titleText: newTitleText,
-        }));
-    };
-
-    handleWindowScroll = () => {
-        const {profilePicSize} = this.state;
-
-        // Adjust profile pic's size in response to scrolling
-        const targetProfilePicSize = 53;  // In px
-        const travelDist = 30;  // In px
-        if (window.pageYOffset >= 0 && window.pageYOffset < travelDist) {
-            this.setState({
-                profilePicSize: this.ogProfilePicSize - (window.pageYOffset / travelDist) * (this.ogProfilePicSize - targetProfilePicSize)
-            });
-        } else if (window.pageYOffset >= travelDist) {
-            this.setState({
-                profilePicSize: targetProfilePicSize
-            });
-        }
-    };
+    /** ***** EVENT HANDLERS ***** **/
 
     handleNavMenuBtnClick = () => {
-        const sideNavbarW = this.getSideNavbarWidth();
         this.setState((prevState, props) => ({
             sideNavbarShown: !prevState.sideNavbarShown,
-            sideNavbarRightOffset: !prevState.sideNavbarShown ? 0 : -sideNavbarW,
         }));
     };
 
@@ -120,58 +58,40 @@ class Header extends React.PureComponent<{}, HeaderStates> {
         }
     };
 
-    getSideNavbarWidth = () => {
-        const el = document.getElementById('header-side-navbar');
-        return el ? el.getBoundingClientRect().width : 0
+    handleProfileBtnClick = () => {
+        this.setState((prevState, props) => ({
+            headerCollapsed: !prevState.headerCollapsed,
+        }));
     };
 
-    render() {
-        const {sideNavbarShown, sideNavbarRightOffset, titleText, profilePicSize} = this.state;
+    /** ***** RENDER ***** **/
 
+    render() {
+        const {headerCollapsed, sideNavbarShown} = this.state;
+
+        const collapsedCls = headerCollapsed ? 'collapsed' : '';
         const menuBtnIcon = sideNavbarShown ? 'close' : 'menu';
 
         return (
-            <section id="index-header">
-
-                {/*<section id="header-title">
-                    <span>{titleText}</span>
-                    <ShufflingString resultStr={titleText}
-                                     maxShuffleTime={1500}
-                                     shuffleInterval={100} />
-                </section>*/}
-
-                <nav id="header-navbar">
+            <section id="index-header" className={collapsedCls}>
+                <nav id="header-navbar" className={collapsedCls}>
                     <NavLink href="/about" text="ABOUT" />
                     <NavLink href="/blog" text="BLOG" />
                     <ImageLink className="header-profile-pic"
-                               src={profileImg}
-                               alt="Profile image"
-                               href="/"
-                               /*style={{
-                                   width: `${profilePicSize}px`,
-                                   height: `${profilePicSize}px`,
-                               }}*/ />
+                               src={profileImg} alt="Profile image" href="#"
+                               onClick={this.handleProfileBtnClick} />
                     <NavLink href="/projects" text="PROJECTS" />
                     <NavLink href="/contact" text="CONTACT" />
+                    <div id="header-navbar-menu-btn"
+                         role="button"
+                         tabIndex={0}
+                         onClick={this.handleNavMenuBtnClick}
+                         onKeyPress={this.handleNavMenuBtnKeyboard}>
+                        <MIcon icon={menuBtnIcon} />
+                    </div>
                 </nav>
 
-                <div id="header-navbar-menu-btn"
-                     role="button"
-                     tabIndex={0}
-                     onClick={this.handleNavMenuBtnClick}
-                     onKeyPress={this.handleNavMenuBtnKeyboard}>
-                    <MIcon icon={menuBtnIcon} />
-                </div>
 
-                <nav id="header-side-navbar"
-                     style={{
-                         right: `${sideNavbarRightOffset}px`
-                     }}>
-                    <NavLink href="/about" text="ABOUT" />
-                    <NavLink href="/blog" text="BLOG" />
-                    <NavLink href="/projects" text="PROJECTS" />
-                    <NavLink href="/contact" text="CONTACT" />
-                </nav>
             </section>
         )
     }

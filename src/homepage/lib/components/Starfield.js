@@ -190,7 +190,7 @@ export default class Starfield extends React.PureComponent<{}, StarfieldStateTyp
         const starfield = createStarfield();
         window.requestAnimationFrame(() => {
             if (this.mainCanvas) {
-                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), starfield, 0, 3,
+                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), starfield, 0, 0.1,
                          0, viewportSize);
             }
         });
