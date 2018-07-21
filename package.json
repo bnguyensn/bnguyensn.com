@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "^10.3.3",
-    "autoprefixer": "^8.x.x",
+    "autoprefixer": "^9.x.x",
     "babel-cli": "^6.x.x",
     "babel-core": "^6.x.x",
     "babel-eslint": "^8.x.x",
@@ -54,7 +54,7 @@
     "mini-css-extract-plugin": "^0.x.x",
     "node-sass": "^4.x.x",
     "postcss-loader": "^2.x.x",
-    "prettier": "1.13.4",
+    "prettier": "1.13.7",
     "raw-loader": "^0.x.x",
     "react-hot-loader": "^4.x.x",
     "rimraf": "^2.x.x",
