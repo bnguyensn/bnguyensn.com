@@ -21,6 +21,8 @@ class Index extends React.PureComponent<{}> {
             <div id="index-container">
                 <Starfield />
                 <Header />
+                <Body />
+                <Footer />
             </div>
         );
     }
