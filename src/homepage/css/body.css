@@ -1,12 +1,5 @@
 #index-body {
-    flex-grow: 1;
 
-    display: flex;
-    flex-flow: column;
-
-    padding: 1em 0 1em 0;
-
-    background-color: #FAFAFA;
 }
 
 /*

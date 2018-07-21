@@ -1,10 +1,12 @@
 #index-footer {
+    position: absolute;
+    bottom: 0;
+
+    width: 100%;
     padding: .5em;
 
-    background-color: #212121;
-
     font: .75em 'Open Sans', sans-serif;
-    color: #FAFAFA;
+    color: #E0E0E0;
     text-align: center;
 }
 

@@ -29,17 +29,33 @@ const Contact = Loadable({
     loading: Loading,
 });
 
+const FourOhFour = Loadable({
+    loader: () => import('./404'),
+    loading: Loading,
+});
+
+/** ********** WRAPPER COMPONENT ********** **/
+
+function BodyWrapper(props: {children: React.Node}) {
+    const {children} = props;
+    return (
+        <section id="index-body">
+            {children}
+        </section>
+    )
+}
+
 /** ********** MAIN COMPONENT ********** **/
 
 function Body() {
     return (
         <Router>
-            <section id="index-body">
-                <About path="about" />
-                <Blog path="blog" />
-                <Projects path="projects" />
-                <Contact path="contact" />
-            </section>
+            <BodyWrapper path="/">
+                <About path="/about" />
+                <Blog path="/blog" />
+                <Projects path="/projects" />
+                <Contact path="/contact" />
+            </BodyWrapper>
         </Router>
     );
 }

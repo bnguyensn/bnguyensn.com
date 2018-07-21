@@ -42,9 +42,22 @@ class Header extends React.PureComponent<{}, HeaderStates> {
             headerCollapsed: false,
             sideNavbarShown: false,
         };
+        window.onhashchange = this.handleHashChange;
     }
 
+    /** ***** COMPONENT LIFECYCLE ***** **/
+
+    componentWillUnmount = () => {
+        window.removeEventListener('hashchange', this.handleHashChange);
+    };
+
     /** ***** EVENT HANDLERS ***** **/
+
+    // $FlowFixMe
+    handleHashChange = (e) => {
+        console.log(e.newURL);
+        console.log(e.oldURL);
+    };
 
     handleNavMenuBtnClick = () => {
         this.setState((prevState, props) => ({

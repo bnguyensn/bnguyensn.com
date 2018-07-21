@@ -7,7 +7,7 @@ import '../css/about.css';
 function About() {
     return (
         <section id="body-about">
-
+            ABOUT
         </section>
     )
 }
