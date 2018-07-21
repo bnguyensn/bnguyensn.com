@@ -39,7 +39,7 @@
     width: 2em; height: 2em;
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 853px) {
     #header-navbar {
         flex-flow: column wrap;
         width: 100%;
@@ -69,29 +69,27 @@
 /** ********************************** **/
 
 #header-side-navbar {
-    position: absolute;
+    position: fixed;
     top: 0;
 
-    display: none;
-    justify-content: flex-start;
-    align-items: flex-end;
+    display: none;  /* This is only shown when window size is small and the menu button is clicked */
+    justify-content: center;
+    align-items: center;
     flex-flow: column;
 
-    margin: 4em 0 0 0;
-    min-width: 50vw; height: 100vh;
+    width: 100vw;
+    margin: 4em 0 0 0;  /* The margin-top is to compensate for <Header />'s height */
     padding: 1em;
 
-    background-color: inherit;
-    opacity: .95;
-
-    transition: right .2s;
+    /*background-color: rgba(33,33,33 ,.9);*/
+    /*transition: top .2s;*/
 }
 
-/*@media only screen and (max-width: 1280px) {
-    #header-side-navbar {
+@media only screen and (max-width: 853px) {
+    #header-side-navbar.shown {
         display: flex;
     }
-}*/
+}
 
 /** ************************************** **/
 /** ********** OTHER COMPONENTS ********** **/
@@ -117,36 +115,24 @@
     }
 }
 
-/** ***** SITE TITLE ***** **/
-
-#header-title > * {
-    display: block;
-    font-size: 2em;
-    text-align: center;
-    color: #fafafa;  /* Grey 50 */
-}
-
-@media only screen and (max-width: 1280px) {
-    #header-title {
-        flex-grow: 1;
-    }
-}
-
 /** ***** NAV BAR MENU BUTTON ***** **/
 
 #header-navbar-menu-btn {
-    display: none;
-    color: #fafafa;
+    display: none;  /* This is only shown when window size is small */
     cursor: pointer;
     user-select: none;
 }
 
-/*@media only screen and (max-width: 1280px) {
-    #header-navbar-menu-btn {
-        display: block;
-        flex-grow: 0;
-    }
-}*/
+#header-navbar-menu-btn i {
+    color: #E0E0E0;
+    font-size: 2em;
+    text-shadow: 0 0 2px #E0E0E0;
+}
+
+#header-navbar-menu-btn i:hover {
+    color: #fafafa;
+    text-shadow: 0 0 5px #F5F5F5;
+}
 
 /** ***** NAV LINKS ***** **/
 
@@ -156,23 +142,36 @@
     text-align: center;
 }
 
-/*@media only screen and (max-width: 1280px) {
-    .nav-link {
-        flex: 0 1 auto;
-        width: 100%;
-        margin: .5em 0 .5em 0;
-        text-align: right;
-    }
-}*/
-
 .nav-link a {
     display: block;
-    color: #fafafa;
+    color: #E0E0E0;
     font-size: 2em;
-    text-shadow: 0 0 5px #F5F5F5;
+    text-shadow: 0 0 5px #E0E0E0;
 }
 
 .nav-link:hover a {
-    text-decoration: underline;
-    text-shadow: 0 0 8px #F5F5F5;
+    color: #fafafa;
+    text-shadow: 0 0 8px #fafafa;
 }
+
+/** ***** SITE TITLE ***** **/
+
+/*#header-title > * {
+    display: block;
+    font-size: 2em;
+    text-align: center;
+    color: #fafafa;  !* Grey 50 *!
+}
+
+@media only screen and (max-width: 1280px) {
+    #header-title {
+        flex-grow: 1;
+    }
+}*/
+
+/*@media only screen and (max-width: 1280px) {
+    #header-navbar-menu-btn {
+        display: block;
+        flex-grow: 0;
+    }
+}*/

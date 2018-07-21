@@ -19,8 +19,8 @@ class Index extends React.PureComponent<{}> {
     render() {
         return (
             <div id="index-container">
-                <Header />
                 <Starfield />
+                <Header />
             </div>
         );
     }

@@ -71,6 +71,7 @@ class Header extends React.PureComponent<{}, HeaderStates> {
 
         const collapsedCls = headerCollapsed ? 'collapsed' : '';
         const menuBtnIcon = sideNavbarShown ? 'close' : 'menu';
+        const sideNavbarShownCls = sideNavbarShown && headerCollapsed ? 'shown' : '';
 
         return (
             <section id="index-header" className={collapsedCls}>
@@ -90,8 +91,12 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                         <MIcon icon={menuBtnIcon} />
                     </div>
                 </nav>
-
-
+                <nav id="header-side-navbar" className={sideNavbarShownCls}>
+                    <NavLink href="/about" text="ABOUT" />
+                    <NavLink href="/blog" text="BLOG" />
+                    <NavLink href="/projects" text="PROJECTS" />
+                    <NavLink href="/contact" text="CONTACT" />
+                </nav>
             </section>
         )
     }
