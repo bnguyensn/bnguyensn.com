@@ -14,18 +14,51 @@ import '../css/header.css';
 
 type NavLinkProps = {
     href: string,
-    text: string,
+    toggleCollapse: (collapse: boolean) => void,
+    children: React.Node,
 }
 
-function NavLink(props: NavLinkProps) {
-    const {href, text} = props;
-    return (
-        <div className="nav-link">
-            <Link to={href}>
-                {text}
-            </Link>
-        </div>
-    )
+class NavLink extends React.PureComponent<NavLinkProps> {
+    handleNavLinkClick = (e: SyntheticMouseEvent<HTMLElement> | SyntheticKeyboardEvent<HTMLElement>) => {
+        const {toggleCollapse} = this.props;
+
+        // <NavLink /> only has 1 child which is the <a> element, hence we can
+        // get the target location like so:
+        const linkEl = e.currentTarget.querySelector('a');
+        const targetLoc = linkEl ? linkEl.getAttribute('href') : '';
+
+        // Expand / collapse the header
+        console.log(`targetLoc = ${targetLoc}`);
+        if (targetLoc !== '/') {
+            toggleCollapse(true);
+        } else {
+            toggleCollapse(false);
+        }
+    };
+
+    handleNavLinkKeyboard = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+        // Expand / collapse the header on Enter
+        if (e.keyCode === 13) {
+            this.handleNavLinkClick(e);
+        }
+    };
+
+    render() {
+        const {href, children} = this.props;
+
+        return (
+            <div className="nav-link"
+                 role="button"
+                 tabIndex={0}
+                 onClick={this.handleNavLinkClick}
+                 onKeyPress={this.handleNavLinkKeyboard}
+                 {...this.props}>
+                <Link to={href}>
+                    {children}
+                </Link>
+            </div>
+        )
+    }
 }
 
 /** ********** MAIN EXPORT ********** **/
@@ -42,39 +75,28 @@ class Header extends React.PureComponent<{}, HeaderStates> {
             headerCollapsed: false,
             sideNavbarShown: false,
         };
-        window.onhashchange = this.handleHashChange;
     }
-
-    /** ***** COMPONENT LIFECYCLE ***** **/
-
-    componentWillUnmount = () => {
-        window.removeEventListener('hashchange', this.handleHashChange);
-    };
 
     /** ***** EVENT HANDLERS ***** **/
 
-    // $FlowFixMe
-    handleHashChange = (e) => {
-        console.log(e.newURL);
-        console.log(e.oldURL);
-    };
-
     handleNavMenuBtnClick = () => {
+        // Show / hide side navbar
         this.setState((prevState, props) => ({
             sideNavbarShown: !prevState.sideNavbarShown,
         }));
     };
 
     handleNavMenuBtnKeyboard = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+        // Show / hide side navbar on Enter
         if (e.keyCode === 13) {
             this.handleNavMenuBtnClick();
         }
     };
 
-    handleProfileBtnClick = () => {
-        this.setState((prevState, props) => ({
-            headerCollapsed: !prevState.headerCollapsed,
-        }));
+    toggleHeaderCollapse = (collapse: boolean) => {
+        this.setState({
+            headerCollapsed: collapse,
+        });
     };
 
     /** ***** RENDER ***** **/
@@ -89,13 +111,22 @@ class Header extends React.PureComponent<{}, HeaderStates> {
         return (
             <section id="index-header" className={collapsedCls}>
                 <nav id="header-navbar" className={collapsedCls}>
-                    <NavLink href="/about" text="ABOUT" />
-                    <NavLink href="/blog" text="BLOG" />
-                    <ImageLink className="header-profile-pic"
-                               src={profileImg} alt="Profile image" href="#"
-                               onClick={this.handleProfileBtnClick} />
-                    <NavLink href="/projects" text="PROJECTS" />
-                    <NavLink href="/contact" text="CONTACT" />
+                    <NavLink href="/about" toggleCollapse={this.toggleHeaderCollapse}>
+                        ABOUT
+                    </NavLink>
+                    <NavLink href="/blog" toggleCollapse={this.toggleHeaderCollapse}>
+                        BLOG
+                    </NavLink>
+                    <NavLink href="/" toggleCollapse={this.toggleHeaderCollapse}
+                             id="header-profile-pic-container">
+                        <img id="header-profile-pic" src={profileImg} alt="Profile" />
+                    </NavLink>
+                    <NavLink href="/projects" toggleCollapse={this.toggleHeaderCollapse}>
+                        PROJECTS
+                    </NavLink>
+                    <NavLink href="/contact" toggleCollapse={this.toggleHeaderCollapse}>
+                        CONTACT
+                    </NavLink>
                     <div id="header-navbar-menu-btn"
                          role="button"
                          tabIndex={0}
@@ -105,10 +136,18 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                     </div>
                 </nav>
                 <nav id="header-side-navbar" className={sideNavbarShownCls}>
-                    <NavLink href="/about" text="ABOUT" />
-                    <NavLink href="/blog" text="BLOG" />
-                    <NavLink href="/projects" text="PROJECTS" />
-                    <NavLink href="/contact" text="CONTACT" />
+                    <NavLink href="/about" toggleCollapse={this.toggleHeaderCollapse}>
+                        ABOUT
+                    </NavLink>
+                    <NavLink href="/blog" toggleCollapse={this.toggleHeaderCollapse}>
+                        BLOG
+                    </NavLink>
+                    <NavLink href="/projects" toggleCollapse={this.toggleHeaderCollapse}>
+                        PROJECTS
+                    </NavLink>
+                    <NavLink href="/contact" toggleCollapse={this.toggleHeaderCollapse}>
+                        CONTACT
+                    </NavLink>
                 </nav>
             </section>
         )

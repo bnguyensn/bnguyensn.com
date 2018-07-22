@@ -36,28 +36,37 @@ const FourOhFour = Loadable({
 
 /** ********** WRAPPER COMPONENT ********** **/
 
-function BodyWrapper(props: {children: React.Node}) {
-    const {children} = props;
-    return (
-        <section id="index-body">
-            {children}
-        </section>
-    )
+type BodyWrapperProps = {
+    children: React.Node,
+};
+
+class BodyWrapper extends React.PureComponent<BodyWrapperProps> {
+    render() {
+        const {children} = this.props;
+
+        return (
+            <section id="index-body">
+                {children}
+            </section>
+        )
+    }
 }
 
 /** ********** MAIN COMPONENT ********** **/
 
-function Body() {
-    return (
-        <Router>
-            <BodyWrapper path="/">
-                <About path="/about" />
-                <Blog path="/blog" />
-                <Projects path="/projects" />
-                <Contact path="/contact" />
-            </BodyWrapper>
-        </Router>
-    );
+class Body extends React.PureComponent<{}> {
+    render() {
+        return (
+            <Router>
+                <BodyWrapper path="/">
+                    <About path="/about" />
+                    <Blog path="/blog" />
+                    <Projects path="/projects" />
+                    <Contact path="/contact" />
+                </BodyWrapper>
+            </Router>
+        )
+    }
 }
 
 export default Body

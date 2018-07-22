@@ -12,10 +12,6 @@ import '../css/index.css';
 /** ********** MAIN EXPORT ********** **/
 
 class Index extends React.PureComponent<{}> {
-    placeholder = () => {
-        return false
-    };
-
     render() {
         return (
             <div id="index-container">

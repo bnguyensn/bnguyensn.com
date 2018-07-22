@@ -1,30 +1,25 @@
 // @flow
 
-import React, {PureComponent} from 'react';
+import * as React from 'react';
+import {Link} from '@reach/router';
 
 import './image-link.css';
 
-/**
- * Things to define:
- * <img>: src, alt
- * <a>: href
- * */
-type Props = {
+type ImageLinkProps = {
     src: string,
     alt: string,
     href: string,
 }
 
-class ImageLink extends PureComponent<Props> {
-    render() {
-        return (
-            <div className='img-link-container'>
-                <a href={this.props.href}>
-                    <img src={this.props.src} alt={this.props.alt} {...this.props} />
-                </a>
-            </div>
-        )
-    }
+function ImageLink(props: ImageLinkProps) {
+    const {src, alt, href} = props;
+    return (
+        <div className='img-link-container'>
+            <Link to={href}>
+                <img src={src} alt={alt} {...props} />
+            </Link>
+        </div>
+    )
 }
 
 export default ImageLink
