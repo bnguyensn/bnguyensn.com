@@ -3,7 +3,6 @@
 import * as React from 'react';
 import {Link} from '@reach/router';
 
-import ImageLink from '../lib/components/ImageLink';
 import {MIcon} from '../lib/components/MIcon';
 
 import profileImg from '../img/profile_256x256.jpg';
@@ -28,7 +27,6 @@ class NavLink extends React.PureComponent<NavLinkProps> {
         const targetLoc = linkEl ? linkEl.getAttribute('href') : '';
 
         // Expand / collapse the header
-        console.log(`targetLoc = ${targetLoc}`);
         if (targetLoc !== '/') {
             toggleCollapse(true);
         } else {
@@ -45,7 +43,6 @@ class NavLink extends React.PureComponent<NavLinkProps> {
 
     render() {
         const {href, children} = this.props;
-
         return (
             <div className="nav-link"
                  role="button"
