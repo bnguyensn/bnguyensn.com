@@ -160,71 +160,107 @@ function animStep(mainCanvas: HTMLCanvasElement, mainCtx: CanvasRenderingContext
 
 /** ********** REACT COMPONENT ********** **/
 
+type StarfieldPropTypes = {
+    fullscreen: boolean,
+};
+
 type StarfieldStateTypes = {
-    viewportSize: {
+    canvasInfo: {
+        parentEl: HTMLElement,
         width: number,
         height: number,
     };
 }
 
-export default class Starfield extends React.PureComponent<{}, StarfieldStateTypes> {
+export default class Starfield extends React.PureComponent<StarfieldPropTypes, StarfieldStateTypes> {
     mainCanvas: ?HTMLCanvasElement;
 
-    constructor(props: {}) {
+    constructor(props: StarfieldPropTypes) {
         super(props);
 
+        // If <Starfield /> is fullscreen, can save an extra setState() in componentDidMount()
+        // by determining the parentEl of <Starfield /> to be window right here
+        const parentNode = props.fullscreen ? window : null;
+
         this.state = {
-            // Our canvas needs window's width and height information so it can resize itself when window resizes.
-            viewportSize: {
-                width: window.innerWidth,
-                height: window.innerHeight,
+            canvasInfo: {
+                parentEl: parentNode,
+
+                // Our canvas needs parentEl's width and height information so it can resize itself when window resizes.
+                // Can determine this here only if <Starfield /> is fullscreen
+                width: parentNode ? parentNode.innerWidth : 0,
+                height: parentNode ? parentNode.innerWidth : 0,
             },
         };
-
-        window.onresize = this.handleWindowResize;
     }
 
     /** ***** LIFECYCLE METHODS ***** **/
 
     componentDidMount = () => {
-        const {viewportSize} = this.state;
+        const {fullscreen} = this.props;
+        const {canvasInfo} = this.state;
+
+        // If <Starfield /> is not fullscreen, we have to determine the parentEl of <Starfield />
+        // and its dimensions here after the DOM tree finished initialising
+        if (!fullscreen) {
+            const parentNode = this.mainCanvas.parentNode ? this.mainCanvas.parentNode : window;
+            this.setState({
+                canvasInfo: {
+                    parentEl: parentNode,
+                    width: parentNode === window ? parentNode.innerWidth : parentNode.scrollWidth,
+                    height: parentNode === window ? parentNode.innerHeight : parentNode.scrollHeight,
+                },
+            });
+        }
 
         // Canvas is mounted. Create the starfield and start the animation.
         const starfield = createStarfield(3);
         window.requestAnimationFrame(() => {
             if (this.mainCanvas) {
                 animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), starfield, 0, 0.1,
-                    0, viewportSize);
+                    0, canvasInfo);
             }
         });
+
+        window.onresize = this.handleParentElResize;
+        // TODO: Add event listener for when parentEl resize
     };
 
     componentWillUnmount = () => {
-        window.removeEventListener('resize', this.handleWindowResize);
+        window.removeEventListener('resize', this.handleParentElResize);
+        // TODO: Add event listener remover for when parentEl resize
+    };
+
+    /** ***** REACT REFS ***** **/
+
+    setRef = (el: ?HTMLCanvasElement): string  => {
+        this.mainCanvas = el;
     };
 
     /** ***** EVENT HANDLERS ***** **/
 
-    handleWindowResize = () => {
-        // Update window's width and height information so the canvas can resize along.
-        this.setState({
-            viewportSize: {
-                width: window.innerWidth,
-                height: window.innerHeight,
+    handleParentElResize = () => {
+        // Update canvas dimension information.
+        this.setState((prevState: StarfieldStateTypes, props: StarfieldPropTypes): {} => ({
+            canvasInfo: {
+                width: prevState.parentEl === window ? prevState.parentEl.innerWidth : prevState.parentEl.scrollWidth,
+                height: prevState.parentEl === window ? prevState.parentEl.innerHeight : prevState.parentEl.scrollHeight,
             },
-        });
+        }));
+    };
+
+    handleParentElChange = () => {
+        // TODO: Update parentEl and its dimensions when parentEl changes here
     };
 
     /** ***** RENDER ***** **/
 
     render() {
-        const {viewportSize} = this.state;
+        const {canvasInfo} = this.state;
 
         return (
-            <canvas ref={canvas => {
-                this.mainCanvas = canvas
-            }}
-                    width={viewportSize.width} height={viewportSize.height}
+            <canvas ref={this.setRef}
+                    width={canvasInfo.width} height={canvasInfo.height}
                     style={{
                         position: 'absolute',
                         top: 0,

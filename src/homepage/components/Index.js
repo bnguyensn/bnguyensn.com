@@ -15,7 +15,7 @@ class Index extends React.PureComponent<{}> {
     render() {
         return (
             <div id="index-container">
-                <Starfield />
+                <Starfield fullscreen />
                 <Header />
                 <Body />
                 <Footer />
