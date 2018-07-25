@@ -4,9 +4,9 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/
  *
  * Things to improve:
- * - Window resize: currently a check is performed every 60 frames (~1s). If
- * the check shows that window is resized, a new starfield image is drawn. This
- * creates stuttering on window resize.
+ * - Window / parentEl resize: currently a check is performed every X frames. If
+ * the check shows that window / parentEL has been resized, a new starfield
+ * is drawn. An opacity animation is done to prevent stuttering.
  * */
 
 // @flow
@@ -45,9 +45,9 @@ function drawStar(starInfo: StarType) {
     }
 }
 
-/** ********** STAR LAYER ********** **/
+/** ********** STAR LAYER CANVAS ********** **/
 
-type StarLayerType = {
+type StarLayerCanvasType = {
     width: number,
     height: number,
     starColour: string,
@@ -56,15 +56,15 @@ type StarLayerType = {
     starRadiusMax: number,
 };
 
-function createStarLayer(starLayerInfo: StarLayerType): HTMLCanvasElement {
+function createStarLayerCanvas(starLayerCanvasInfo: StarLayerCanvasType): HTMLCanvasElement {
     const {width, height, starColour, starCount, starRadiusMin, starRadiusMax}
-        = starLayerInfo;
+        = starLayerCanvasInfo;
 
-    // Initialise the star layer
-    const starCanvas = document.createElement('canvas');
-    starCanvas.width = width;
-    starCanvas.height = height;
-    const starCanvasCtx = starCanvas.getContext('2d');
+    // Initialise the star layer canvas
+    const starLayerCanvas = document.createElement('canvas');
+    starLayerCanvas.width = width;
+    starLayerCanvas.height = height;
+    const starCanvasCtx = starLayerCanvas.getContext('2d');
 
     starCanvasCtx.fillStyle = starColour;
 
@@ -80,32 +80,57 @@ function createStarLayer(starLayerInfo: StarLayerType): HTMLCanvasElement {
         i -= 1;
     }
 
-    return starCanvas
+    return starLayerCanvas
 }
 
 /** ********** STARFIELD ********** **/
 
-function createStarfield(layerCount: number): HTMLImageElement[] {
-    // A starfield is essentially an array of image-converted star layer canvases.
+type StarLayerType = {
+    starLayer: HTMLImageElement,
+    starLayerSpd: number,
+    starLayerOffset: number,
+};
+
+type ParentType = {
+    el: ?HTMLElement,
+    width: number,
+    height: number,
+};
+
+type StarfieldType = StarLayerType[];
+
+function createStarfield(layerCount: number, parentInfo: ParentType): StarfieldType {
+    // A starfield is essentially an array of star layer objects
+    // Each star layer object contains an image-converted star layer canvas and
+    // information on its speed and offset
     const starfield = [];
 
     for (let i = 0; i < layerCount; i++) {
         const brightness = 120 + 40 * i;
         const radiusMin = 0.5 + i;
         const radiusMax = 1.5 + i;
-        const starLayer = createStarLayer({
-            width: window.innerWidth,
-            height: window.innerHeight,
+        const speed = 0.1 + 0.2 * i;
+
+        const starLayerCanvas = createStarLayerCanvas({
+            width: parentInfo.width,
+            height: parentInfo.height,
             starColour: `rgb(${brightness}, ${brightness}, ${brightness})`,
 
             // Density of stars depends on the window area
-            starCount: Math.floor(((window.innerWidth / 100) * (window.innerHeight / 100)) / 2.0736),
+            starCount: Math.floor(((parentInfo.width / 100) * (parentInfo.height / 100)) / 2.0736),
 
             starRadiusMin: radiusMin,
             starRadiusMax: radiusMax,
         });
-        starfield[i] = document.createElement('img');
-        starfield[i].src = starLayer.toDataURL();
+
+        starfield[i] = {};
+
+        starfield[i].starLayer = document.createElement('img');
+        starfield[i].starLayer.src = starLayerCanvas.toDataURL();
+
+        starfield[i].starLayerSpd = speed;
+
+        starfield[i].starLayerOffset = 0;
     }
 
     return starfield
@@ -113,20 +138,20 @@ function createStarfield(layerCount: number): HTMLImageElement[] {
 
 /** ********** ANIMATION ********** **/
 
-function animStep(mainCanvas: HTMLCanvasElement, mainCtx: CanvasRenderingContext2D,
-                  starfield: HTMLImageElement[],
-                  curOffset: number, offsetStep: number,
-                  vpSizeCheckInterval: number,
-                  viewportSize: {
-                      width: number,
-                      height: number
-                  }) {
+type CanvasType = {
+    canvasEl: ?HTMLCanvasElement,
+    canvasCtx: ?CanvasRenderingContext2D,
+};
+
+function animStep(canvasInfo: CanvasType, parentInfo: ParentType, starfield: StarfieldType, resizeCheckItv: number) {
+
+
     const newOffset = curOffset + offsetStep > mainCanvas.width ? 0 : curOffset + offsetStep;
 
     // Need to create a new starfield if window is resized
     // Check viewport size every X frames
     let newVpSizeInterval, newStarfield, newViewportSize;
-    if (vpSizeCheckInterval === 60) {
+    if (resizeCheckItv === 60) {
         newViewportSize = {
             width: window.innerWidth,
             height: window.innerHeight,
@@ -141,7 +166,7 @@ function animStep(mainCanvas: HTMLCanvasElement, mainCtx: CanvasRenderingContext
     } else {
         newViewportSize = viewportSize;
         newStarfield = starfield;
-        newVpSizeInterval = vpSizeCheckInterval + 1;
+        newVpSizeInterval = resizeCheckItv + 1;
     }
 
     // Clear and redraw the canvas with position-updated, viewport size-adjusted starfield images
@@ -165,12 +190,8 @@ type StarfieldPropTypes = {
 };
 
 type StarfieldStateTypes = {
-    canvasInfo: {
-        parentEl: HTMLElement,
-        width: number,
-        height: number,
-    };
-}
+    parentInfo: ParentType,
+};
 
 export default class Starfield extends React.PureComponent<StarfieldPropTypes, StarfieldStateTypes> {
     mainCanvas: ?HTMLCanvasElement;
@@ -178,13 +199,13 @@ export default class Starfield extends React.PureComponent<StarfieldPropTypes, S
     constructor(props: StarfieldPropTypes) {
         super(props);
 
-        // If <Starfield /> is fullscreen, can save an extra setState() in componentDidMount()
+        // If <Starfield /> is fullscreen, can save an extra setState() call in componentDidMount()
         // by determining the parentEl of <Starfield /> to be window right here
         const parentNode = props.fullscreen ? window : null;
 
         this.state = {
-            canvasInfo: {
-                parentEl: parentNode,
+            parentInfo: {
+                el: parentNode,
 
                 // Our canvas needs parentEl's width and height information so it can resize itself when window resizes.
                 // Can determine this here only if <Starfield /> is fullscreen
@@ -198,32 +219,51 @@ export default class Starfield extends React.PureComponent<StarfieldPropTypes, S
 
     componentDidMount = () => {
         const {fullscreen} = this.props;
-        const {canvasInfo} = this.state;
 
-        // If <Starfield /> is not fullscreen, we have to determine the parentEl of <Starfield />
-        // and its dimensions here after the DOM tree finished initialising
-        if (!fullscreen) {
-            const parentNode = this.mainCanvas.parentNode ? this.mainCanvas.parentNode : window;
-            this.setState({
-                canvasInfo: {
-                    parentEl: parentNode,
-                    width: parentNode === window ? parentNode.innerWidth : parentNode.scrollWidth,
-                    height: parentNode === window ? parentNode.innerHeight : parentNode.scrollHeight,
-                },
-            });
-        }
+        if (this.mainCanvas) {
 
-        // Canvas is mounted. Create the starfield and start the animation.
-        const starfield = createStarfield(3);
-        window.requestAnimationFrame(() => {
-            if (this.mainCanvas) {
-                animStep(this.mainCanvas, this.mainCanvas.getContext('2d'), starfield, 0, 0.1,
-                    0, canvasInfo);
+            // Determine canvas information
+            const canvasInfo = {
+                canvasEl: this.mainCanvas,
+                canvasCtx: this.this.mainCanvas.getContext('2d'),
+            };
+
+            // Determine <Starfield />'s parentEl's dimensions
+            let parentInfo;
+            if (!fullscreen) {
+                // If <Starfield /> is not fullscreen, we have to determine the parentEl of <Starfield />
+                // and its dimensions here after the DOM tree finished initialising
+                const el = this.mainCanvas.parentNode ? this.mainCanvas.parentNode : window;
+                const width = el === window ? el.innerWidth : el.scrollWidth;
+                const height = el === window ? el.innerHeight : el.scrollHeight;
+                parentInfo = {
+                    el,
+                    width,
+                    height
+                };
+
+                // Update state. Note that this action is async
+                this.setState({
+                    parentInfo,
+                });
+            } else {
+                // If <Starfield /> is fullscreen, we don't need to do anything because <Starfield />'s parentEl's
+                // dimensions have already been determined in the constructor
+                ({parentInfo} = this.state);
             }
-        });
 
-        window.onresize = this.handleParentElResize;
-        // TODO: Add event listener for when parentEl resize
+            // Canvas is mounted. Parent dimensions are known.
+            // Let's create the starfield and start the animation.
+            const starfield = createStarfield(3, parentInfo);
+
+            window.requestAnimationFrame(() => {
+                animStep(canvasInfo, parentInfo, starfield, 60);
+            });
+
+            // Register resize events
+            window.onresize = this.handleParentElResize;
+            // TODO: Add event listener for when parentEl resize
+        }
     };
 
     componentWillUnmount = () => {
@@ -242,9 +282,9 @@ export default class Starfield extends React.PureComponent<StarfieldPropTypes, S
     handleParentElResize = () => {
         // Update canvas dimension information.
         this.setState((prevState: StarfieldStateTypes, props: StarfieldPropTypes): {} => ({
-            canvasInfo: {
-                width: prevState.parentEl === window ? prevState.parentEl.innerWidth : prevState.parentEl.scrollWidth,
-                height: prevState.parentEl === window ? prevState.parentEl.innerHeight : prevState.parentEl.scrollHeight,
+            parentInfo: {
+                width: prevState.parentInfo.el === window ? prevState.parentInfo.el.innerWidth : prevState.parentInfo.el.scrollWidth,
+                height: prevState.parentInfo.el === window ? prevState.parentInfo.el.innerHeight : prevState.parentInfo.el.scrollHeight,
             },
         }));
     };
@@ -256,11 +296,11 @@ export default class Starfield extends React.PureComponent<StarfieldPropTypes, S
     /** ***** RENDER ***** **/
 
     render() {
-        const {canvasInfo} = this.state;
+        const {parentInfo} = this.state;
 
         return (
             <canvas ref={this.setRef}
-                    width={canvasInfo.width} height={canvasInfo.height}
+                    width={parentInfo.width} height={parentInfo.height}
                     style={{
                         position: 'absolute',
                         top: 0,
