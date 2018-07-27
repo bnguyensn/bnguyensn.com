@@ -15,6 +15,7 @@ import * as React from 'react';
 
 import getRandNumBtw from '../utils/getRandNumBtw';
 import roundFloat from '../utils/roundFloat';
+import shallowCompareObj from '../utils/shallowCompareObj';
 
 /** ********** STAR ********** **/
 
@@ -143,43 +144,45 @@ type CanvasType = {
     canvasCtx: ?CanvasRenderingContext2D,
 };
 
-function animStep(canvasInfo: CanvasType, parentInfo: ParentType, starfield: StarfieldType, resizeCheckItv: number) {
+function animStep(canvasInfo: CanvasType, parentInfo: ParentType, parentInfoCopy: ParentType,
+                  starfield: StarfieldType, resizeCheckItv: number) {
 
 
-    const newOffset = curOffset + offsetStep > mainCanvas.width ? 0 : curOffset + offsetStep;
 
-    // Need to create a new starfield if window is resized
-    // Check viewport size every X frames
-    let newVpSizeInterval, newStarfield, newViewportSize;
-    if (resizeCheckItv === 60) {
-        newViewportSize = {
-            width: window.innerWidth,
-            height: window.innerHeight,
-        };
 
-        // If viewport size changed, draw a new starfield
-        newStarfield = viewportSize.width !== newViewportSize.width || viewportSize.height !== newViewportSize.height ?
-                       createStarfield(3) :
-                       starfield;
+    // Check if parentEl had been resized every X frames
+    let newStarfield, newResizeCheckInt, newParentInfoCopy;
+    if (resizeCheckItv === 60 && !shallowCompareObj(parentInfo, parentInfoCopy)) {
 
-        newVpSizeInterval = 0;
+        // parentEl had been resized - create new fitting starfield
+        newStarfield = createStarfield(3, parentInfo);
+
+        newResizeCheckInt = 0;
+        newParentInfoCopy = Object.assign({}, parentInfo);
     } else {
-        newViewportSize = viewportSize;
+
+        // Nothing changed
         newStarfield = starfield;
-        newVpSizeInterval = resizeCheckItv + 1;
+        newParentInfoCopy = parentInfoCopy;
+        newResizeCheckInt = resizeCheckItv + 1;
     }
 
     // Clear and redraw the canvas with position-updated, viewport size-adjusted starfield images
-    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    canvasInfo.canvasCtx.clearRect(0, 0, canvasInfo.canvasEl.width, canvasInfo.canvasEl.height);
     for (let i = 0; i < newStarfield.length; i++) {
-        mainCtx.drawImage(newStarfield[i], newOffset, 0);
-        mainCtx.drawImage(newStarfield[i], newOffset - mainCanvas.width, 0);
+        newStarfield[i].starLayerOffset = newStarfield[i].starLayerOffset + newStarfield[i].starLayerSpd >
+                                          canvasInfo.canvasEl.width ?
+                                          0 :
+                                          newStarfield[i].starLayerOffset + newStarfield[i].starLayerSpd;
+        canvasInfo.canvasCtx.drawImage(newStarfield[i].starLayer,
+                                       newStarfield[i].starLayerOffset, 0);
+        canvasInfo.canvasCtx.drawImage(newStarfield[i].starLayer,
+                                       newStarfield[i].starLayerOffset - canvasInfo.canvasEl.width, 0);
     }
 
     // Call next frame
     window.requestAnimationFrame(() => {
-        animStep(mainCanvas, mainCtx, newStarfield, newOffset, offsetStep,
-            newVpSizeInterval, newViewportSize);
+        animStep(canvasInfo, parentInfo, newParentInfoCopy, newStarfield, newResizeCheckInt);
     });
 }
 
@@ -256,8 +259,10 @@ export default class Starfield extends React.PureComponent<StarfieldPropTypes, S
             // Let's create the starfield and start the animation.
             const starfield = createStarfield(3, parentInfo);
 
+            // Need a copy of parentInfo to check for resizing
+            const parentInfoCopy = Object.assign({}, parentInfo);
             window.requestAnimationFrame(() => {
-                animStep(canvasInfo, parentInfo, starfield, 60);
+                animStep(canvasInfo, parentInfo, parentInfoCopy, starfield, 0);
             });
 
             // Register resize events
@@ -280,13 +285,18 @@ export default class Starfield extends React.PureComponent<StarfieldPropTypes, S
     /** ***** EVENT HANDLERS ***** **/
 
     handleParentElResize = () => {
-        // Update canvas dimension information.
-        this.setState((prevState: StarfieldStateTypes, props: StarfieldPropTypes): {} => ({
-            parentInfo: {
-                width: prevState.parentInfo.el === window ? prevState.parentInfo.el.innerWidth : prevState.parentInfo.el.scrollWidth,
-                height: prevState.parentInfo.el === window ? prevState.parentInfo.el.innerHeight : prevState.parentInfo.el.scrollHeight,
-            },
-        }));
+        const {parentInfo} = this.state;
+
+        // Check in case in the early stage of the component, parentEl might be null
+        if (parentInfo.el) {
+            // Update canvas dimension information.
+            this.setState((prevState: StarfieldStateTypes, props: StarfieldPropTypes): {} => ({
+                parentInfo: {
+                    width: prevState.parentInfo.el === window ? prevState.parentInfo.el.innerWidth : prevState.parentInfo.el.scrollWidth,
+                    height: prevState.parentInfo.el === window ? prevState.parentInfo.el.innerHeight : prevState.parentInfo.el.scrollHeight,
+                },
+            }));
+        }
     };
 
     handleParentElChange = () => {
