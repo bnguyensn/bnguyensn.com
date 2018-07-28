@@ -5,7 +5,7 @@ import * as React from 'react';
 import Header from './Header';
 import Body from './Body';
 import Footer from './Footer';
-import Starfield from '../lib/components/Starfield';
+import StarfieldFullscreen from '../lib/components/StarfieldFullscreen';
 
 import '../css/index.css';
 
@@ -15,7 +15,7 @@ class Index extends React.PureComponent<{}> {
     render() {
         return (
             <div id="index-container">
-                <Starfield fullscreen />
+                <StarfieldFullscreen />
                 <Header />
                 <Body />
                 <Footer />

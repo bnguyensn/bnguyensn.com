@@ -37,6 +37,10 @@
     ],
     "linebreak-style": 0,
     "lines-between-class-members": 0,
+    "no-param-reassign": [
+      "error",
+      {"props": false}
+    ],
     "no-unused-vars": 0,
     "spaced-comment": 0,
     "no-console": [
@@ -63,6 +67,7 @@
     ],
     "react/jsx-filename-extension": 0,
     "react/no-multi-comp": 0,
+    "react/require-default-props": 0,
     "react/sort-comp": [
       1,
       {
@@ -80,12 +85,10 @@
     //        "arrow-parens": 0,
     //        "import/prefer-default-export": 0,
     //        "class-methods-use-this": 0,
-
     //        "prefer-template": "off",
     //        "no-plusplus": 0,
     //        "no-underscore-dangle": "off",
     //        "no-nested-ternary": "warn",
-    //        "react/require-default-props": "off",
     //        "import/no-named-default": 0
   }
 }
