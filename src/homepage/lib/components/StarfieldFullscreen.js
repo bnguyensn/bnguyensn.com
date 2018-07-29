@@ -23,26 +23,15 @@ type StarType = {
     posX: number,
     posY: number,
     radius: number,
-    colour?: string,
 };
 
 function drawStar(starInfo: StarType) {
-    const {context, posX, posY, radius, colour} = starInfo;
+    const {context, posX, posY, radius} = starInfo;
 
     // Draw the star
     context.beginPath();
     context.arc(posX, posY, radius, 0, 6.28319, true);
-
-    // Fill the star with custom colour if provided, else use context's colour
-    // Also should reset back to the original context's colour after using the custom colour
-    const ogContextColour = context.fillStyle;
-    if (colour) {
-        context.fillStyle = colour;
-    }
     context.fill();
-    if (colour) {
-        context.fillStyle = ogContextColour;
-    }
 }
 
 /** ********** STAR LAYER CANVAS ********** **/
@@ -91,12 +80,6 @@ type StarLayerType = {
     starLayerOffset: number,
 };
 
-type ParentType = {
-    el: ?HTMLElement,
-    width: number,
-    height: number,
-};
-
 type StarfieldType = StarLayerType[];
 
 function createStarfield(layerCount: number, canvasW: number, canvasH: number): StarfieldType {
@@ -138,20 +121,33 @@ function createStarfield(layerCount: number, canvasW: number, canvasH: number): 
 
 /** ********** REACT COMPONENT ********** **/
 
-type CanvasType = {
+type StarfieldListType = {
+    curStarfield: StarfieldType,
+    termStarfield: ?StarfieldType,
+}
+
+type CanvasInfoType = {
     canvasW: number,
     canvasH: number,
+    canvasCtx: ?CanvasRenderingContext2D,
 };
 
 type StarfieldStateTypes = {
-    canvasInfo: CanvasType,
+    canvasInfo: {
+        canvasW: number,
+        canvasH: number,
+    },
 };
 
 export default class StarfieldFullscreen extends React.PureComponent<{}, StarfieldStateTypes> {
     mainCanvas: ?HTMLCanvasElement;
+    resizing: boolean;  // This is true if window is still being resized during the resize throttle duration
+    resizeThrottleTimer: number;  // A countdown that starts / resets when window is resized
 
     constructor(props: {}) {
         super(props);
+        this.resizeThrottleTimer = 6;
+        this.resizing = false;
         this.state = {
             canvasInfo: {
                 canvasW: window.innerWidth,
@@ -163,21 +159,23 @@ export default class StarfieldFullscreen extends React.PureComponent<{}, Starfie
     /** ***** LIFECYCLE METHODS ***** **/
 
     componentDidMount = () => {
-        const canvasW = this.mainCanvas ? this.mainCanvas.width : 0;
-        const canvasH = this.mainCanvas ? this.mainCanvas.height : 0;
-        const canvasCtx = this.mainCanvas ? this.mainCanvas.getContext('2d') : null;
+        const canvasInfo = this.getCanvasInfo();
 
-        if (canvasCtx && canvasW && canvasH) {
-            console.log(`canvasW: ${canvasW}`);
-            console.log(`canvasW: ${canvasH}`);
+        if (this.canvasHasSize(canvasInfo)) {
+            const {canvasW, canvasH, canvasCtx} = canvasInfo;
 
-            const starfield = createStarfield(3, canvasW, canvasH);
-            for (let i = 0; i < starfield.length; i++) {
-                canvasCtx.drawImage(starfield[i].starLayer, starfield[i].starLayerOffset, 0);
+            // Create the starfield for the first time
+            const starfieldList = {};
+            starfieldList.curStarfield = createStarfield(3, canvasW, canvasH);
+            for (let i = 0; i < starfieldList.curStarfield.length; i++) {
+                if (canvasCtx) {
+                    canvasCtx.drawImage(starfieldList.curStarfield[i].starLayer, starfieldList.curStarfield[i].starLayerOffset, 0);
+                }
             }
-            window.requestAnimationFrame(() => {
-                this.animStep({canvasW, canvasH}, starfield, 0);
-            });
+            starfieldList.termStarfield = null;
+
+            // Start the animation
+            window.requestAnimationFrame(() => {this.animStep({canvasW, canvasH, canvasCtx}, starfieldList, -1);});
         }
 
         window.addEventListener('resize', this.handleCanvasResize);
@@ -196,6 +194,8 @@ export default class StarfieldFullscreen extends React.PureComponent<{}, Starfie
     /** ***** CANVAS RESIZE ***** **/
 
     handleCanvasResize = () => {
+        this.resizing = true;
+        this.resizeThrottleTimer = 6;
         this.setState({
             canvasInfo: {
                 canvasW: window.innerWidth,
@@ -206,47 +206,104 @@ export default class StarfieldFullscreen extends React.PureComponent<{}, Starfie
 
     /** ***** ANIMATION ***** **/
 
-    animStep = (canvasInfo: CanvasType, starfield: StarfieldType, resizeCheckItv: number) => {
-        const canvasW = this.mainCanvas ? this.mainCanvas.width : 0;
-        const canvasH = this.mainCanvas ? this.mainCanvas.height : 0;
-        const canvasCtx = this.mainCanvas ? this.mainCanvas.getContext('2d') : null;
-        const parentNode = this.mainCanvas ? this.mainCanvas.parentNode : null;
+    getCanvasInfo = (): CanvasInfoType => ({
+            canvasW: this.mainCanvas ? this.mainCanvas.width : 0,
+            canvasH: this.mainCanvas ? this.mainCanvas.height : 0,
+            canvasCtx: this.mainCanvas ? this.mainCanvas.getContext('2d') : null,
+    });
 
-        if (canvasCtx && canvasW && canvasH && parentNode) {
-            if (resizeCheckItv === 1 && (canvasInfo.canvasW !== canvasW || canvasInfo.canvasH !== canvasH)) {
+    canvasHasSize = (canvasInfo: CanvasInfoType): boolean => (
+        canvasInfo.canvasW !== 0 && canvasInfo.canvasH !== 0 && !!canvasInfo.canvasCtx
+    );
 
-                console.log('Window resized, creating new starfield');
+    canvasSizeEqual = (canvasInfoA: CanvasInfoType, canvasInfoB: CanvasInfoType): boolean => (
+        canvasInfoA.canvasW === canvasInfoB.canvasW &&
+        canvasInfoA.canvasH === canvasInfoB.canvasH
+    );
 
-                // Create new starfield if canvas size changed every X frame
-                const newStarfield = createStarfield(3, canvasW, canvasH);
+    moveStarfield = (canvasInfo: CanvasInfoType, starfield: StarfieldType, opacity?: number = -1) => {
+        const {canvasW, canvasCtx} = canvasInfo;
 
-                // Draw the new starfield. Only one needed because there is no movement yet
-                for (let i = 0; i < newStarfield.length; i++) {
-                    canvasCtx.drawImage(newStarfield[i].starLayer, newStarfield[i].starLayerOffset, 0);
+        // Set opacity, if specified
+        if (opacity < 0 && opacity > 1 && canvasCtx) {
+            canvasCtx.globalAlpha = opacity;
+        }
+
+        // Move the starfield via modifying its properties and re-drawing it on the canvas
+        // NOTE: currently moving left to right only
+        for (let i = 0; i < starfield.length; i++) {
+            starfield[i].starLayerOffset = starfield[i].starLayerOffset + starfield[i].starLayerSpd > canvasW ?
+                                           0 : starfield[i].starLayerOffset + starfield[i].starLayerSpd;
+            if (canvasCtx) {
+                canvasCtx.drawImage(starfield[i].starLayer, starfield[i].starLayerOffset, 0);
+            }
+            if (canvasCtx) {
+                canvasCtx.drawImage(starfield[i].starLayer, starfield[i].starLayerOffset - canvasW, 0);
+            }
+        }
+
+        // Reset opacity, if needed
+        if (opacity < 0 && opacity > 1 && canvasCtx) {
+            canvasCtx.globalAlpha = 1;
+        }
+    };
+
+    animStep = (canvasInfo: CanvasInfoType, starfieldList: StarfieldListType, termCountdown: number) => {
+        const curCanvasInfo = this.getCanvasInfo();
+
+        if (this.canvasHasSize(curCanvasInfo)) {
+            const {canvasW: curCanvasW, canvasH: curCanvasH, canvasCtx: curCanvasCtx} = curCanvasInfo;
+            let newCanvasInfo, newTermCountdown;
+
+            if (curCanvasCtx) {
+                curCanvasCtx.clearRect(0, 0, curCanvasW, curCanvasH);
+            }
+
+            if (termCountdown > 0) {
+
+                // Canvas resize transition is still going on
+                newCanvasInfo = canvasInfo;
+                newTermCountdown = termCountdown - 1;
+            } else if (termCountdown === 0) {
+
+                // Last canvas resize transition frame
+                starfieldList.termStarfield = null;
+                newCanvasInfo = canvasInfo;
+                newTermCountdown = -1;
+                this.resizeThrottleTimer = 6;
+            } else if (this.resizeThrottleTimer === 0) {
+                if (!this.canvasSizeEqual(canvasInfo, curCanvasInfo)) {
+
+                    // First canvas resize transition frame
+                    starfieldList.termStarfield = starfieldList.curStarfield;
+                    starfieldList.curStarfield = createStarfield(3, curCanvasW, curCanvasH);
+                    newCanvasInfo = curCanvasInfo;
+                    newTermCountdown = 3;
+                } else {
+
+                    // Normal animation
+                    newCanvasInfo = canvasInfo;
+                    newTermCountdown = termCountdown;
                 }
-
-                // Reset the cycle
-                window.requestAnimationFrame(() => {
-                    this.animStep({canvasW, canvasH}, newStarfield, 0);
-                });
+                this.resizing = false;
             } else {
 
-                // Move the starfield
-                canvasCtx.clearRect(0, 0, canvasW, canvasH);
-                for (let i = 0; i < starfield.length; i++) {
-                    starfield[i].starLayerOffset = starfield[i].starLayerOffset + starfield[i].starLayerSpd > canvasW ?
-                                                   0 : starfield[i].starLayerOffset + starfield[i].starLayerSpd;
-                    canvasCtx.drawImage(starfield[i].starLayer,
-                        starfield[i].starLayerOffset, 0);
-                    canvasCtx.drawImage(starfield[i].starLayer,
-                        starfield[i].starLayerOffset - canvasW, 0);
-                }
-
-                // Reset the cycle
-                window.requestAnimationFrame(() => {
-                    this.animStep({canvasW, canvasH}, starfield, resizeCheckItv + 1);
-                });
+                // Normal animation
+                newCanvasInfo = canvasInfo;
+                newTermCountdown = termCountdown;
             }
+
+            // Move starfields
+            this.moveStarfield(newCanvasInfo, starfieldList.curStarfield);
+            if (starfieldList.termStarfield) {
+                this.moveStarfield(newCanvasInfo, starfieldList.termStarfield, termCountdown * .2);
+            }
+
+            // Call next frame
+            if (this.resizing) {
+                this.resizeThrottleTimer -= 1;
+            }
+            window.requestAnimationFrame(() => {this.animStep(newCanvasInfo, starfieldList, newTermCountdown)});
         }
     };
 
