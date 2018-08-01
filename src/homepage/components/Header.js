@@ -68,9 +68,10 @@ type HeaderStates = {
 class Header extends React.PureComponent<{}, HeaderStates> {
     constructor(props: {}) {
         super(props);
+
         this.state = {
-            headerCollapsed: false,
-            sideNavbarShown: false,
+            headerCollapsed: window.location.pathname !== '/',
+            sideNavbarShown: window.location.pathname !== '/',
         };
     }
 
