@@ -18,7 +18,6 @@ class Index extends React.PureComponent<{}> {
                 <StarfieldFullscreen />
                 <Header />
                 <Body />
-                <Footer />
             </div>
         );
     }
