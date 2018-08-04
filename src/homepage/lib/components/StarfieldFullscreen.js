@@ -316,7 +316,7 @@ export default class StarfieldFullscreen extends React.PureComponent<{}, Starfie
             <canvas ref={this.setRef}
                     width={canvasInfo.canvasW} height={canvasInfo.canvasH}
                     style={{
-                        position: 'absolute',
+                        position: 'fixed',
                         top: 0, left: 0,
                     }}
             />

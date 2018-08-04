@@ -5,11 +5,14 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 24px;
+}
+
 body {
     margin: 0;
-
-    /*font: 24px 'Open Sans', sans-serif;*/
-    font: 24px 'Gentium Basic', serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+    font-family: 'Gentium Basic', serif;
 }
 
 a {
@@ -18,7 +21,7 @@ a {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 /* ********** HELPERS ********** */
@@ -55,14 +58,14 @@ h1 {
 
 /* Texts won't go larger than body font size */
 @media only screen and (max-width: 1280px) and (min-width: 854px) {
-    body {
+    html {
         font-size: 1.875vw;  /* 1.875% = 24px (body font size) / 1280px (limit width) */
     }
 }
 
 /* Texts won't go smaller than 16px */
 @media only screen and (max-width: 853px) {
-    body {
+    html {
         font-size: 16px;  /* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% */
     }
 }

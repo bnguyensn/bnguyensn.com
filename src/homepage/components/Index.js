@@ -11,13 +11,22 @@ import '../css/index.css';
 
 /** ********** MAIN EXPORT ********** **/
 
-class Index extends React.PureComponent<{}> {
+class Index extends React.PureComponent<{}, {curPg: string}> {
+    constructor() {
+        super();
+        this.state = {
+            curPg: '/'
+        };
+    }
+
     render() {
+        const {curPg} = this.state;
+
         return (
             <div id="index-container">
                 <StarfieldFullscreen />
-                <Header />
-                <Body />
+                <Header curPg={curPg} />
+                <Body curPg={curPg} />
             </div>
         );
     }
