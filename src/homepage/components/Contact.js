@@ -4,12 +4,19 @@ import * as React from 'react';
 
 import '../css/contact.css';
 
-function Contact() {
-    return (
-        <section id="body-contact">
+type SetCurPgFuncType = (newCurPg: string) => void;
 
-        </section>
-    )
+export default class Contact extends React.PureComponent<{setCurPg: SetCurPgFuncType}> {
+    componentDidMount() {
+        const {setCurPg} = this.props;
+        setCurPg('/contact');
+    }
+
+    render() {
+        return (
+            <section id="body-contact">
+                CONTACT
+            </section>
+        )
+    }
 }
-
-export default Contact

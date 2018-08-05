@@ -13,43 +13,16 @@ import '../css/header.css';
 
 type NavLinkProps = {
     href: string,
-    toggleCollapse: (collapse: boolean) => void,
     children: React.Node,
+    curPg: string,
 }
 
 class NavLink extends React.PureComponent<NavLinkProps> {
-    handleNavLinkClick = (e: SyntheticMouseEvent<HTMLElement> | SyntheticKeyboardEvent<HTMLElement>) => {
-        const {toggleCollapse} = this.props;
-
-        // <NavLink /> only has 1 child which is the <a> element, hence we can
-        // get the target location like so:
-        const linkEl = e.currentTarget.querySelector('a');
-        const targetLoc = linkEl ? linkEl.getAttribute('href') : '';
-
-        // Expand / collapse the header
-        if (targetLoc !== '/') {
-            toggleCollapse(true);
-        } else {
-            toggleCollapse(false);
-        }
-    };
-
-    handleNavLinkKeyboard = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-        // Expand / collapse the header on Enter
-        if (e.keyCode === 13) {
-            this.handleNavLinkClick(e);
-        }
-    };
-
     render() {
-        const {href, children} = this.props;
+        const {href, children, curPg} = this.props;
+        const activeStyleCls = curPg === href ? 'active' : '';
         return (
-            <div className="nav-link"
-                 role="button"
-                 tabIndex={0}
-                 onClick={this.handleNavLinkClick}
-                 onKeyPress={this.handleNavLinkKeyboard}
-                 {...this.props}>
+            <div className={`nav-link ${activeStyleCls}`} {...this.props}>
                 <Link to={href}>
                     {children}
                 </Link>
@@ -60,16 +33,18 @@ class NavLink extends React.PureComponent<NavLinkProps> {
 
 /** ********** MAIN EXPORT ********** **/
 
+type HeaderProps = {
+    curPg: string,
+};
+
 type HeaderStates = {
-    headerCollapsed: boolean,
     sideNavbarShown: boolean,
 };
 
-class Header extends React.PureComponent<{}, HeaderStates> {
-    constructor(props: {}) {
+class Header extends React.PureComponent<HeaderProps, HeaderStates> {
+    constructor(props: HeaderProps) {
         super(props);
         this.state = {
-            headerCollapsed: window.location.pathname !== '/',
             sideNavbarShown: false,
         };
     }
@@ -90,38 +65,34 @@ class Header extends React.PureComponent<{}, HeaderStates> {
         }
     };
 
-    toggleHeaderCollapse = (collapse: boolean) => {
-        this.setState({
-            headerCollapsed: collapse,
-        });
-    };
-
     /** ***** RENDER ***** **/
 
     render() {
-        const {headerCollapsed, sideNavbarShown} = this.state;
+        const {curPg} = this.props;
+        const {sideNavbarShown} = this.state;
 
-        const collapsedCls = headerCollapsed ? 'collapsed' : '';
+        const collapsedCls = curPg !== '/' ? 'collapsed' : '';
         const menuBtnIcon = sideNavbarShown ? 'close' : 'menu';
-        const sideNavbarShownCls = sideNavbarShown && headerCollapsed ? 'shown' : '';
+        const sideNavbarShownCls = sideNavbarShown && curPg !== '/' ? 'shown' : '';
 
         return (
             <section id="index-header" className={collapsedCls}>
                 <nav id="header-navbar" className={collapsedCls}>
-                    <NavLink href="/about" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/about" curPg={curPg}>
                         ABOUT
                     </NavLink>
-                    <NavLink href="/blog" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/blog" curPg={curPg}>
                         BLOG
                     </NavLink>
-                    <NavLink href="/" toggleCollapse={this.toggleHeaderCollapse}
+                    <NavLink href="/"
+                             curPg={curPg}
                              id="header-profile-pic-container">
                         <img id="header-profile-pic" src={profileImg} alt="Profile" />
                     </NavLink>
-                    <NavLink href="/projects" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/projects" curPg={curPg}>
                         PROJECTS
                     </NavLink>
-                    <NavLink href="/contact" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/contact" curPg={curPg}>
                         CONTACT
                     </NavLink>
                     <div id="header-navbar-menu-btn"
@@ -133,16 +104,16 @@ class Header extends React.PureComponent<{}, HeaderStates> {
                     </div>
                 </nav>
                 <nav id="header-side-navbar" className={sideNavbarShownCls}>
-                    <NavLink href="/about" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/about" curPg={curPg} >
                         ABOUT
                     </NavLink>
-                    <NavLink href="/blog" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/blog" curPg={curPg} >
                         BLOG
                     </NavLink>
-                    <NavLink href="/projects" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/projects" curPg={curPg}>
                         PROJECTS
                     </NavLink>
-                    <NavLink href="/contact" toggleCollapse={this.toggleHeaderCollapse}>
+                    <NavLink href="/contact" curPg={curPg}>
                         CONTACT
                     </NavLink>
                 </nav>

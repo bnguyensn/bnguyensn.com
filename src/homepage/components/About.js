@@ -21,7 +21,14 @@ const Contact = Loadable({
 
 /** ********** HELPER COMPONENTS ********** **/
 
-class AboutBox extends React.PureComponent<{}> {
+type SetCurPgFuncType = (newCurPg: string) => void;
+
+class AboutBox extends React.PureComponent<{setCurPg: SetCurPgFuncType}> {
+    componentDidMount() {
+        const {setCurPg} = this.props;
+        setCurPg('/about');
+    }
+
     render() {
         return (
             <div id="body-about">
@@ -43,14 +50,13 @@ class AboutBox extends React.PureComponent<{}> {
 
 /** ********** MAIN COMPONENT ********** **/
 
-function About() {
+export default function About(props: {setCurPg: SetCurPgFuncType}) {
+    const {setCurPg} = props;
     return (
         <Router>
-            <AboutBox path="/" />
+            <AboutBox path="/" setCurPg={setCurPg} />
             <Projects path="/projects" />
             <Contact path="/contact" />
         </Router>
     )
 }
-
-export default About

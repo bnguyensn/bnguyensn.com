@@ -151,6 +151,10 @@
     text-shadow: 0 0 5px #E0E0E0;
 }
 
+.nav-link.active a {
+    text-decoration: underline;
+}
+
 .nav-link:hover a {
     color: #fafafa;
     text-shadow: 0 0 8px #fafafa;

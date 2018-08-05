@@ -8,23 +8,30 @@ import '../css/projects.css';
 
 import projectData from '../json/project-data.json';
 
-function Projects() {
-    const projectBoxes = Object.keys(projectData).map((letter) => {
-        return <ProjectBox key={letter}
-                           letter={letter}
-                           content={
-                               projectData[letter].length > 0 ?
-                               JSON.parse(JSON.stringify(projectData[letter][0])) :
-                               undefined
-                           }
-               />
-    });
+type SetCurPgFuncType = (newCurPg: string) => void;
 
-    return (
-        <section id="body-projects">
-            {projectBoxes}
-        </section>
-    )
+export default class Projects extends React.PureComponent<{setCurPg: SetCurPgFuncType}> {
+    componentDidMount() {
+        const {setCurPg} = this.props;
+        setCurPg('/projects');
+    }
+
+    render() {
+        const projectBoxes = Object.keys(projectData).map((letter) => {
+            return <ProjectBox key={letter}
+                               letter={letter}
+                               content={
+                                   projectData[letter].length > 0 ?
+                                   JSON.parse(JSON.stringify(projectData[letter][0])) :
+                                   undefined
+                               }
+            />
+        });
+
+        return (
+            <section id="body-projects">
+                {projectBoxes}
+            </section>
+        )
+    }
 }
-
-export default Projects
