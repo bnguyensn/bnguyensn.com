@@ -1,5 +1,12 @@
 #index-body {
+    margin-top: 4.83rem;
     width: 100%;
+}
+
+@media (max-width: 853px) {
+    #index-body {
+        margin-top: 4.5rem;
+    }
 }
 
 /*
