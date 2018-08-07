@@ -16,6 +16,10 @@ import * as React from 'react';
 import getRandNumBtw from '../utils/getRandNumBtw';
 import roundFloat from '../utils/roundFloat';
 
+/** ********** CONFIG ********** **/
+
+const LAYER_COUNT = 2;  // Number of star layers. Each layer gives larger and faster stars than the last.
+
 /** ********** STAR ********** **/
 
 type StarType = {
@@ -166,7 +170,7 @@ export default class StarfieldFullscreen extends React.PureComponent<{}, Starfie
 
             // Create the starfield for the first time
             const starfieldList = {};
-            starfieldList.curStarfield = createStarfield(3, canvasW, canvasH);
+            starfieldList.curStarfield = createStarfield(LAYER_COUNT, canvasW, canvasH);
             for (let i = 0; i < starfieldList.curStarfield.length; i++) {
                 if (canvasCtx) {
                     canvasCtx.drawImage(starfieldList.curStarfield[i].starLayer, starfieldList.curStarfield[i].starLayerOffset, 0);
@@ -276,7 +280,7 @@ export default class StarfieldFullscreen extends React.PureComponent<{}, Starfie
 
                     // First canvas resize transition frame
                     starfieldList.termStarfield = starfieldList.curStarfield;
-                    starfieldList.curStarfield = createStarfield(3, curCanvasW, curCanvasH);
+                    starfieldList.curStarfield = createStarfield(LAYER_COUNT, curCanvasW, curCanvasH);
                     newCanvasInfo = curCanvasInfo;
                     newTermCountdown = 3;
                 } else {

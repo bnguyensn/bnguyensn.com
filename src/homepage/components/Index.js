@@ -76,7 +76,6 @@ class Index extends React.PureComponent<{}, {curPg: string}> {
         return (
             <div id="index-container">
                 <StarfieldFullscreen />
-                <Header curPg={curPg} />
                 <Router>
                     <Body path="/">
                         <BodyIndex setCurPg={this.setCurPg} path="/" />
@@ -86,6 +85,7 @@ class Index extends React.PureComponent<{}, {curPg: string}> {
                         <Contact path="/contact" setCurPg={this.setCurPg} />
                     </Body>
                 </Router>
+                <Header curPg={curPg} />
             </div>
 
         );

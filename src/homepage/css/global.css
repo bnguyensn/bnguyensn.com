@@ -51,11 +51,6 @@ h1 {
     min-width: 320px;
 }
 
-.wrapper {
-    /* The wrapper class limits its children to 768px wide */
-    max-width: 1280px;
-}
-
 /* Texts won't go larger than body font size */
 @media only screen and (max-width: 1280px) and (min-width: 854px) {
     html {

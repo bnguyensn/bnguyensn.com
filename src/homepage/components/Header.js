@@ -15,15 +15,16 @@ type NavLinkProps = {
     href: string,
     children: React.Node,
     curPg: string,
+    handleClick?: () => void,
 }
 
 class NavLink extends React.PureComponent<NavLinkProps> {
     render() {
-        const {href, children, curPg} = this.props;
+        const {href, children, curPg, handleClick} = this.props;
         const activeStyleCls = curPg === href ? 'active' : '';
         return (
             <div className={`nav-link ${activeStyleCls}`} {...this.props}>
-                <Link to={href}>
+                <Link to={href} onClick={handleClick}>
                     {children}
                 </Link>
             </div>
@@ -65,6 +66,13 @@ class Header extends React.PureComponent<HeaderProps, HeaderStates> {
         }
     };
 
+    handleNavLinkClick = () => {
+        // Hide side navbar
+        this.setState({
+            sideNavbarShown: false,
+        });
+    };
+
     /** ***** RENDER ***** **/
 
     render() {
@@ -78,23 +86,15 @@ class Header extends React.PureComponent<HeaderProps, HeaderStates> {
         return (
             <section id="index-header" className={collapsedCls}>
                 <nav id="header-navbar" className={collapsedCls}>
-                    <NavLink href="/about" curPg={curPg}>
-                        ABOUT
-                    </NavLink>
-                    <NavLink href="/blog" curPg={curPg}>
-                        BLOG
-                    </NavLink>
+                    <NavLink href="/about" curPg={curPg}>ABOUT</NavLink>
+                    <NavLink href="/blog" curPg={curPg}>BLOG</NavLink>
                     <NavLink href="/"
                              curPg={curPg}
                              id="header-profile-pic-container">
                         <img id="header-profile-pic" src={profileImg} alt="Profile" />
                     </NavLink>
-                    <NavLink href="/projects" curPg={curPg}>
-                        PROJECTS
-                    </NavLink>
-                    <NavLink href="/contact" curPg={curPg}>
-                        CONTACT
-                    </NavLink>
+                    <NavLink href="/projects" curPg={curPg}>PROJECTS</NavLink>
+                    <NavLink href="/contact" curPg={curPg}>CONTACT</NavLink>
                     <div id="header-navbar-menu-btn"
                          role="button"
                          tabIndex={0}
@@ -104,18 +104,10 @@ class Header extends React.PureComponent<HeaderProps, HeaderStates> {
                     </div>
                 </nav>
                 <nav id="header-side-navbar" className={sideNavbarShownCls}>
-                    <NavLink href="/about" curPg={curPg} >
-                        ABOUT
-                    </NavLink>
-                    <NavLink href="/blog" curPg={curPg} >
-                        BLOG
-                    </NavLink>
-                    <NavLink href="/projects" curPg={curPg}>
-                        PROJECTS
-                    </NavLink>
-                    <NavLink href="/contact" curPg={curPg}>
-                        CONTACT
-                    </NavLink>
+                    <NavLink href="/about" curPg={curPg} handleClick={this.handleNavLinkClick}>ABOUT</NavLink>
+                    <NavLink href="/blog" curPg={curPg} handleClick={this.handleNavLinkClick}>BLOG</NavLink>
+                    <NavLink href="/projects" curPg={curPg} handleClick={this.handleNavLinkClick}>PROJECTS</NavLink>
+                    <NavLink href="/contact" curPg={curPg} handleClick={this.handleNavLinkClick}>CONTACT</NavLink>
                 </nav>
             </section>
         )

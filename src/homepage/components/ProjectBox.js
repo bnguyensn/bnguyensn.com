@@ -6,7 +6,7 @@
  * Each <ProjectBox /> is a rectangle that represents an available project in
  * the portfolio.
  *
- * By default, <ProjectBox /> shows a minified content in the form of a single,
+ * By default, <ProjectBox /> shows minified content in the form of a single,
  * large letter.
  *
  * <ProjectBox /> can be expanded to show the full content via user interaction
@@ -26,13 +26,15 @@ import getRandNumBtw from '../lib/utils/getRandNumBtw';
 import '../css/project-box.css';
 import {MIcon} from '../lib/components/MIcon';
 
-type Props = {
+type ProjectBoxPropTypes = {
     letter: string,  // This is the alphabet character that identifies the
                      // ProjectBox
 
     content?: {  // The content object defaults to undefined
                  // On render, this will be a grey-out box that which user
-                 // can't interact with
+                 // can't interact with.
+                 // However, if there're contents, the box will be in colour and
+                 // can be interacted with.
 
         title: string,  // Title of the project
 
@@ -53,14 +55,14 @@ type Props = {
     },
 }
 
-type State = {
+type ProjectBoxStateTypes = {
     clicked: boolean,  // To control collapsed / expanded state
 
     bkgColor: string,  // Styling purpose - Change the background colour on
                        // expansion
 }
 
-class ProjectBox extends React.PureComponent<Props, State> {
+class ProjectBox extends React.PureComponent<ProjectBoxPropTypes, ProjectBoxStateTypes> {
     bkgColorData: {
         init: string,
         range: string[],
@@ -70,7 +72,7 @@ class ProjectBox extends React.PureComponent<Props, State> {
         content: undefined,
     };
 
-    constructor(props: Props) {
+    constructor(props: ProjectBoxPropTypes) {
         super(props);
         this.bkgColorData = {
             init: '#E0E0E0',
@@ -151,7 +153,7 @@ class ProjectBox extends React.PureComponent<Props, State> {
                 </div>
 
                 {content !== undefined &&
-                <div className={`pb-lightbox-container ${clicked ? '' : 'hidden'}`}
+                <div className={`${clicked ? '' : 'hidden'} pb-lightbox-container `}
                      onClick={this.handleClick}
                      role="presentation">
                     <div className="pb-lightbox"
