@@ -54,13 +54,13 @@ h1 {
 /* Texts won't go larger than body font size */
 @media only screen and (max-width: 1280px) and (min-width: 854px) {
     html {
-        font-size: 1.875vw;  /* 1.875% = 24px (body font size) / 1280px (limit width) */
+        /*font-size: 1.875vw;  !* 1.875% = 24px (body font size) / 1280px (limit width) *!*/
     }
 }
 
 /* Texts won't go smaller than 16px */
 @media only screen and (max-width: 853px) {
     html {
-        font-size: 16px;  /* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% */
+        font-size: 20px;  /* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% */
     }
 }

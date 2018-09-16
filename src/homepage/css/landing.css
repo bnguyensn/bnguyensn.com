@@ -1,3 +1,19 @@
-#landing {
+#landing > div {
+    margin: 1rem 0;
+}
 
+#landing img {
+    width: 5rem;
+    height: 5rem;
+    border: 1px solid #0d0d0d;
+    border-radius: 50%;
+}
+
+#landing-desc {
+    max-width: 640px;
+    text-align: center;
+}
+
+#landing-desc a:hover {
+    text-decoration: underline;
 }

@@ -14,14 +14,14 @@ export default function Landing() {
                 </a>
             </div>
 
-            <div>
-                Hi, my name is Binh and I like solving software questions.&nbsp;
-                This is a bit generic so you can check out my projects&nbsp;
+            <div id="landing-desc">
+                Hi, my name is Binh and I like solving software problems.
+                This is a bit generic though so you can check out my projects&nbsp;
                 <Link to="/projects">here</Link>.
 
                 <br /><br />
 
-                My contact information can be found <Link to="/contacts">here</Link>.
+                My contact information can be found <Link to="/contact">here</Link>.
             </div>
 
         </section>
