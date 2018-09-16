@@ -15,6 +15,9 @@ const app = express();  // Create the express app
 // uncomment after placing your favicon in /src
 //app.use(favicon(path.join(__dirname, 'src', 'favicon.ico')));
 
+// Set up view engine
+app.set('view engine', 'jade');
+
 // Set up the port
 app.set('port', process.env.PORT || 63343);
 
@@ -31,16 +34,16 @@ app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         // defaultSrc: ['https:'],  // This won't work for local builds
-        scriptSrc: ["'self'"],
-        styleSrc: ["'unsafe-inline'", "'self'", 'https://fonts.googleapis.com'],
-        objectSrc: ["'none'"],
-        reportUri: 'https://cspreport.bnguyensn.com'
-    }
+        scriptSrc: ['\'self\''],
+        styleSrc: ['\'unsafe-inline\'', '\'self\'', 'https://fonts.googleapis.com'],
+        objectSrc: ['\'none\''],
+        reportUri: 'https://cspreport.bnguyensn.com',
+    },
 }));
 
 // The folder where generated production client files are
 app.use(express.static(path.join(__dirname, 'dist'), {
-    maxAge: 31536000
+    maxAge: 31536000,
 }));
 
 // After loading the router modules above, we attach website paths to them
@@ -50,14 +53,14 @@ app.use('/', index);
 /** ********** ERROR HANDLING ********** **/
 
 // Catch 404
-app.use(function (req, res, next) {
-    let err = new Error('Not Found');
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 // Error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
     if (res.headersSent) return next(err);
 
     // set locals, only providing error in development

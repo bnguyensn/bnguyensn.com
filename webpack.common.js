@@ -1,7 +1,6 @@
 /** ********** WEBPACK CONFIG FILE 1/3 ********** **/
 
 const path = require('path');
-const WebpackMd5Hash = require('webpack-md5-hash');
 
 /* Special Note:
    For some reason, webpack.common.js cannot be a function that export a config
@@ -12,10 +11,9 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 // Constants
 const imgLoaderSizeLimit = 1024 * 10;  // 10kb
 
-// The main config
 module.exports = {
     entry: {
-        index: './src/homepage/index.js'
+        index: './src/homepage/index.js',
     },
 
     output: {
@@ -31,7 +29,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
 
             // Images (PNG | JPG | GIF) - Implemented differently for prod and dev. Please refer to these configs.
@@ -43,10 +41,10 @@ module.exports = {
                     loader: 'svg-url-loader',
                     options: {
                         limit: imgLoaderSizeLimit,
-                        noquotes: true  // Remove quotes around the encoded URL
-                    }
+                        noquotes: true,  // Remove quotes around the encoded URL
+                    },
                 },
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
 
             // Images compression
@@ -59,7 +57,7 @@ module.exports = {
                 // enforce: 'pre' is a webpack option that forces this loader to load first
                 // (in this case, before other image loader)
                 enforce: 'pre',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
 
             // JSONs
@@ -71,17 +69,12 @@ module.exports = {
             {
                 test: /\.txt$/,
                 use: 'raw-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
-        ]
+        ],
     },
 
-    plugins: [
-        // Due to an issue in Webpack, chunkhash isn’t deterministic.
-        // To ensure hashes are generated based on the file contents,
-        // use webpack-md5-hash plugin.
-        new WebpackMd5Hash(),
-    ],
+    plugins: [],
 
     // webpack 4.0 CommonsChunkPlugin replacement
     optimization: {
@@ -100,11 +93,13 @@ module.exports = {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
-                    name: "vendors"
-                }
-            }
+                    name: 'vendors',
+                },
+            },
         },
         occurrenceOrder: true,  // To keep filename consistent between different modes (for example building only)
         runtimeChunk: true,
-    }
+    },
+
+    context: __dirname,
 };

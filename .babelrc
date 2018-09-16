@@ -1,9 +1,13 @@
 {
-  "presets": ["env", "react", "flow"],
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-flow"
+  ],
   "plugins": [
     "react-hot-loader/babel",
-    "syntax-dynamic-import",
-    "transform-class-properties",
-    "babel-plugin-transform-object-rest-spread"
+    "@babel/syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }
