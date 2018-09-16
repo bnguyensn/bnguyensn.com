@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import '../css/contact.css';
+import '../../css/v2.0.0/contact.css';
 
 type SetCurPgFuncType = (newCurPg: string) => void;
 

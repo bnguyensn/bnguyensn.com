@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import ProjectBox from './ProjectBox';
 
-import '../css/projects.css';
+import '../../css/v2.0.0/projects.css';
 
 import projectData from '../json/project-data.json';
 

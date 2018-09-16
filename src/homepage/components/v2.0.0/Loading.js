@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import '../css/loading.css';
+import '../../css/v2.0.0/loading.css';
 
 function Loading() {
     return (

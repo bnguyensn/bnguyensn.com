@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 
-import RainbowString from '../lib/components/RainbowString';
+import RainbowString from '../../lib/components/RainbowString';
 
-import '../css/homepage.css';
+import '../../css/v2.0.0/homepage.css';
 
 function Homepage() {
     return (

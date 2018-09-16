@@ -8,9 +8,9 @@ import Header from './Header';
 import Body from './Body';
 import Footer from './Footer';
 import Loading from './Loading';
-import StarfieldFullscreen from '../lib/components/StarfieldFullscreen';
+import StarfieldFullscreen from '../../lib/components/StarfieldFullscreen';
 
-import '../css/index.css';
+import '../../css/v2.0.0/index.css';
 
 /** ********** LIST OF PATHS ********** **/
 

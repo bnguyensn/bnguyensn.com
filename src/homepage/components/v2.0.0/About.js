@@ -5,7 +5,7 @@ import {Router, Link} from '@reach/router';
 import Loadable from 'react-loadable';
 import Loading from './Loading';
 
-import '../css/about.css';
+import '../../css/v2.0.0/about.css';
 
 /** ********** LIST OF PATHS ********** **/
 

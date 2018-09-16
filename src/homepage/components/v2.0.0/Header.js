@@ -3,11 +3,11 @@
 import * as React from 'react';
 import {Link} from '@reach/router';
 
-import {MIcon} from '../lib/components/MIcon';
+import {MIcon} from '../../lib/components/MIcon';
 
-import profileImg from '../img/profile_256x256.jpg';
+import profileImg from '../../img/profile_256x256.jpg';
 
-import '../css/header.css';
+import '../../css/v2.0.0/header.css';
 
 /** ********** SUPPORT COMPONENTS ********** **/
 

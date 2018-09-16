@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import '../css/body.css';
+import '../../css/v2.0.0/body.css';
 
 export default class Body extends React.Component<{children: React.Node}> {
     render() {
