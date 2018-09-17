@@ -1,37 +1,14 @@
 // @flow
 
 import * as React from 'react';
-
-import ProjectBox from './ProjectBox';
-
 import '../css/projects.css';
 
-import projectData from '../json/project-data.json';
-
-type SetCurPgFuncType = (newCurPg: string) => void;
-
-export default class Projects extends React.PureComponent<{setCurPg: SetCurPgFuncType}> {
-    componentDidMount() {
-        const {setCurPg} = this.props;
-        setCurPg('/projects');
-    }
-
-    render() {
-        const projectBoxes = Object.keys(projectData).map((letter) => {
-            return <ProjectBox key={letter}
-                               letter={letter}
-                               content={
-                                   projectData[letter].length > 0 ?
-                                   JSON.parse(JSON.stringify(projectData[letter][0])) :
-                                   undefined
-                               }
-            />
-        });
-
-        return (
-            <section id="body-projects">
-                {projectBoxes}
-            </section>
-        )
-    }
+function Projects() {
+    return (
+        <section id="projects" className="app-section">
+            Projects display under construction. Please check back later...
+        </section>
+    )
 }
+
+export default Projects

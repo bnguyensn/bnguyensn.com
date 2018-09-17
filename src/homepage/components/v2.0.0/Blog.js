@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import '../css/blog.css';
+import '../../css/v2.0.0/blog.css';
 
 type SetCurPgFuncType = (newCurPg: string) => void;
 

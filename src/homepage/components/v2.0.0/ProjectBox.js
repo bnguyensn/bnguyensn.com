@@ -21,9 +21,9 @@
 
 import * as React from 'react';
 
-import getRandNumBtw from '../lib/utils/getRandNumBtw';
+import getRandNumBtw from '../../lib/utils/getRandNumBtw';
 
-import '../css/project-box.css';
+import '../../css/v2.0.0/project-box.css';
 import {MIcon} from '../lib/components/MIcon';
 
 type ProjectBoxPropTypes = {

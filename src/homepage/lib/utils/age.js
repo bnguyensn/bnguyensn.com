@@ -11,17 +11,17 @@ function getDaysInMonth(year, month) {
 /**
  * Get the number of days between two dates
  * UTC conversion ignored
- * @param {Date} date1 First comparison date
- * @param {Date} date2 Second comparison date
+ * @param {Date} date1 First comparison hueDeg
+ * @param {Date} date2 Second comparison hueDeg
  * */
 function getDaysDiff(date1, date2) {
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;  // Number of ms per day
-    return Math.floor((date2 - date1) / _MS_PER_DAY)  // date2 - date1 will return a date difference in ms, we then convert this to number of days
+    return Math.floor((date2 - date1) / _MS_PER_DAY)  // date2 - date1 will return a hueDeg difference in ms, we then convert this to number of days
 }
 
 /**
  * Get a person's age in terms of X years and Y days
- * @param {Date} dob_date A Date object representing the date of birth
+ * @param {Date} dob_date A Date object representing the hueDeg of birth
  * @return {Array} An array containing the person's age, in the format [X years, Y days]
  * */
 function getAge(dob_date) {
@@ -42,7 +42,7 @@ function getAge(dob_date) {
 }
 
 /**
- * Convert a date string in the format of "DD/MM/YYYY" to a Date object
+ * Convert a hueDeg string in the format of "DD/MM/YYYY" to a Date object
  * @param {String} dob_str A string in the format of "DD/MM/YYYY"
  * @return {Date} A Date object corresponding to the string parameter
  * */

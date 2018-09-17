@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import '../css/footer.css';
+import '../../css/v2.0.0/footer.css';
 
 function Footer() {
     return (

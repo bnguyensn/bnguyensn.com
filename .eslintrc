@@ -1,16 +1,13 @@
 {
   "extends": [
     "airbnb",
-    "plugin:flowtype/recommended",
-    "prettier",
-    "prettier/react",
-    "prettier/flowtype"
+    "plugin:flowtype/recommended"
   ],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "node": true,
-    //    "jest": true,
+    "jest": true,
     "es6": true,
     "mongo": true
   },
@@ -27,6 +24,11 @@
       "warn",
       "as-needed"
     ],
+    "block-spacing": [
+      "error",
+      "never"
+    ],
+    "indent": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
@@ -37,12 +39,18 @@
     ],
     "linebreak-style": 0,
     "lines-between-class-members": 0,
+    "max-len": [
+      "error",
+      120
+    ],
     "no-param-reassign": [
       "error",
-      {"props": false}
+      {
+        "props": false
+      }
     ],
+    "no-undef": "off",
     "no-unused-vars": 0,
-    "spaced-comment": 0,
     "no-console": [
       "error",
       {
@@ -52,12 +60,24 @@
         ]
       }
     ],
+    "no-multi-spaces": [
+      "error",
+      {
+        "ignoreEOLComments": true
+      }
+    ],
+    "no-multiple-empty-lines": "off",
     "no-plusplus": [
       "error",
       {
         "allowForLoopAfterthoughts": true
       }
     ],
+    "no-shadow": "off",
+    "no-trailing-spaces": "off",
+    "import/named": "off",
+    "object-curly-newline": "off",
+    "object-curly-spacing": "off",
     "one-var": [
       "error",
       {
@@ -66,7 +86,16 @@
       }
     ],
     "react/jsx-filename-extension": 0,
+    "react/jsx-indent": [
+      true,
+      4
+    ],
     "react/no-multi-comp": 0,
+    "react/jsx-closing-bracket-location": false,
+    "react/jsx-first-prop-new-line": false,
+    "react/jsx-max-props-per-line": false,
+    "react/jsx-indent-props": false,
+    "react/jsx-one-expression-per-line": false,
     "react/prop-types": 0,
     "react/require-default-props": 0,
     "react/sort-comp": [
@@ -80,15 +109,8 @@
           "render"
         ]
       }
-    ]
-    //        "import/no-extraneous-dependencies": 0,
-    //        "arrow-parens": 0,
-    //        "import/prefer-default-export": 0,
-    //        "class-methods-use-this": 0,
-    //        "prefer-template": "off",
-    //        "no-plusplus": 0,
-    //        "no-underscore-dangle": "off",
-    //        "no-nested-ternary": "warn",
-    //        "import/no-named-default": 0
+    ],
+    "semi": "off",
+    "spaced-comment": 0
   }
 }
