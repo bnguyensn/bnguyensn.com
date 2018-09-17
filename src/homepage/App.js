@@ -7,6 +7,7 @@ import './app.css';
 import Landing from './components/Landing';
 import FourOhFour from './components/404';
 import Loading from './components/Loading';
+import {MIcon} from './lib/components/MIcon';
 import getRandNumBtw from './lib/utils/getRandNumBtw';
 
 /** ********** REACT LOADABLE ********** **/
@@ -72,19 +73,84 @@ class Background extends React.PureComponent<BackgroundProps, BackgroundStates> 
     }
 }
 
+/** ********** NAV LINKS ********** **/
+
+function NavLink(props) {
+    return (
+        <Link {...props}
+              getProps={({isCurrent}) => ({
+                  className: isCurrent ? 'active' : '',
+              })} />
+    )
+}
+
+
+/** ********** NAV BAR ********** **/
+
+type NavBarStates = {
+    windowWidth: number,
+};
+
+
+class NavBar extends React.PureComponent<{}, NavBarStates> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            windowWidth: 0,
+        };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.windowResized);
+        this.setState({
+            windowWidth: window.innerWidth,
+        });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.windowResized);
+    }
+
+    windowResized = () => {
+        this.setState({
+            windowWidth: window.innerWidth,
+        });
+    };
+
+    render() {
+        const {windowWidth} = this.state;
+        const smallWindow = windowWidth < 400;
+
+        return (
+            <nav id="navbar"
+                 className="app-section">
+                <NavLink to="/">
+                    {smallWindow ? <MIcon icon="home" /> : 'HOME'}
+                </NavLink>
+                <NavLink to="/projects">
+                    {smallWindow ? <MIcon icon="weekend" /> : 'PROJECTS'}
+                </NavLink>
+                <NavLink to="/contact">
+                    {smallWindow ? <MIcon icon="email" /> : 'CONTACT'}
+                </NavLink>
+            </nav>
+        )
+    }
+}
+
 /** ********** MAIN COMPONENT ********** **/
-
-
 
 export default function App() {
     return (
-        <Router>
-            <Background path="/">
+        <div className="app-section">
+            <NavBar path="/" />
+            <Router>
                 <Landing path="/" />
                 <Projects path="/projects" />
                 <Contact path="/contact" />
                 <FourOhFour default />
-            </Background>
-        </Router>
+            </Router>
+        </div>
+
     )
 }

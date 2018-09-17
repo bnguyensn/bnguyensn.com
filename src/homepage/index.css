@@ -24,6 +24,18 @@ h1 {
     font-size: 2rem;
 }
 
+hr {
+    margin: 2rem 0;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, #fff1e5, #212121, #fff1e5);
+}
+
+sup {
+    font-size: .5rem;
+    font-weight: 700;
+}
+
 /* ********** HELPERS ********** */
 
 .hidden { display: none; }
@@ -49,6 +61,13 @@ h1 {
 #root {
     /* Nothing will go below 320px wide */
     min-width: 320px;
+    width: 100vw;
+
+    /* Potential stylings as needed */
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #fff1e5;
 }
 
 /* Texts won't go larger than body font size */
@@ -58,8 +77,8 @@ h1 {
     }
 }
 
-/* Texts won't go smaller than 16px */
-@media only screen and (max-width: 853px) {
+/* Texts won't go smaller than this */
+@media only screen and (max-width: 639px) {
     html {
         font-size: 20px;  /* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% */
     }
