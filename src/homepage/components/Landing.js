@@ -34,7 +34,7 @@ export default function Landing() {
                     <br /><br />
 
                     Site design follows one simple rule: <i>&#8220;less is more&#8221;</i>. The sepia
-                    colour scheme and serif font was inspired by the Financial Times.
+                    colour scheme and serif font are inspired by the Financial Times.
 
                     <br /><br />
                     Source code can be found
