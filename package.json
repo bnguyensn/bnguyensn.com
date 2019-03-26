@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "build:d": "webpack-dev-server --config webpack.dev.js --progress",
-    "build:p": "rimraf ./dist && webpack --config webpack.prod.js --progress"
+    "dev": "webpack-dev-server --config webpack.dev.js --progress",
+    "build": "rimraf ./dist && webpack --config webpack.prod.js --progress"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
