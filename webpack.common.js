@@ -9,11 +9,11 @@ const path = require('path');
 */
 
 // Constants
-const imgLoaderSizeLimit = 1024 * 10;  // 10kb
+const imgLoaderSizeLimit = 1024 * 10; // 10kb
 
 module.exports = {
     entry: {
-        index: './src/homepage/index.js',
+        index: './src/index.js',
     },
 
     output: {
@@ -23,7 +23,8 @@ module.exports = {
     module: {
         // Loaders config for various file types
         rules: [
-            // .css - Implemented differently for prod and dev. Please refer to these configs.
+            // .css - Implemented differently for prod and dev. Please refer to
+            // these config files.
 
             // .js
             {
@@ -32,7 +33,8 @@ module.exports = {
                 exclude: /node_modules/,
             },
 
-            // Images (PNG | JPG | GIF) - Implemented differently for prod and dev. Please refer to these configs.
+            // Images (PNG | JPG | GIF) - Implemented differently for prod and
+            // dev. Please refer to these config files.
 
             // Images (SVG)
             {
@@ -41,28 +43,30 @@ module.exports = {
                     loader: 'svg-url-loader',
                     options: {
                         limit: imgLoaderSizeLimit,
-                        noquotes: true,  // Remove quotes around the encoded URL
+                        noquotes: true, // Remove quotes around the encoded URL
                     },
                 },
                 exclude: /node_modules/,
             },
 
             // Images compression
-            // image-webpack-loader must work in pair with url-loader / svg-url-loader
+            // image-webpack-loader must work in pair with url-loader and
+            // svg-url-loader
             {
                 test: /\.(png|jpe?g|gif|svg)$/,
                 use: {
                     loader: 'image-webpack-loader',
                 },
-                // enforce: 'pre' is a webpack option that forces this loader to load first
-                // (in this case, before other image loader)
+                // enforce: 'pre' is a webpack option that forces this loader to
+                // load first (in this case, before other image loader)
                 enforce: 'pre',
                 exclude: /node_modules/,
             },
 
             // JSONs
             // webpack 4.0 handles JSON natively
-            // You may need to add type: "javascript/auto" when transforming JSON via loader to JS
+            // You may need to add type: "javascript/auto" when transforming
+            // JSON via loader to JS
             // Just using JSON without loader should still work
 
             // Texts (raw files)
@@ -83,8 +87,9 @@ module.exports = {
             // We need to specify chunks: 'all' to scope in initial chunks
             chunks: 'all',
             cacheGroups: {
-                // Create a commons chunk that includes all code shared between entry points
-                // We do not use this here.
+                // The below piece of code creates a commons chunk that includes
+                // all code shared between entry points. Currently it's not
+                // used.
                 /*commons: {
                     name: "commons",
                     chunks: "initial",
@@ -97,7 +102,9 @@ module.exports = {
                 },
             },
         },
-        occurrenceOrder: true,  // To keep filename consistent between different modes (for example building only)
+        // occurrenceOrder keeps filename consistent between different modes (for example
+        // building only)
+        occurrenceOrder: true,
         runtimeChunk: true,
     },
 

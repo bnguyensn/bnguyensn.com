@@ -16,7 +16,8 @@ module.exports = () => merge(common, {
     mode: 'production',
 
     output: {
-        publicPath: '/static/',  // Different from dev config. Be careful to include the prefix '/'
+        // Different from dev config. Be careful to include the prefix '/'
+        publicPath: '/static/',
         filename: '[name].[contenthash].js',  // Different from dev config
         chunkFilename: '[name].[contenthash].js',  // Different from dev config
     },
@@ -39,11 +40,13 @@ module.exports = () => merge(common, {
             {
                 test: /\.(png|jpe?g|gif)$/,
                 use: {
-                    loader: 'url-loader',  // url-loader has automatic file-loader fallback
+                    // url-loader has automatic file-loader fallback
+                    loader: 'url-loader',
                     options: {
                         limit: urlLoaderSizeLimit,
-                        // [chunkhash] does not work when loading large files. Reasons = unknown
-                        name: 'assets/[name].[contenthash].[ext]',  // Different from dev config
+                        // [chunkhash] does not work when loading large files
+                        // Different from dev config
+                        name: 'assets/[name].[contenthash].[ext]',
                     },
                 },
                 exclude: /node_modules/,
@@ -67,7 +70,10 @@ module.exports = () => merge(common, {
 
         // HTML creation
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/homepage/html-templates/index_prod.html'),
+            template: path.resolve(
+              __dirname,
+              'src/homepage/html-templates/index_prod.html',
+            ),
             //inject: true,
             chunks: ['index', 'vendors', 'runtime~index'],
             filename: '../index.html',
@@ -83,10 +89,11 @@ module.exports = () => merge(common, {
     optimization: {
 
         splitChunks: {
-            // Note: optimization.splitChunks also appears in webpack.common.js config
-            // Since the chunk name includes all origin chunk names it’s recommended for production builds
-            // with long term caching to NOT include [name] in the filenames,
-            // or switch off name generation via optimization.splitChunks.name: false
+            // Note: optimization.splitChunks also appears in our dev config.
+            // Since the chunk name includes all origin chunk names it’s
+            // recommended for production builds with long term caching to NOT
+            // include [name] in the filenames, or switch off name generation
+            // via optimization.splitChunks.name: false
             name: false,
         },
         minimizer: [

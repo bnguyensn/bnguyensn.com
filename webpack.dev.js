@@ -20,9 +20,8 @@ module.exports = () => merge(common, {
 
     module: {
         rules: [
-            /* .css - We use ExtractTextPlugin for prod. This plugin can't be used in dev because
-             * it does not work with HotModuleReplacement
-             */
+            // .css - We use ExtractTextPlugin for prod. This plugin can't be
+            // used in dev because it does not work with HotModuleReplacement
             {
                 test: /\.css$/,
                 use: [
@@ -30,8 +29,10 @@ module.exports = () => merge(common, {
                     {
                         loader: 'css-loader',
                         options: {
-                            /*modules: true,  // TODO: implement CSS modules
-                             localIdentName: '[chunkhash]'*/
+                            // CSS modules can be implemented here
+                            // modules: true,
+                            // We no longer need the [chunkhash] in webpack 4
+                            // localIdentName: '[chunkhash]'
                             importLoaders: 2,
                         },
                     },
@@ -45,12 +46,14 @@ module.exports = () => merge(common, {
             {
                 test: /\.(png|jpe?g|gif)$/,
                 use: {
-                    loader: 'url-loader',  // url-loader has automatic file-loader fallback
+                    // url-loader has automatic file-loader fallback
+                    loader: 'url-loader',
                     options: {
                         limit: urlLoaderSizeLimit,
-                        name: 'assets/[name].[ext]',  // Different from prod config
+                        // Different from prod config
+                        name: 'assets/[name].[ext]',
                     },
-                }, //`url-loader?limit=${urlLoaderSizeLimit}&name=assets/[chunkhash].[ext]`,
+                },
                 exclude: /node_modules/,
             },
 
@@ -59,9 +62,7 @@ module.exports = () => merge(common, {
 
     plugins: [
         // NamedChunksPlugin is enabled in development mode by default
-
         // NamedModulesPlugin is enabled in development mode by default
-
         // Hot Module Replacement
         new webpack.HotModuleReplacementPlugin(),
     ],
@@ -78,12 +79,18 @@ module.exports = () => merge(common, {
             errors: true,
             warnings: true,
         },
-        staticOptions: {  // Options for serving static files. Follow express rules. See official docs.
-            extensions: ['html'],  // This is needed to serve html files other than 'index.html'.
+
+        // Options for serving static files. Follow express rules.
+        staticOptions: {
+            // This is needed to serve html files other than 'index.html'.
+            extensions: ['html'],
         },
-        proxy: {  // Because we are involving (note: not using) an Express dev server
+
+        // Because we are involving (note: not using) an Express dev server
+        proxy: {
             '/login/api': 'http://localhost:63343',
         },
+
         historyApiFallback: {
             rewrites: [
                 // Redirects homepage-related URLs
@@ -98,7 +105,8 @@ module.exports = () => merge(common, {
         // Hot Module Replacement
         hot: true,
 
-        // TODO: optimization is currently invalid for webpack-dev-server. Check back later
+        // TODO: optimization is currently invalid for webpack-dev-server.
+        //  Check back later
         /*optimization: {
             // namedModules is on by default for development
             namedModules: true
