@@ -18,6 +18,7 @@
     "express": "~4.x.x",
     "helmet": "^3.x.x",
     "morgan": "~1.x.x",
+    "normalize.css": "^8.0.1",
     "prettier": "^1.16.4",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.x.x",
