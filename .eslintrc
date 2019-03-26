@@ -77,6 +77,7 @@
     "no-shadow": "off",
     "no-trailing-spaces": "off",
     "import/named": "off",
+    "import/no-extraneous-dependencies": "off",
     "object-curly-newline": "off",
     "object-curly-spacing": "off",
     "one-var": [
