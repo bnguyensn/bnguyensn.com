@@ -29,6 +29,7 @@
       "error",
       "never"
     ],
+    "global-require": "off",
     "indent": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
