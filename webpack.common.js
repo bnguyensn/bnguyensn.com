@@ -1,6 +1,7 @@
 /** ********** WEBPACK CONFIG FILE 1/3 ********** **/
 
 const path = require('path');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 /* Special Note:
    For some reason, webpack.common.js cannot be a function that export a config
@@ -35,10 +36,10 @@ module.exports = {
         exclude: /node_modules/,
       },
 
-      // Images (PNG | JPG | GIF) - Implemented differently for prod and
-      // dev. Please refer to these config files.
+      // Images
+      // Not here. Defined in dev and prod configs.
 
-      // Images (SVG)
+      // .svg
       {
         test: /\.(svg)$/,
         use: {
@@ -52,8 +53,8 @@ module.exports = {
       },
 
       // Images compression
-      // image-webpack-loader must work in pair with url-loader and
-      // svg-url-loader
+      // image-webpack-loader is used for this. It must work in pair with
+      // url-loader (used for both dev and prod configs) and svg-url-loader.
       {
         test: /\.(png|jpe?g|gif|svg)$/,
         use: {
@@ -65,11 +66,16 @@ module.exports = {
         exclude: /node_modules/,
       },
 
+      // Fonts
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader',
+        ],
+      },
+
       // JSONs
-      // webpack 4.0 handles JSON natively
-      // You may need to add type: "javascript/auto" when transforming
-      // JSON via loader to JS
-      // Just using JSON without loader should still work
+      // webpack 4.0+ handles JSON natively
 
       // Texts (raw files)
       {
@@ -80,7 +86,11 @@ module.exports = {
     ],
   },
 
-  plugins: [],
+  plugins: [
+    new ManifestPlugin({
+      fileName: 'webpackManifest.json',
+    }),
+  ],
 
   // webpack 4.0 CommonsChunkPlugin replacement
   optimization: {

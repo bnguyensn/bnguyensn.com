@@ -19,8 +19,8 @@ module.exports = () => merge(common, {
 
   output: {
     // This public URL is prefixed to every URL created by webpack. It is
-    // the URL of our output.path (output.path is defined in the common
-    // config) from the view of the HTML page.
+    // the URL of our output.path (webpackOptions.output.path is defined in the
+    // common config) from the view of the HTML page.
     // Note: include the prefix '/' for server-relative URLs.
     publicPath: '/static/',
 
@@ -37,9 +37,6 @@ module.exports = () => merge(common, {
       // .css
       // MiniCSSExtractTextPlugin is used for prod. This plugin can't be
       // used in dev because it does not support HMR yet.
-
-      // postcss-loader is added on top to handle cross-browser
-      // compatibility.
       {
         test: /\.css$/,
         use: [
@@ -47,22 +44,34 @@ module.exports = () => merge(common, {
           // There is also a plugin component.
           // https://github.com/webpack-contrib/mini-css-extract-plugin
           MiniCssExtractPlugin.loader,
-          'css-loader',
+
+          // css-loader interprets @import and url() like statements and resolve
+          // them.
+          // https://github.com/webpack-contrib/css-loader
+          {
+            loader: 'css-loader',
+            options: {
+              // How many other loaders are applied before css-loader
+              importLoaders: 1,
+            },
+          },
+
+          // postcss-loader is added on top to handle cross-browser
+          // compatibility with its autoprefixer plugin.
           'postcss-loader',
         ],
         exclude: /node_modules/,
       },
 
-      // Images (PNG | JPG | GIF)
+      // Images
+      // url-loader is used to load images. It automatically fallback to
+      // file-loader for file sizes above the specified limit
       {
         test: /\.(png|jpe?g|gif)$/,
         use: {
-          // url-loader has automatic file-loader fallback
           loader: 'url-loader',
           options: {
             limit: urlLoaderSizeLimit,
-            // [chunkhash] does not work when loading large files
-            // Different from dev config
             name: 'assets/[name].[contenthash].[ext]',
           },
         },
@@ -93,9 +102,8 @@ module.exports = () => merge(common, {
     new HtmlWebpackPlugin({
       template: path.resolve(
         __dirname,
-        'src/homepage/html-templates/index_prod.html',
+        'src/html-templates/index_prod.html',
       ),
-      //inject: true,
       chunks: ['index', 'vendors', 'runtime~index'],
       filename: '../index.html',
     }),

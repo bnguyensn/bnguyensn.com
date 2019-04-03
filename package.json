@@ -76,6 +76,7 @@
     "webpack-cli": "^3.x.x",
     "webpack-dev-middleware": "^3.x.x",
     "webpack-dev-server": "^3.x.x",
+    "webpack-manifest-plugin": "^2.0.4",
     "webpack-md5-hash": "^0.x.x",
     "webpack-merge": "^4.x.x"
   }

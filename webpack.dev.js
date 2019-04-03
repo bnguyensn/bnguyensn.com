@@ -21,8 +21,6 @@ module.exports = () => merge(common, {
     rules: [
       // .css
       // style-loader and css-loader are used for dev.
-      // postcss-loader is added on top to handle cross-browser
-      // compatibility.
       {
         test: /\.css$/,
         use: [
@@ -41,20 +39,23 @@ module.exports = () => merge(common, {
               importLoaders: 1,
             },
           },
+
+          // postcss-loader is added on top to handle cross-browser
+          // compatibility with its autoprefixer plugin.
           'postcss-loader',
         ],
         exclude: /node_modules/,
       },
 
       // Images
+      // url-loader is used to load images. It automatically fallback to
+      // file-loader for file sizes above the specified limit
       {
         test: /\.(png|jpe?g|gif)$/,
         use: {
-          // url-loader has automatic file-loader fallback
           loader: 'url-loader',
           options: {
             limit: urlLoaderSizeLimit,
-            // Different from prod config
             name: 'assets/[name].[ext]',
           },
         },
@@ -73,8 +74,13 @@ module.exports = () => merge(common, {
 
   devtool: 'inline-source-map',
 
+  // This is made available via webpack-dev-server, which provides a web server
+  // and the ability to do live reloading.
   devServer: {
-    // The location of the "index.html" for webpack-dev-server:
+    // This stores the location of the "index.html" for webpack-dev-server.
+    // webpack-dev-server doesn't write any files after compiling but keeps them
+    // in memory and serves them as if they exist at the server's root path. We
+    // have our server's root path as '/' (see output.publicPath).
     contentBase: path.join(__dirname, 'src/homepage/html-templates'),
 
     compress: true,
