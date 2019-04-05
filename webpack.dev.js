@@ -77,13 +77,16 @@ module.exports = () => merge(common, {
   // This is made available via webpack-dev-server, which provides a web server
   // and the ability to do live reloading.
   devServer: {
-    // This stores the location of the "index.html" for webpack-dev-server.
+    // This stores the location of the "index.html" for webpack-dev-server. The
+    // default is the current working directory.
     // webpack-dev-server doesn't write any files after compiling but keeps them
     // in memory and serves them as if they exist at the server's root path. We
     // have our server's root path as '/' (see output.publicPath).
-    contentBase: path.join(__dirname, 'src/homepage/html-templates'),
+    contentBase: path.join(__dirname, 'src/html-templates'),
 
+    // Enable gzip compression for everything served
     compress: true,
+
     port: 8080,
     overlay: {
       errors: true,
@@ -101,6 +104,7 @@ module.exports = () => merge(common, {
       '/login/api': 'http://localhost:63343',
     },
 
+    // This is relevant for the HTML5 History API
     historyApiFallback: {
       rewrites: [
         // Redirects homepage-related URLs
@@ -113,6 +117,7 @@ module.exports = () => merge(common, {
     },
 
     // Hot Module Replacement
+    // webpack.HotModuleReplacementPlugin is required to fully enable HMR.
     hot: true,
 
     // TODO: optimization is currently invalid for webpack-dev-server.

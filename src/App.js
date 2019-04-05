@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {Router, Link} from '@reach/router';
 import Loadable from 'react-loadable';
-import './app.css';
+import './styles/app.css';
 import Landing from './components/Landing';
 import FourOhFour from './components/404';
 import Loading from './components/Loading';
