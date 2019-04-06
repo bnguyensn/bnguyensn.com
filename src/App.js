@@ -1,11 +1,11 @@
 // @flow
 
-// $FlowFixMe
-import {hot} from 'react-hot-loader/root';
+import {hot} from 'react-hot-loader';
 import * as React from 'react';
 import { Router, Link } from '@reach/router';
 import Loadable from 'react-loadable';
 import './styles/app.css';
+import './styles/global.css';
 import Landing from './components/Landing';
 import FourOhFour from './components/404';
 import Loading from './components/Loading';
@@ -155,4 +155,4 @@ function App() {
   );
 }
 
-export default hot(App)
+export default hot(module)(App)
