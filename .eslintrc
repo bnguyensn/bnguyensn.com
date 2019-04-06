@@ -25,6 +25,7 @@
       "warn",
       "as-needed"
     ],
+    "arrow-parens": "off",
     "block-spacing": [
       "error",
       "never"
