@@ -73,6 +73,7 @@
     "uglifyjs-webpack-plugin": "^2.x.x",
     "url-loader": "^1.x.x",
     "webpack": "^4.x.x",
+    "webpack-bundle-analyzer": "^3.2.0",
     "webpack-cli": "^3.x.x",
     "webpack-dev-middleware": "^3.x.x",
     "webpack-dev-server": "^3.x.x",
