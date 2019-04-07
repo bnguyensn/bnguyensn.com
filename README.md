@@ -1,6 +1,8 @@
 Hello, world!
 =============
 
+### Foreword
+
 This repo contains the source code for my personal website at [bnguyensn.com](https://bnguyensn.com). Everything is public except for the .env file which is not shared ([see why](https://github.com/motdotla/dotenv#should-i-commit-my-env-file)).
  
 The site is run on a [Node.js](https://nodejs.org/en/) server using the [Express](https://expressjs.com/) framework. [React](https://reactjs.org/) handles the user interface and [Webpack](https://webpack.js.org/) is the bundler.
@@ -12,3 +14,15 @@ I do hope you find something useful or learn a thing or two here. I'm available 
 Keep on hacking!
  
 Binh Nguyen
+
+### Future Features
+
+Below are features I plan to add in the future:
+
+#### Development
+
+* [browserlist](https://github.com/browserslist/browserslist)
+
+#### Production
+
+Nothing planned.
