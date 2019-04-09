@@ -30,6 +30,7 @@ module.exports = {
       // Not here. Defined in dev and prod configs.
 
       // .js
+      // babel-loader allows transpiling JavaScript using Babel and webpack.
       {
         test: /\.(js|jsx)$/,
         use: 'babel-loader',
