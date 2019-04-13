@@ -27,6 +27,11 @@ module.exports = () =>
       // Note: include the prefix '/' for server-relative URLs.
       publicPath: '/static/',
 
+      // [contenthash]: change based on the asset's content
+      // However, contenthash will not stay the same between builds even if the
+      // asset's content hasn't changed. To make contenthash deterministic, we
+      // need to extract out webpack's runtime and manifest (together
+      // "boilerplate"). This can be achieved via the SplitChunksPlugin.
       filename: '[name].[contenthash].js',
 
       // Placeholders like [name] or [chunkhash] require a mapping from chunk
@@ -48,8 +53,8 @@ module.exports = () =>
             // https://github.com/webpack-contrib/mini-css-extract-plugin
             MiniCssExtractPlugin.loader,
 
-            // css-loader interprets @import and url() like statements and resolve
-            // them.
+            // css-loader interprets @import and url() like statements and
+            // resolve them.
             // https://github.com/webpack-contrib/css-loader
             {
               loader: 'css-loader',
@@ -121,41 +126,25 @@ module.exports = () =>
     //devtool: 'source-map',
 
     optimization: {
-      // *** SplitChunksPlugin ***
-      // The SplitChunksPlugin optimise imported modules (chunks) via preventing
-      // duplicated chunks from being generated.
-      // Duplicated chunks could be generated if files import (require) the same
-      // dependencies.
+      // Note: continued config from common
       splitChunks: {
-        // Tell webpack to optimise both async and non-async (initial) imports.
-        // Note that optimising initial imports will affect the script tags in
-        // the HTML file.
-        chunks: 'all',
-
-        // *** Split conditions ***
-        // The split conditions are ranked in order of priority. Commented out
-        // values are default values and thus no need to be specified.
-
-        // 1. Chunks must be at least this large (in b) to be generated.
-        // minSize: 30000
-
-        // 2. Chunks larger than this (in b) will be split further. New chunks
-        // will be at least minSize. maxSize could be violated when a single
-        // module is bigger than maxSize or when new chunks are smaller than
-        // minSize.
-        // maxSize: 0
-
-        // 3 & 4. Maximum number of parallel requests for on-demand (lazy)
-        // loading and entry point loading
-        // maxAsyncRequests: 5
-        // maxInitialRequests: 3
-
         // Since the chunk name includes all origin chunk names it’s
         // recommended for production builds with long term caching to NOT
         // include [name] in the filenames, or switch off name generation
         // via optimization.splitChunks.name: false
         name: false,
       },
+
+      // This is relevant for caching. By default, the [contenthash] of an input
+      // file will change between webpack builds even if the input's contents
+      // stay the same. This is because webpack's runtime (or boilerplate) code
+      // is ingrained into [contenthash].
+      // We fix this by extracting out the runtime code using the runtimeChunk
+      // property.
+      // 'single': webpack generates one single chunk containing runtime code.
+      // 'multiple': webpack generates one chunk for each entry point containing
+      // runtime code.
+      runtimeChunk: 'single',
 
       minimizer: [
         new UglifyJSPlugin({

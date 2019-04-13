@@ -93,21 +93,43 @@ module.exports = {
     }),
   ],
 
-  // webpack 4.0 CommonsChunkPlugin replacement
   optimization: {
+    // *** SplitChunksPlugin ***
+    // The SplitChunksPlugin optimise imported modules (chunks) via preventing
+    // duplicated chunks from being generated. Duplicated chunks could be
+    // generated if files import (require) the same dependencies (common
+    // dependencies).
+    // Note: extra configuration in prod
     splitChunks: {
-      // By default, optimization.splitChunks only works for async chunks
-      // We need to specify chunks: 'all' to scope in initial chunks
+      // By default, optimization.splitChunks only works for async chunks. This
+      // tell webpack to optimise both async and non-async (initial) imports.
+      // Note that optimising initial imports will affect the script tags in
+      // the HTML file.
       chunks: 'all',
+
+      // *** Split conditions ***
+      // The split conditions are ranked in order of priority. Commented out
+      // values are default values and thus no need to be specified.
+
+      // 1. Chunks must be at least this large (in b) to be generated.
+      // minSize: 30000
+
+      // 2. Chunks larger than this (in b) will be split further. New chunks
+      // will be at least minSize. maxSize could be violated when a single
+      // module is bigger than maxSize or when new chunks are smaller than
+      // minSize.
+      // maxSize: 0
+
+      // 3 & 4. Maximum number of parallel requests for on-demand (lazy)
+      // loading and entry point loading
+      // maxAsyncRequests: 5
+      // maxInitialRequests: 3
+
+      // By default, there are two cache groups: 'vendors' and 'default'
       cacheGroups: {
-        // The below piece of code creates a commons chunk that includes
-        // all code shared between entry points. Currently it's not
-        // used.
-        /*commons: {
-            name: "commons",
-            chunks: "initial",
-            minChunks: 2,
-        }*/
+        // This 'vendors' cache group will extract third-party libraries to
+        // a separate 'vendors' chunk. We want this because third-party
+        // libraries are less likely to change and consequently bust our cache.
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
