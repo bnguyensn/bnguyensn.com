@@ -120,11 +120,25 @@ module.exports = () => merge(common, {
     // webpack.HotModuleReplacementPlugin is required to fully enable HMR.
     hot: true,
 
-    // TODO: optimization is currently invalid for webpack-dev-server.
-    //  Check back later
-    /*optimization: {
+    optimization: {
+        // *** Build Performance ***
+        // webpack does extra algorithmic work to optimize the output for size
+        // and load performance. These optimizations are performant for smaller
+        // codebases but can be costly in larger ones.
+        // https://webpack.js.org/guides/build-performance#avoid-extra-optimization-steps
+        // removeAvailableModules: false,
+        // removeEmptyChunks: false,
+        // splitChunks: false,
+
+        // *** Build Performance ***
+        // path info in the output bundle can put garbage collection pressure on
+        // projects that bundle thousands of modules. Thus we turn this off for
+        // dev config.
+        // https://webpack.js.org/guides/build-performance#output-without-path-info
+        pathinfo: false,
+
         // namedModules is on by default for development
-        namedModules: true
-    }*/
+        namedModules: true,
+    },
   },
 });

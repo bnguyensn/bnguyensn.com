@@ -113,8 +113,12 @@ module.exports = () =>
         filename: '../index.html',
       }),
 
-      // Webpack caching. This is needed to cache the manifest file correctly
-      // For development builds, we use NamedModulesPlugin instead
+      // This is relevant to caching. Output chunks' hashes could change due to
+      // changes in module.id and our caches will be busted unintentionally.
+      // The HashedModuleIdsPlugin causes hashes to be based on the relative
+      // paths of modules and prevent this issue.
+      // For development builds, we use NamedModulesPlugin instead. This is
+      // enabled in mode: 'development' by default.
       new webpack.HashedModuleIdsPlugin(),
 
       // Visualise webpack output file sizes with an interactive zoomable
@@ -135,7 +139,7 @@ module.exports = () =>
         name: false,
       },
 
-      // This is relevant for caching. By default, the [contenthash] of an input
+      // This is relevant to caching. By default, the [contenthash] of an input
       // file will change between webpack builds even if the input's contents
       // stay the same. This is because webpack's runtime (or boilerplate) code
       // is ingrained into [contenthash].

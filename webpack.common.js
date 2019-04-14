@@ -9,27 +9,30 @@ const ManifestPlugin = require('webpack-manifest-plugin');
    Hence we have to leave global variables out here.
 */
 
-// Constants
+// *** Constants ***
+// This is for svg-url-loader. SVGs above the size limit will be loaded using
+// file-loader.
 const imgLoaderSizeLimit = 1024 * 10; // 10kb
 
 module.exports = {
+  // We are building a Single-Page Application, thus only one entry is needed.
+  // More entries can be specified for Multi-Page Applications.
   entry: {
     index: './src/index.js',
   },
 
-  // All our assets (.js, .css, etc.) are in a "static" folder. The top-level
-  // "dist" folder only contains the index.html file. This index.html file will
-  // be served by our server (e.g. Express) to the browser.
+  // Our build process puts all assets (.js, .css, etc.) in a "static" folder.
+  // The top-level "dist" folder only contains the index.html file. This
+  // index.html file is the one served by our server (e.g. Express) client
+  // browsers. This "static" folder helps with organising files.
   output: {
     path: path.join(__dirname, 'dist/static'),
   },
 
+  // *** Loaders ***
   module: {
     rules: [
-      // .css
-      // Not here. Defined in dev and prod configs.
-
-      // .js
+      // *** JavaScript ***
       // babel-loader allows transpiling JavaScript using Babel and webpack.
       {
         test: /\.(js|jsx)$/,
@@ -37,10 +40,14 @@ module.exports = {
         exclude: /node_modules/,
       },
 
-      // Images
+      // *** CSS ***
       // Not here. Defined in dev and prod configs.
 
-      // .svg
+      // *** Images ***
+      // Not here. Defined in dev and prod configs.
+
+      // *** SVGs ***
+      // SVGs above the size limit will be loaded using file-loader.
       {
         test: /\.(svg)$/,
         use: {
@@ -53,21 +60,26 @@ module.exports = {
         exclude: /node_modules/,
       },
 
-      // Images compression
+      // *** Images compression ***
       // image-webpack-loader is used for this. It must work in pair with
-      // url-loader (used for both dev and prod configs) and svg-url-loader.
+      // file-loader (which is used for both dev and prod configs for images
+      // above the size limit).
       {
         test: /\.(png|jpe?g|gif|svg)$/,
         use: {
           loader: 'image-webpack-loader',
         },
-        // enforce: 'pre' is a webpack option that forces this loader to
-        // load first (in this case, before other image loader)
-        enforce: 'pre',
         exclude: /node_modules/,
+
+        // image-webpack-loader must be chained AFTER file-loader.
+        // The option enforce: 'pre' accomplishes this. It forces
+        // image-webpack-loader to be applied before all 'normal' loaders (i.e.
+        // other image loaders: file-loader, etc.).
+        // https://webpack.js.org/configuration/module/#ruleenforce
+        enforce: 'pre',
       },
 
-      // Fonts
+      // *** Fonts ***
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
@@ -75,10 +87,7 @@ module.exports = {
         ],
       },
 
-      // JSONs
-      // webpack 4.0+ handles JSON natively
-
-      // Texts (raw files)
+      // *** Texts ***
       {
         test: /\.txt$/,
         use: 'raw-loader',
@@ -144,4 +153,10 @@ module.exports = {
   },
 
   context: __dirname,
+
+  // webpack records are pieces of data that store module identifiers across
+  // multiple builds. They can be used to track how modules change between
+  // builds. webpack records are useful for monitoring whether our output chunks
+  // are achieving the intended caching behaviours.
+  recordsPath: path.join(__dirname, 'webpackRecords.json'),
 };
