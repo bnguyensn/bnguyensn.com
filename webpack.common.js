@@ -68,10 +68,19 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)$/,
         use: {
           loader: 'image-webpack-loader',
+          options: {
+            // By default, image-webpack-loader optimises JPEGs, PNGs, SVGs,
+            // and GIFs. Here we additionally optimises WEBPs.
+            webp: {
+              enabled: true,
+            },
+          },
         },
         exclude: /node_modules/,
 
-        // image-webpack-loader must be chained AFTER file-loader.
+        // image-webpack-loader must be chained AFTER file-loader. This means
+        // it is applied before file-loader.
+        // https://github.com/tcoopman/image-webpack-loader#usage
         // The option enforce: 'pre' accomplishes this. It forces
         // image-webpack-loader to be applied before all 'normal' loaders (i.e.
         // other image loaders: file-loader, etc.).
@@ -82,9 +91,7 @@ module.exports = {
       // *** Fonts ***
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader',
-        ],
+        use: ['file-loader'],
       },
 
       // *** Texts ***
