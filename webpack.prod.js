@@ -4,10 +4,10 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const cssnano = require('cssnano');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
@@ -89,6 +89,7 @@ module.exports = () =>
     },
 
     plugins: [
+      // *** CSS Optimization ***
       // mini-css-extract-plugin extracts CSS into separate files.
       // There is also a loader component.
       // https://github.com/webpack-contrib/mini-css-extract-plugin
@@ -98,22 +99,22 @@ module.exports = () =>
         chunkFilename: '[id].[contenthash].css',
       }),
 
-      /* UglifyJS - aliasing of this is scheduled for webpack v4.0.0
-       * the below code was for 3.0
-       */
-      /*new UglifyJSPlugin({
-        test: /\.js($|\?)/i,
-        sourceMap: true,
-    }),*/
-
-      // HTML creation
+      // *** HTML Creation ***
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src/html-templates/index_prod.html'),
         chunks: ['index', 'vendors', 'runtime~index'],
         filename: '../index.html',
       }),
 
-      // This is relevant to caching. Output chunks' hashes could change due to
+      // *** PWA - Offline Support ***
+      // https://webpack.js.org/guides/progressive-web-application#adding-workbox
+      new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true,
+      }),
+
+      // *** Caching ***
+      // Output chunks' hashes could change due to
       // changes in module.id and our caches will be busted unintentionally.
       // The HashedModuleIdsPlugin causes hashes to be based on the relative
       // paths of modules and prevent this issue.
@@ -121,6 +122,7 @@ module.exports = () =>
       // enabled in mode: 'development' by default.
       new webpack.HashedModuleIdsPlugin(),
 
+      // *** Output Analytics ***
       // Visualise webpack output file sizes with an interactive zoomable
       // treemap.
       // https://github.com/webpack-contrib/webpack-bundle-analyzer
