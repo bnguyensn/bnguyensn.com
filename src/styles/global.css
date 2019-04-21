@@ -60,15 +60,16 @@ sup {
 /* ********** RESPONSIVE WEB DESIGN ********** */
 
 #root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     /* Nothing will go below 320px wide */
     min-width: 320px;
     width: 100vw;
 
-    /* Potential stylings as needed */
-    display: flex;
-    justify-content: center;
+    /* Always cover 100% of screen */
     min-height: 100vh;
-    background-color: #fff1e5;
 }
 
 /* Texts won't go larger than body font size */

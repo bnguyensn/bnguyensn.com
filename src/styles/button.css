@@ -1,12 +1,18 @@
 .button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
+    margin: .5rem;
     padding: .5rem;
 
+    color: #fafafa;
     border-radius: 5px;
 
     cursor: pointer;
     user-select: none;
+}
+
+.button:focus {
+    outline: 1px solid #03A9F4;
 }
