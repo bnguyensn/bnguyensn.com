@@ -4,15 +4,14 @@ const path = require('path');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 /* Special Note:
-   For some reason, webpack.common.js cannot be a function that export a config
-   The console will return  "Configuration file found but no entry configured"
-   Hence we have to leave global variables out here.
+   For some reason, webpack.common.js cannot be a function that export a config.
+   The console will return  "Configuration file found but no entry configured".
+   Hence we are leaving global variables out here.
 */
 
 // *** Constants ***
-// This is for svg-url-loader. SVGs above the size limit will be loaded using
-// file-loader.
-const imgLoaderSizeLimit = 1024 * 10; // 10kb
+// This is for url-loader. Files above this size won't be inlined.
+const urlLoaderSizeLimit = 1024 * 10; // 10kb
 
 module.exports = {
   // We are building a Single-Page Application, thus only one entry is needed.
@@ -53,7 +52,7 @@ module.exports = {
         use: {
           loader: 'svg-url-loader',
           options: {
-            limit: imgLoaderSizeLimit,
+            limit: urlLoaderSizeLimit,
             noquotes: true, // Remove quotes around the encoded URL
           },
         },
@@ -104,6 +103,10 @@ module.exports = {
   },
 
   plugins: [
+    // *** Webpack Manifest ***
+    // webpack's manifest is a file that tracks how all modules map to output
+    // bundles.
+    // https://webpack.js.org/guides/output-management/#the-manifest
     new ManifestPlugin({
       fileName: 'webpackManifest.json',
     }),
@@ -159,6 +162,9 @@ module.exports = {
     runtimeChunk: true,
   },
 
+  // This points to the base directory that contains the entry files. By default
+  // the current directory is used.
+  // https://webpack.js.org/configuration/entry-context/#context
   context: __dirname,
 
   // webpack records are pieces of data that store module identifiers across

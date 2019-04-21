@@ -4,22 +4,24 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const cssnano = require('cssnano');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const cssnano = require('cssnano');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const common = require('./webpack.common.js');
 
-// Constants
+// *** Constants ***
+// This is for url-loader. Files above this size won't be inlined.
 const urlLoaderSizeLimit = 1024 * 10; // 10kb
 
 module.exports = () =>
   merge(common, {
     mode: 'production',
 
+    // Specific production output configurations
     output: {
       // This public URL is prefixed to every URL created by webpack. It is
       // the URL of our output.path (webpackOptions.output.path is defined in the
