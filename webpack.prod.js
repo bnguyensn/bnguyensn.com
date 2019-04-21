@@ -6,7 +6,7 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserJSPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -151,13 +151,17 @@ module.exports = () =>
       runtimeChunk: 'single',
 
       minimizer: [
-        new UglifyJSPlugin({
+        // terser-webpack-plugin is a new JavaScript minifier that uses TerserJS
+        // to replace the deprecated UglifyJS.
+        // https://github.com/webpack-contrib/terser-webpack-plugin
+        new TerserPlugin({
+          // Enable file caching
           cache: true,
-          parallel: true,
-          // sourceMap: true,  // Disabled for now
-        }),
 
-        new TerserJSPlugin({}),
+          // Use multi-process parallel running to improve the build speed.
+          // Default number of concurrent runs is number of cpus - 1.
+          parallel: true,
+        }),
 
         new OptimizeCSSAssetsPlugin({
           cssProcessor: cssnano,
