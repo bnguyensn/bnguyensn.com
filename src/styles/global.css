@@ -1,7 +1,8 @@
 /* ********** GENERAL ********** */
 
 * {
-    /* Make padding and border included in the total width and height of elements */
+    /* Make padding and border included in the total width and height of
+     elements */
     box-sizing: border-box;
 }
 

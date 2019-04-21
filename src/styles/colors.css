@@ -1,0 +1,23 @@
+/** ********** BASIC COLORS ********** **/
+
+/* All basic colors come from material design's shade 200 */
+
+.red {
+    background-color: #ef9a9a;
+}
+
+.greed {
+    background-color: #a5d6a7;
+}
+
+.blue {
+    background-color: #90caf9;
+}
+
+.amber {
+    background-color: #ffecb3;
+}
+
+.purple {
+    background-color: #e1bee7;
+}
