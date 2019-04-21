@@ -125,6 +125,7 @@ module.exports = () => merge(common, {
         // webpack does extra algorithmic work to optimize the output for size
         // and load performance. These optimizations are performant for smaller
         // codebases but can be costly in larger ones.
+        // Comment out the below when codebase grows large.
         // https://webpack.js.org/guides/build-performance#avoid-extra-optimization-steps
         // removeAvailableModules: false,
         // removeEmptyChunks: false,
@@ -136,9 +137,6 @@ module.exports = () => merge(common, {
         // dev config.
         // https://webpack.js.org/guides/build-performance#output-without-path-info
         pathinfo: false,
-
-        // namedModules is on by default for development
-        namedModules: true,
     },
   },
 });

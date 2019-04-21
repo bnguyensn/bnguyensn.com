@@ -127,7 +127,7 @@ module.exports = () =>
       new BundleAnalyzerPlugin(),
     ],
 
-    //devtool: 'source-map',
+    devtool: 'source-map',
 
     optimization: {
       // Note: continued config from common
