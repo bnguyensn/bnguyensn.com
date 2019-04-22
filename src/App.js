@@ -2,6 +2,7 @@
 
 import { hot } from 'react-hot-loader';
 import * as React from 'react';
+import 'normalize.css';
 import './styles/app.css';
 import './styles/global.css';
 import Button from './components/Button';
