@@ -17,6 +17,7 @@ function App() {
         Hello, world!
         <Button
           text="Hello, world!"
+          color="red"
           action={() => {
             console.log('Hello, world!');
           }}

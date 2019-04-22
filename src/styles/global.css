@@ -6,11 +6,17 @@
     box-sizing: border-box;
 }
 
+html {
+    /* Font size needs to be specified in <html> because rem units are based on
+     it */
+    font-size: 20px;
+}
+
 body {
     margin: 0;
 
-    /*font: 20px 'Open Sans', sans-serif;*/
-    font: 20px 'Gentium Basic', serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+    font-family: 'Gentium Basic', serif;
     color: #212121;
 }
 

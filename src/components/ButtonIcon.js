@@ -6,15 +6,15 @@ import '../styles/colors.css';
 import type {COLORS} from '../types/colors';
 
 type ButtonType = {
-  text: string,
+  icon: string,
   color?: COLORS,
   className?: string,
   action: any => any,
   actionParams?: [],
 };
 
-export default function Button({
-  text,
+export default function ButtonIcon({
+  icon,
   color,
   className,
   action,
@@ -41,14 +41,14 @@ export default function Button({
 
   return (
     <div
-      className={`button ${color || 'red'} ${className || ''}`.trim()}
+      className={`button ${color || ''} ${className || ''}`.trim()}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
       {...rest}
     >
-      {text}
+      <i className="material-icons">{icon}</i>
     </div>
   );
 }

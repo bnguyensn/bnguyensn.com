@@ -16,3 +16,8 @@
 .button:focus {
     outline: 1px solid #03A9F4;
 }
+
+/* For material design's icons */
+.button i {
+    display: block;
+}
