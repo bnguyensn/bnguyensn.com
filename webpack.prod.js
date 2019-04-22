@@ -44,7 +44,7 @@ module.exports = () =>
 
     module: {
       rules: [
-        // .css
+        // *** CSS ***
         // MiniCSSExtractTextPlugin is used for prod. This plugin can't be
         // used in dev because it does not support HMR yet.
         {
@@ -70,10 +70,17 @@ module.exports = () =>
             // compatibility with its autoprefixer plugin.
             'postcss-loader',
           ],
-          exclude: /node_modules/,
+          // Because we are importing normalize.css from within node_modules,
+          // we can't use the normal exclude: /node_modules/
+          // The solution was suggested by @sokra:
+          // https://github.com/webpack/webpack/issues/2031#issuecomment-183378107
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'node_modules/normalize.css'),
+          ],
         },
 
-        // Images
+        // *** Images ***
         // url-loader is used to load images. It automatically fallback to
         // file-loader for file sizes above the specified limit
         {

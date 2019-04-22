@@ -29,8 +29,9 @@ module.exports = () =>
 
     module: {
       rules: [
-        // .css
+        // *** CSS ***
         // style-loader and css-loader are used for dev.
+        // postcss-loader adds extra features
         {
           test: /\.css$/,
           use: [
@@ -39,13 +40,14 @@ module.exports = () =>
             // https://github.com/webpack-contrib/style-loader
             'style-loader',
 
-            // css-loader interprets @import and url() like statements and resolve
-            // them.
+            // css-loader interprets @import and url() like statements and
+            // resolve them.
             // https://github.com/webpack-contrib/css-loader
             {
               loader: 'css-loader',
               options: {
-                // How many other loaders are applied before css-loader
+                // How many other loaders are applied before css-loader (i.e.
+                // the loaders declared below css-loader)
                 importLoaders: 1,
               },
             },
@@ -54,10 +56,17 @@ module.exports = () =>
             // compatibility with its autoprefixer plugin.
             'postcss-loader',
           ],
-          exclude: /node_modules/,
+          // Because we are importing normalize.css from within node_modules,
+          // we can't use the normal exclude: /node_modules/
+          // The solution was suggested by @sokra:
+          // https://github.com/webpack/webpack/issues/2031#issuecomment-183378107
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'node_modules/normalize.css'),
+          ],
         },
 
-        // Images
+        // *** Images ***
         // url-loader is used to load images. It automatically fallback to
         // file-loader for file sizes above the specified limit
         {
@@ -81,20 +90,23 @@ module.exports = () =>
 
     devtool: 'inline-source-map',
 
-    // This is made available via webpack-dev-server, which provides a web server
-    // and the ability to do live reloading.
     devServer: {
-      // This stores the location of the "index.html" for webpack-dev-server. The
-      // default is the current working directory.
-      // webpack-dev-server doesn't write any files after compiling but keeps them
-      // in memory and serves them as if they exist at the server's root path. We
-      // have our server's root path as '/' (see output.publicPath).
+      // *** Info ***
+      // webpack-dev-server doesn't write any files after compiling but keeps
+      // them in memory and serves them as if they exist at the server's root
+      // path. We have our server's root path as '/' (see output.publicPath).
+
+      // This stores the location of the "index.html" for webpack-dev-server.
+      // Default to the current working directory.
       contentBase: path.join(__dirname, 'src/html-templates'),
 
-      // Enable gzip compression for everything served
+      // Enable gzip compression
       compress: true,
 
       port: 8080,
+
+      // Show a full-screen overlay in the browser when there are compiler
+      // errors.
       overlay: {
         errors: true,
         warnings: true,
