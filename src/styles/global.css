@@ -6,23 +6,16 @@
     box-sizing: border-box;
 }
 
-html {
-    font-size: 24px;
-}
-
 body {
     margin: 0;
-    /*font-family: 'Open Sans', sans-serif;*/
-    font-family: 'Gentium Basic', serif;
+
+    /*font: 20px 'Open Sans', sans-serif;*/
+    font: 20px 'Gentium Basic', serif;
+    color: #212121;
 }
 
 a {
     color: #03A9F4;  /* Light Blue 500 */
-    text-decoration: none;
-}
-
-h1 {
-    font-size: 2rem;
 }
 
 hr {
@@ -32,30 +25,16 @@ hr {
     background-image: linear-gradient(to right, #fff1e5, #212121, #fff1e5);
 }
 
-sup {
-    font-size: .5rem;
-    font-weight: 700;
-}
-
 /* ********** HELPERS ********** */
+
+/* ***** Visibility ***** */
 
 .hidden { display: none; }
 .hidden-vis { visibility: hidden; }
 .hidden-op { opacity: 0; }
+
 .shown-op { opacity: 1; }
 .hidden-vis-op { visibility: hidden; opacity: 0; }
-
-.block { display: block; }
-.inline-block { display: inline-block; }
-
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-justify { text-align: justify; }
-
-.width-0 { width: 0; }
-.width-100p { width: 100%; }
-.min-width-100p { min-width: 100%; }
 
 /* ********** RESPONSIVE WEB DESIGN ********** */
 
@@ -66,7 +45,6 @@ sup {
 
     /* Nothing will go below 320px wide */
     min-width: 320px;
-    width: 100vw;
 
     /* Always cover 100% of screen */
     min-height: 100vh;
@@ -82,6 +60,6 @@ sup {
 /* Texts won't go smaller than this */
 @media only screen and (max-width: 639px) {
     html {
-        font-size: 20px;  /* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% */
+        /*font-size: 20px;  !* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% *!*/
     }
 }

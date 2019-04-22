@@ -3,7 +3,7 @@
 import React from 'react';
 import '../styles/button.css';
 import '../styles/colors.css';
-import type COLORS from '../types/colors';
+import type {COLORS} from '../types/colors';
 
 type ButtonType = {
   text: string,

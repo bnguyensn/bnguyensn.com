@@ -1,0 +1,45 @@
+.navbar-main {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+
+    background-color: #212121;
+}
+
+.navbar-main-ul {
+    display: flex;
+
+    margin: 0;
+    width: 100%;
+    padding: 1rem 0;
+
+    list-style-type: none;
+}
+
+/* Make all navbar buttons have equal distance apart */
+.navbar-main-li {
+    flex: 1 1 0;
+
+    margin: 0 1rem;
+}
+
+.navbar-main-li-a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 1.5rem;
+    color: #fafafa;
+    text-decoration: none;
+}
+
+.navbar-main-li-a.active {
+    text-decoration: underline;
+}
