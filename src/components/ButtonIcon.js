@@ -3,11 +3,18 @@
 import React from 'react';
 import '../styles/button.css';
 import '../styles/colors.css';
-import type {COLORS} from '../types/colors';
+import type { COLORS } from '../types/colors';
 
 type ButtonType = {
   icon: string,
+
+  // Recommended for accessibility purpose.
+  // Default to icon text (which might not be descriptive at times).
+  title?: string,
+
+  // Button's background color. Default to transparent.
   color?: COLORS,
+
   className?: string,
   action: any => any,
   actionParams?: [],
@@ -15,6 +22,7 @@ type ButtonType = {
 
 export default function ButtonIcon({
   icon,
+  title,
   color,
   className,
   action,
@@ -46,9 +54,13 @@ export default function ButtonIcon({
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
+      title={title || icon}
+      aria-label={title || icon}
       {...rest}
     >
-      <i className="material-icons">{icon}</i>
+      <i className="material-icons" aria-hidden>
+        {icon}
+      </i>
     </div>
   );
 }
