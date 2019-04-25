@@ -8,8 +8,8 @@ type NavBarButtonType = {
 
 export default function NavBarButton({ children }: NavBarButtonType) {
   return (
-    <li className="navbar-main-li">
-      <a className="navbar-main-li-a" href="#">
+    <li className="navbar-li">
+      <a className="navbar-li-a" href="#">
         {children}
       </a>
     </li>
