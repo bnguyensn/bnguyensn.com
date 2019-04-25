@@ -7,7 +7,7 @@ This repo contains the source code for my personal website at [bnguyensn.com](ht
  
 The site is run on a [Node.js](https://nodejs.org/en/) server using the [Express](https://expressjs.com/) framework. [React](https://reactjs.org/) handles the user interface and [Webpack](https://webpack.js.org/) is the bundler.
  
-The site is continuously developed. It serves as my code playground as well as a platform for me to explore new ideas. 
+The site is continuously developed. It serves as my code playground as well as a platform for me to explore new ideas. I try to document all code as clearly as possible, linking to further reading materials whenever applicable. But do let me know if you think something can be improved!
  
 I do hope you find something useful or learn a thing or two here. I'm available on [Twitter](https://twitter.com/bnguyensn) if you have questions!
  
@@ -15,14 +15,21 @@ Keep on hacking!
  
 Binh Nguyen
 
-### Future Features
+### Learning Points
 
-Below are features I plan to add in the future:
+Gathered below are good practices found on the web. All points come with source links. 
 
-#### Development
+#### 1. Performance
 
-* [browserlist](https://github.com/browserslist/browserslist)
+##### 1.1 CSS animation
 
-#### Production
+From this [article](https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) by [Paul Lewis](https://www.html5rocks.com/profiles/#paullewis) and [Paul Irish](https://www.html5rocks.com/profiles/#paulirish), stick to these 4 functions whenever possible:
 
-Nothing planned.
+```css
+transform: translate(x, y);
+transform: scale(x);
+transform: rotate(x);
+opacity: x;
+```
+
+### TBD
