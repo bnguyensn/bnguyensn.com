@@ -1,0 +1,20 @@
+[
+  {
+    "type": "edu",
+    "name": "Chichester College",
+    "start": 2008,
+    "end": 2010
+  },
+  {
+    "type": "edu",
+    "name": "University of Southampton",
+    "start": 2010,
+    "end": 2013
+  },
+  {
+    "type": "career",
+    "name": "PwC",
+    "start": 2014,
+    "end": -1
+  }
+]

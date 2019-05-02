@@ -1,0 +1,22 @@
+{
+  "firstName": "Binh",
+  "middleName": "Lam",
+  "lastName": "Nguyen",
+  "birthDay": 2,
+  "birthMonth": 9,
+  "birthYear": 1992,
+  "birthCity": "Quang Ninh",
+  "birthCountry": "Vietnam",
+  "socialMedia": [
+    {
+      "name": "Twitter",
+      "handle": "@bnguyensn",
+      "url": "https://twitter.com/bnguyensn"
+    },
+    {
+      "name": "Facebook",
+      "handle": "bnguyensn",
+      "url": "https://facebook.com/bnguyensn"
+    }
+  ]
+}
