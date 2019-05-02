@@ -15,7 +15,7 @@
     "classnames": "^2.x.x",
     "cookie-parser": "~1.x.x",
     "debug": "~4.x.x",
-    "dotenv": "^7.x.x",
+    "dotenv": "8.0.0",
     "express": "~4.x.x",
     "helmet": "^3.x.x",
     "morgan": "~1.x.x",
