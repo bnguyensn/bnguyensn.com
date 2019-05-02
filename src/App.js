@@ -8,6 +8,7 @@ import './styles/app.css';
 import './styles/global.css';
 import Button from './components/Button';
 import NavBar from './components/NavBar';
+import TextInput from './components/TextInput';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             console.log('Hello, world!');
           }}
         />
+        <TextInput labelText="Ask me a question" />
       </div>
     </div>
   );
