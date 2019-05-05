@@ -17,7 +17,7 @@ module.exports = {
   // We are building a Single-Page Application, thus only one entry is needed.
   // More entries can be specified for Multi-Page Applications.
   entry: {
-    index: './src/index.js',
+    index: path.join(__dirname, 'src/index.js'),
   },
 
   // Our build process puts all assets (.js, .css, etc.) in a "static" folder.

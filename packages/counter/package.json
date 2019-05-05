@@ -1,0 +1,12 @@
+{
+  "name": "@bnguyensn/counter",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "dev": "webpack-dev-server --config webpack.dev.js --progress",
+    "build": "rimraf ./dist && webpack --config webpack.prod.js --progress"
+  },
+  "sideEffects": false,
+  "dependencies": {}
+}
