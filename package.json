@@ -64,6 +64,7 @@
     "jest-haste-map": "^24.5.0",
     "jest-resolve": "^24.5.0",
     "json-loader": "^0.x.x",
+    "lerna": "^2.11.0",
     "mini-css-extract-plugin": "^0.x.x",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.x.x",
