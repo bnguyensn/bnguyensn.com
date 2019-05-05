@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
+/** ********** SERVICE WORKER CONFIG ********** **/
+
 // Register Service Worker
 // https://webpack.js.org/guides/progressive-web-application#adding-workbox
 if ('serviceWorker' in navigator) {
@@ -17,5 +19,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// React index render
+/** ********** REACT RENDER ********** **/
+
 ReactDOM.render(<App />, document.getElementById('root'));
