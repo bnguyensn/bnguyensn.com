@@ -1,9 +1,9 @@
 const fastify = require('fastify')({ logger: true });
 const helmet = require('fastify-helmet');
 
-fastify.register(require('./route'));
+fastify.register(require('fastify-accepts'));
 fastify.register(helmet);
-
+fastify.register(require('./route'));
 
 
 const start = async () => {
