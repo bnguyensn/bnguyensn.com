@@ -12,7 +12,7 @@
     "es6": true,
     "mongo": true
   },
-  "plugins": ["flowtype", "jsx-a11y"],
+  "plugins": ["flowtype", "jsx-a11y", "react-hooks"],
   "globals": {
     //        "VERSION": true,
     //        "$PropertyType": true
@@ -96,6 +96,8 @@
         ]
       }
     ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "semi": "off",
     "spaced-comment": 0
   }
