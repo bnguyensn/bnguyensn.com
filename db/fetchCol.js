@@ -7,15 +7,19 @@
  * @return Error: an error if the collection does not exist
  * */
 function fetchCol(db, colName) {
-  // The strict option makes the operation returns an error if the collection
-  // does not exist. When this is used, a callback must be passed.
-  db.collection(colName, { strict: true }, (err, col) => {
-    if (err) {
-      return err
-    }
+  const f = new Promise((resolve, reject) => {
+    // The strict option makes the operation returns an error if the collection
+    // does not exist. When this is used, a callback must be passed.
+    db.collection(colName, { strict: true }, (err, col) => {
+      if (err) {
+        reject(err);
+      }
 
-    return col
-  })
+      resolve(col);
+    });
+  });
+
+  return f.then(col => col, err => new Error(err));
 }
 
 module.exports = fetchCol;

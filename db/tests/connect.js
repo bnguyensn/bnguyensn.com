@@ -7,10 +7,18 @@ const url = process.env.DB_URL;
 const dbName = process.env.DB_NAME;
 const colName = process.env.DB_COL_NAME;
 
+async function cleanUp(client) {
+  await client.close();
+
+  console.log(
+    `MongoClient instance closed? ${client.isConnected() ? 'no' : 'yes'}`,
+  );
+}
+
 async function test() {
   const client = new MongoClient(url, { useNewUrlParser: true });
 
-  // Phase 1
+  /** ********** PHASE 1 ********** **/
 
   console.log('Testing phase 1...');
 
@@ -18,29 +26,33 @@ async function test() {
 
   if (db instanceof Error) {
     console.log(`Error connecting to db: ${db}`);
+    cleanUp(client);
     return;
   }
+
   console.log('Connected to db successfully');
 
-  // Phase 2
+  /** ********** PHASE 2 ********** **/
 
   console.log('Testing phase 2...');
 
-  const col = fetchCol(db, colName);
+  const col = await fetchCol(db, colName);
 
   if (col instanceof Error) {
-    console.log('Error fetching collection: collection does not exist');
+    console.log(`Error fetching collection: ${col}`);
+    cleanUp(client);
     return;
   }
-  console.log('Successfully fetched collection');
-
-  // Clean up
-
-  await client.close();
 
   console.log(
-    `MongoClient instance closed? ${client.isConnected() ? 'no' : 'yes'}`,
+    `Collection fetched successfully. Fetched collection name: ${
+      col.collectionName
+    }`,
   );
+
+  /** ********** CLEAN UP ********** **/
+
+  cleanUp(client);
 }
 
 test();
