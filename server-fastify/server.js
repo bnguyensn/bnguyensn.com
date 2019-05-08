@@ -5,7 +5,6 @@ fastify.register(require('fastify-accepts'));
 fastify.register(helmet);
 fastify.register(require('./route'));
 
-
 const start = async () => {
   try {
     await fastify.listen(3000, '::', (err, address) => {

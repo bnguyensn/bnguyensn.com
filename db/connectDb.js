@@ -4,7 +4,7 @@
  * @param {MongoClient} client: the MongoClient instance
  * @param {string} url: the MongoDB URL
  * @param {string} dbName: the MongoDB database's name
- * @return {Promise}:
+ * @returns {Promise}:
  *  onFulfilled {Db}: the connected MongoDB database instance
  *  onRejected {Error}: a MongoError instance
  * */

@@ -4,7 +4,7 @@
  * @param {Db} db: the MongoDB database instance where the collection is being
  * fetched from
  * @param {string} colName: name of the collection we are fetching
- * @return {Promise}
+ * @returns {Promise}
  *   onFulfilled {Collection}: a MongoDB collection
  *   onRejected {Error}: a MongoError instance if the collection doesn't exist
  * */
