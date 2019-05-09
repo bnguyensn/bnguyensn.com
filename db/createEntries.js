@@ -9,7 +9,8 @@
  *   onRejected: {Error} a MongoError instance
  * */
 function createEntries(entries, col) {
-  return col.insertMany(entries).then(res => res, err => err);
+  return col.insertMany(entries)
+    .then(res => res, err => err);
 }
 
 module.exports = createEntries;
