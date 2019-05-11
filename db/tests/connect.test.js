@@ -8,6 +8,7 @@ const readEntries = require('../readEntries');
 const readEntry = require('../readEntry');
 const deleteEntry = require('../deleteEntry');
 const createEntries = require('../createEntries');
+const deleteEntries = require('../deleteEntries');
 
 const url = process.env.DB_URL;
 const dbName = process.env.DB_NAME;
@@ -85,7 +86,7 @@ describe('Database connection test', () => {
     expect(res.insertedCount).toBe(3);
   });
 
-  it('should read the previously inserted entry array', async () => {
+  it('should read the previously inserted entries', async () => {
     const mockEntriesQuestions = mockEntries.map(entry => entry.question);
 
     const res = await readEntries(
@@ -99,5 +100,16 @@ describe('Database connection test', () => {
     res.forEach((entry, i) => {
       expect(entry).toEqual(mockEntries[i]);
     });
+  });
+
+  it('should delete the previously inserted entries', async () => {
+    const mockEntriesQuestions = mockEntries.map(entry => entry.question);
+    const q = { question: { $in: mockEntriesQuestions } };
+
+    const resDel = await deleteEntries(q, col);
+    const resRead = await readEntries(q, col);
+
+    expect(resDel instanceof Error).toBe(false);
+    expect(resRead).toBeArrayOfSize(0);
   });
 });

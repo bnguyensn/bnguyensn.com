@@ -7,7 +7,7 @@
  *   onRejected {Error}: a MongoError instance
  * */
 function deleteAll(col) {
-  return col.deleteMany({})
+  return col.deleteMany({});
 }
 
 module.exports = deleteAll;
