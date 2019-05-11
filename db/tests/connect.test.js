@@ -1,22 +1,38 @@
+/**
+ * DATABASE TEST
+ *
+ * Test connection and CRUD operations
+ * */
+
 const dotenv = require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 const connectDb = require('../connectDb');
 const fetchCol = require('../fetchCol');
 const deleteAll = require('../deleteAll');
 const createEntry = require('../createEntry');
-const readEntries = require('../readEntries');
 const readEntry = require('../readEntry');
+const updateEntry = require('../updateEntry');
 const deleteEntry = require('../deleteEntry');
 const createEntries = require('../createEntries');
+const readEntries = require('../readEntries');
 const deleteEntries = require('../deleteEntries');
 
 const url = process.env.DB_URL;
 const dbName = process.env.DB_NAME;
 const colName = process.env.DB_COL_NAME;
 
+function getNewMockEntry() {
+  return {
+    question: `${Math.random()}`,
+    answer: `${Math.random()}`,
+    author: `${Math.random()}`,
+    date: Date.now(),
+  };
+}
+
 describe('Database connection test', () => {
   const client = new MongoClient(url, { useNewUrlParser: true });
-  let db, col, mockEntry, mockEntries;
+  let db, col, mockEntry, mockEntries, mockEntryUpdated, mockEntriesUpdated;
 
   afterAll(async () => {
     // Delete all entries
@@ -25,6 +41,8 @@ describe('Database connection test', () => {
     // Close database connection
     await client.close();
   });
+
+  /** ********** CONNECTION TEST ********** **/
 
   it('should connect to the database', async () => {
     db = await connectDb(client, url, dbName);
@@ -39,13 +57,10 @@ describe('Database connection test', () => {
     expect(col.collectionName).toBe(colName);
   });
 
+  /** ********** SINGLE DOCUMENT CRUD TEST ********** **/
+
   it('should insert an entry to the collection', async () => {
-    mockEntry = {
-      question: `${Math.random()}`,
-      answer: `${Math.random()}`,
-      author: `${Math.random()}`,
-      date: Date.now(),
-    };
+    mockEntry = getNewMockEntry();
 
     const res = await createEntry(mockEntry, col);
 
@@ -57,27 +72,45 @@ describe('Database connection test', () => {
     const res = await readEntry(mockEntry, col);
 
     expect(res instanceof Error).toBe(false);
-    expect(res).toEqual(mockEntry);
+    expect(res).toMatchObject(mockEntry);
+  });
+
+  it('should update the previously inserted entry', async () => {
+    mockEntryUpdated = getNewMockEntry();
+
+    const resUpdate = await updateEntry(
+      mockEntry,
+      {
+        $set: mockEntryUpdated,
+      },
+      col,
+    );
+
+    const [resRead1, resRead2] = await Promise.all([
+      readEntry(mockEntry, col),
+      readEntry(mockEntryUpdated, col)
+    ]);
+
+    expect(resUpdate instanceof Error).toBe(false);
+    expect(resRead1).toBeNull();
+    expect(resRead2).toMatchObject(mockEntryUpdated);
   });
 
   it('should delete the previously inserted entry', async () => {
-    const resDel = await deleteEntry(mockEntry, col);
-    const resRead = await readEntry(mockEntry, col);
+    const resDel = await deleteEntry(mockEntryUpdated, col);
+    const resRead = await readEntry(mockEntryUpdated, col);
 
     expect(resDel instanceof Error).toBe(false);
     expect(resDel.deletedCount).toBe(1);
     expect(resRead).toBeNull();
   });
 
+  /** ********** MULTIPLE DOCUMENTS CRUD TEST ********** **/
+
   it('should insert an array of entries to the collection', async () => {
     mockEntries = [];
     for (let i = 0; i < 3; i++) {
-      mockEntries.push({
-        question: `${Math.random()}`,
-        answer: `${Math.random()}`,
-        author: `${Math.random()}`,
-        date: Date.now(),
-      });
+      mockEntries.push(getNewMockEntry());
     }
 
     const res = await createEntries(mockEntries, col);
@@ -98,7 +131,7 @@ describe('Database connection test', () => {
     expect(res).toBeArrayOfSize(mockEntries.length);
     res.sort((a, b) => a.date - b.date);
     res.forEach((entry, i) => {
-      expect(entry).toEqual(mockEntries[i]);
+      expect(entry).toMatchObject(mockEntries[i]);
     });
   });
 
