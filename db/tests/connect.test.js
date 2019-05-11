@@ -130,9 +130,7 @@ describe('Database connection test', () => {
     expect(res instanceof Error).toBe(false);
     expect(res).toBeArrayOfSize(mockEntries.length);
     res.sort((a, b) => a.date - b.date);
-    res.forEach((entry, i) => {
-      expect(entry).toMatchObject(mockEntries[i]);
-    });
+    expect(res).toMatchObject(mockEntries);
   });
 
   it('should delete the previously inserted entries', async () => {
