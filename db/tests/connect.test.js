@@ -5,6 +5,8 @@ const fetchCol = require('../fetchCol');
 const deleteAll = require('../deleteAll');
 const createEntry = require('../createEntry');
 const readEntries = require('../readEntries');
+const readEntry = require('../readEntry');
+const deleteEntry = require('../deleteEntry');
 const createEntries = require('../createEntries');
 
 const url = process.env.DB_URL;
@@ -51,12 +53,19 @@ describe('Database connection test', () => {
   });
 
   it('should read the previously inserted entry', async () => {
-    const res = await readEntries(mockEntry, col);
+    const res = await readEntry(mockEntry, col);
 
     expect(res instanceof Error).toBe(false);
-    expect(Array.isArray(res)).toBe(true);
-    expect(res.length).toBe(1);
-    expect(res[0]).toEqual(expect.objectContaining(mockEntry));
+    expect(res).toEqual(mockEntry);
+  });
+
+  it('should delete the previously inserted entry', async () => {
+    const resDel = await deleteEntry(mockEntry, col);
+    const resRead = await readEntry(mockEntry, col);
+
+    expect(resDel instanceof Error).toBe(false);
+    expect(resDel.deletedCount).toBe(1);
+    expect(resRead).toBeNull();
   });
 
   it('should insert an array of entries to the collection', async () => {
@@ -74,5 +83,21 @@ describe('Database connection test', () => {
 
     expect(res instanceof Error).toBe(false);
     expect(res.insertedCount).toBe(3);
+  });
+
+  it('should read the previously inserted entry array', async () => {
+    const mockEntriesQuestions = mockEntries.map(entry => entry.question);
+
+    const res = await readEntries(
+      { question: { $in: mockEntriesQuestions } },
+      col,
+    );
+
+    expect(res instanceof Error).toBe(false);
+    expect(res).toBeArrayOfSize(mockEntries.length);
+    res.sort((a, b) => a.date - b.date);
+    res.forEach((entry, i) => {
+      expect(entry).toEqual(mockEntries[i]);
+    });
   });
 });
