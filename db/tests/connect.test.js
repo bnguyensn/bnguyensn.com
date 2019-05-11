@@ -15,6 +15,7 @@ const updateEntry = require('../updateEntry');
 const deleteEntry = require('../deleteEntry');
 const createEntries = require('../createEntries');
 const readEntries = require('../readEntries');
+const updateEntries = require('../updateEntries');
 const deleteEntries = require('../deleteEntries');
 
 const url = process.env.DB_URL;
@@ -32,7 +33,7 @@ function getNewMockEntry() {
 
 describe('Database connection test', () => {
   const client = new MongoClient(url, { useNewUrlParser: true });
-  let db, col, mockEntry, mockEntries, mockEntryUpdated, mockEntriesUpdated;
+  let db, col, mockEntry, mockEntries, mockEntryUpdated, mockEntriesUpdatedQ;
 
   afterAll(async () => {
     // Delete all entries
@@ -88,7 +89,7 @@ describe('Database connection test', () => {
 
     const [resRead1, resRead2] = await Promise.all([
       readEntry(mockEntry, col),
-      readEntry(mockEntryUpdated, col)
+      readEntry(mockEntryUpdated, col),
     ]);
 
     expect(resUpdate instanceof Error).toBe(false);
@@ -96,7 +97,7 @@ describe('Database connection test', () => {
     expect(resRead2).toMatchObject(mockEntryUpdated);
   });
 
-  it('should delete the previously inserted entry', async () => {
+  it('should delete the previously inserted and updated entry', async () => {
     const resDel = await deleteEntry(mockEntryUpdated, col);
     const resRead = await readEntry(mockEntryUpdated, col);
 
@@ -133,12 +134,32 @@ describe('Database connection test', () => {
     expect(res).toMatchObject(mockEntries);
   });
 
-  it('should delete the previously inserted entries', async () => {
+  it('should update the previously inserted entries', async () => {
     const mockEntriesQuestions = mockEntries.map(entry => entry.question);
     const q = { question: { $in: mockEntriesQuestions } };
+    mockEntriesUpdatedQ = { question: '?' };
 
-    const resDel = await deleteEntries(q, col);
-    const resRead = await readEntries(q, col);
+    const resUpdate = await updateEntries(
+      q,
+      {
+        $set: mockEntriesUpdatedQ,
+      },
+      col,
+    );
+
+    const [resRead1, resRead2] = await Promise.all([
+      readEntries(q, col),
+      readEntries(mockEntriesUpdatedQ, col),
+    ]);
+
+    expect(resUpdate instanceof Error).toBe(false);
+    expect(resRead1).toBeArrayOfSize(0);
+    expect(resRead2).toBeArrayOfSize(3);
+  });
+
+  it('should delete the previously inserted and updated entries', async () => {
+    const resDel = await deleteEntries(mockEntriesUpdatedQ, col);
+    const resRead = await readEntries(mockEntriesUpdatedQ, col);
 
     expect(resDel instanceof Error).toBe(false);
     expect(resRead).toBeArrayOfSize(0);
