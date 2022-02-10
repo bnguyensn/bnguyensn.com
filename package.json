@@ -56,7 +56,7 @@
     "jest": "^23.6.0",
     "json-loader": "^0.x.x",
     "mini-css-extract-plugin": "^0.x.x",
-    "node-sass": "^4.x.x",
+    "node-sass": "^7.x.x",
     "postcss-loader": "^3.x.x",
     "raw-loader": "^0.x.x",
     "react-hot-loader": "^4.x.x",
